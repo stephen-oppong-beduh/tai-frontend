@@ -969,7 +969,18 @@ tai.previous.year.underpayment.para3=Your Personal Allowance has been reduced by
 tai.previous.year.underpayment.para4=This means you will pay tax at 20% on an extra £{0} of your income. This will be spread over the tax year so it is collected in equal instalments.
 tai.previous.year.underpayment.para5=Your tax code has been adjusted for this.
 tai.previous.year.underpayment.return=Return to your tax-free amount
-tai.previous.year.underpayment.title=What is a previous year underpayment?
+tai.previous.year.underpayment.title=Underpayment from previous year
+tai.previous.year.underpayment.paragraph1=You did not pay enough Income Tax for the tax year {0}
+tai.previous.year.underpayment.youOwe=You owe
+tai.previous.year.underpayment.subHeading1=How it will be collected
+tai.previous.year.underpayment.subHeading2=What happens next
+tai.previous.year.underpayment.paragraph2=To collect this we have reduced your tax-free amount by {0}. This means that you will pay more tax until {1}, so that we can collect the {2} owed.
+tai.previous.year.underpayment.paragraph3=Your tax code has been adjusted for this.
+tai.previous.year.underpayment.paragraph4=At the end of the tax year we will assess your actual income for {0}
+tai.previous.year.underpayment.paragraph5=We will contact you if you owe any tax or if we owe you a refund.
+tai.previous.year.underpayment.returnLink=Return to your tax code change
+
+
 tai.ptaHeader.accessible.preHeading=This section is
 tai.remove.company.benefit.beforeTaxYearEnd=Before {0}
 tai.remove.company.benefit.onOrAfterTaxYearEnd=On or after {0}
