@@ -20,6 +20,7 @@ import controllers.routes
 import play.api.i18n.Messages
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 import uk.gov.hmrc.tai.model.TaxYear
+import uk.gov.hmrc.tai.util.{MonetaryUtil, TaxYearRangeUtil}
 import uk.gov.hmrc.tai.util.viewHelpers.TaiViewSpec
 import uk.gov.hmrc.tai.viewModels.PreviousYearUnderpaymentViewModel
 
@@ -40,18 +41,14 @@ class previousYearUnderpaymentViewSpec extends TaiViewSpec {
 
     "display paragraphs" in {
 
-      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.para1"))
-      doc must haveParagraphWithText(Messages(
-        "tai.previous.year.underpayment.para2",
-        previousTaxYear.year.toString,
-        previousTaxYear.next.year.toString,
-        shouldHavePaid,
-        actuallyPaid
-      ))
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph1"))
+      doc must haveParagraphWithText(Messages
+        ("tai.previous.year.underpayment.paragraph2")
+      )
 
-      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.para3", allowanceReducedBy, amountDue))
-      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.para4", allowanceReducedBy))
-      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.para5"))
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph3"))
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph4"))
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph5"))
 
     }
   }
