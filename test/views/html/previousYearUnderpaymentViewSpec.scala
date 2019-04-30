@@ -39,18 +39,18 @@ class previousYearUnderpaymentViewSpec extends TaiViewSpec {
 
     behave like pageWithBackLink
 
-//    "display paragraphs" in {
-//
-//      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph1"))
-//      doc must haveParagraphWithText(Messages
-//        ("tai.previous.year.underpayment.paragraph2")
-//      )
-//
-//      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph3"))
-//      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph4"))
-//      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph5"))
-//
-//    }
+    "display paragraphs" in {
+
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph1"))
+      doc must haveParagraphWithText(Messages
+        ("tai.previous.year.underpayment.paragraph2")
+      )
+
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph3"))
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph4"))
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph5"))
+
+    }
   }
 
   val shouldHavePaid = 1000
