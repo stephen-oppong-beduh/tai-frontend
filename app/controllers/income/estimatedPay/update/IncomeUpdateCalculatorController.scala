@@ -21,11 +21,9 @@ import com.google.inject.name.Named
 import controllers.TaiBaseController
 import controllers.audit.Auditable
 import controllers.auth.{TaiUser, WithAuthorisedForTaiLite}
-import controllers.employments.routes
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Request, Result}
 import uk.gov.hmrc.domain.Nino
@@ -41,18 +39,17 @@ import uk.gov.hmrc.tai.connectors.responses.{TaiResponse, TaiSuccessResponse, Ta
 import uk.gov.hmrc.tai.forms._
 import uk.gov.hmrc.tai.forms.employments.DuplicateSubmissionWarningForm
 import uk.gov.hmrc.tai.model.domain.income.{IncomeSource, TaxCodeIncome}
-import uk.gov.hmrc.tai.model.domain.{Employment, Payment, PensionIncome}
+import uk.gov.hmrc.tai.model.domain.{Employment, Payment}
 import uk.gov.hmrc.tai.model.{EmploymentAmount, TaxYear}
 import uk.gov.hmrc.tai.service._
 import uk.gov.hmrc.tai.service.journeyCache.JourneyCacheService
-import uk.gov.hmrc.tai.util.{FormHelper, MapForGoogleAnalytics, MonetaryUtil}
+import uk.gov.hmrc.tai.service.journeyCompletion.EstimatedPayJourneyCompletionService
+import uk.gov.hmrc.tai.util.FormHelper
 import uk.gov.hmrc.tai.util.constants.TaiConstants.MONTH_AND_YEAR
 import uk.gov.hmrc.tai.util.constants._
-import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update._
-import uk.gov.hmrc.tai.viewModels.income.{ConfirmAmountEnteredViewModel, EditIncomeIrregularHoursViewModel}
-import uk.gov.hmrc.tai.service.journeyCompletion.EstimatedPayJourneyCompletionService
 import uk.gov.hmrc.tai.viewModels.GoogleAnalyticsSettings
-import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.GrossPayPeriodTitle
+import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.{GrossPayPeriodTitle, _}
+import uk.gov.hmrc.tai.viewModels.income.{ConfirmAmountEnteredViewModel, EditIncomeIrregularHoursViewModel}
 
 import scala.Function.tupled
 import scala.concurrent.Future
