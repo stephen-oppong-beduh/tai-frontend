@@ -32,7 +32,7 @@ class previousYearUnderpaymentViewSpec extends TaiViewSpec {
   "previousYearUnderpaymentView" must {
 
     behave like pageWithCombinedHeader(
-      Messages("understand.your.tax"),
+      Messages("tai.iya.tax.you.owe.preHeading"),
       Messages("tai.previous.year.underpayment.title"))
 
     behave like pageWithTitle(Messages("tai.previous.year.underpayment.title"))
@@ -41,13 +41,15 @@ class previousYearUnderpaymentViewSpec extends TaiViewSpec {
 
     "display paragraphs" in {
 
-      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph1"))
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph1",TaxYearRangeUtil.futureTaxYearRangeHtmlNonBreak(-1)))
       doc must haveParagraphWithText(Messages
-        ("tai.previous.year.underpayment.paragraph2")
-      )
+      ("tai.previous.year.underpayment.paragraph2",
+        MonetaryUtil.withPoundPrefix(allowanceReducedBy.toInt,2),
+        TaxYearRangeUtil.futureTaxYearRangeHtmlNonBreak(0),
+        MonetaryUtil.withPoundPrefix(amountDue.toInt,2)))
 
       doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph3"))
-      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph4"))
+      doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph4",TaxYearRangeUtil.futureTaxYearRangeHtmlNonBreak(0)))
       doc must haveParagraphWithText(Messages("tai.previous.year.underpayment.paragraph5"))
 
     }

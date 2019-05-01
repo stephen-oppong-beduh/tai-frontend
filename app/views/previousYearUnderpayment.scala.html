@@ -48,9 +48,9 @@
         <div class="inner-block">
             <p>@Messages("tai.previous.year.underpayment.paragraph1",TaxYearRangeUtil.futureTaxYearRangeHtmlNonBreak(-1))</p>
             <p>@Messages("tai.previous.year.underpayment.youOwe")</p>
-            <p class="bold-large faded-text">@MonetaryUtil.withPoundPrefix(viewModel.amountDue.toInt,2)</p>
+            <span class="bold-large">@MonetaryUtil.withPoundPrefix(viewModel.amountDue.toInt,2)</span>
             <h2 class="heading-medium">@Messages("tai.previous.year.underpayment.subHeading1")</h2>
-            <p>@Messages("tai.previous.year.underpayment.paragraph2",MonetaryUtil.withPoundPrefix(viewModel.allowanceReducedBy.toInt,2),Dates.formatDate(TaxYear().end),MonetaryUtil.withPoundPrefix(viewModel.amountDue.toInt,2))</p>
+            <p>@Messages("tai.previous.year.underpayment.paragraph2",MonetaryUtil.withPoundPrefix(viewModel.allowanceReducedBy.toInt,2),TaxYearRangeUtil.futureTaxYearRangeHtmlNonBreak(0),MonetaryUtil.withPoundPrefix(viewModel.amountDue.toInt,2))</p>
             <p>@Messages("tai.previous.year.underpayment.paragraph3")</p>
             <h2 class="heading-medium">@Messages("tai.previous.year.underpayment.subHeading2")</h2>
             <p>@Messages("tai.previous.year.underpayment.paragraph4",TaxYearRangeUtil.futureTaxYearRangeHtmlNonBreak(0))</p>
