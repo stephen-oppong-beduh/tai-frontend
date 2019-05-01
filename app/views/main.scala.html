@@ -38,7 +38,8 @@
   gaSettings: GoogleAnalyticsSettings = GoogleAnalyticsSettings(),
   gaCustomTitle: Option[String] = None,
   optimizelyAudience: Option[String] = None,
-  pageHeader: Option[Html] = None
+  pageHeader: Option[Html] = None,
+  script: Option[Html] = None
 )(mainContent: Html
 )(implicit request: Request[_],
   messages: Messages,
@@ -163,6 +164,15 @@
     );
   </script>
 
+    <script type="text/javascript">
+
+        var nuanceData =
+        {
+            'sessionId': '@request.session.get("sessionId")'
+        }
+
+    </script>
+
 
     @if(webChat){
         <script type="text/javascript">
@@ -202,7 +212,11 @@
         <script type="text/javascript">@gaCallsAdditionalJs.get</script>
     }
 
-    <script type="text/javascript" src="@ApplicationConfig.webchatJsUrl"></script>
+    @if(FeatureTogglesConfig.webChatEnabled){
+      <script type="text/javascript" src="@ApplicationConfig.webchatJsUrl"></script>
+    }
+
+    @script
 }
 
 

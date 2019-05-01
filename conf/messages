@@ -715,6 +715,23 @@ tai.incomeTaxSummary.pension.section.heading=Your current private pensions
 tai.incomeTaxSummary.taxCode.prefix=Tax code: {0}
 tai.incomeTaxSummary.view.income.source.details=View {0} details
 tai.incomes.monetaryAmount.format.valid= Enter the amount in whole pounds – ignore the pence.
+
+tai.incomes.warning.preHeading=Update received
+tai.incomes.warning.employment.heading=You have already sent a new estimated income for your employment with {0}
+tai.incomes.warning.customGaTitle=You have already sent a new estimated income
+tai.incomes.warning.employment.text1=We have received your new estimated income of {0} for your employment with {1}.
+tai.incomes.warning.text2=Your records will be updated in 48 hours.
+tai.incomes.warning.text3=If your tax band changes you will receive confirmation of your new tax code and pay a different amount of tax.
+tai.incomes.warning.employment.radio1=I want to send another estimated income for my employment with {0}
+tai.incomes.warning.employment.radio2=I want to return to my employment details
+tai.incomes.warning.pension.heading=You have already sent a new estimated income for your pension from {0}
+tai.incomes.warning.pension.text1=We have received your new estimated income of {0} for your pension from {1}.
+tai.incomes.warning.pension.radio1=I want to send another estimated income for my pension from {0}
+tai.incomes.warning.pension.radio2=I want to return to my pension details
+tai.incomes.warning.cyPlus1.heading=You have already sent a new estimated income from {0} for next tax year
+tai.incomes.warning.cyPlus1.text1=We have received your new estimated income of {0} for {1}.
+tai.incomes.warning.cyPlus1.radio2=I want to return to my Income Tax comparison
+
 tai.incomes.landing.Heading=Update your estimated income from {0}
 tai.incomes.landing.title=Update your estimated income
 tai.incomes.landing.intro=You should update your estimated income if there has been a recent change to your income and you think it will affect your current tax band.
@@ -1423,7 +1440,7 @@ tai.updateIncome.CYPlus1.same.heading=Your estimated income for {0}
 tai.updateIncome.CYPlus1.same.title=Update your estimated income
 tai.updateIncome.CYPlus1.same.paragraph1=You have entered {0}
 tai.updateIncome.CYPlus1.same.paragraph2=This is the same as the amount already estimated for {0} for next year, so you do not need to update your income.
-tai.updateIncome.CYPlus1.same.cancel=Return to your Income Tax comparison for current tax year and next tax year
+tai.updateIncome.CYPlus1.same.cancel=Return to your Income Tax Summary
 
 tai.taxCodeComparison.add.employer=You have a new employment with {0}
 tai.taxCodeComparison.add.pension=You have a new private pension with {0}
@@ -1446,3 +1463,5 @@ tai.urbanner.text=Please take part in our short survey (opens in a new window or
 tai.urbanner.reject=No thanks
 
 checkProgress.link=Check the progress of your update
+
+tai.information = Information

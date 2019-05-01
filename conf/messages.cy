@@ -716,6 +716,23 @@ tai.incomeTaxSummary.pension.section.heading=Eich pensiynau preifat presennol
 tai.incomeTaxSummary.taxCode.prefix=Cod treth: {0}
 tai.incomeTaxSummary.view.income.source.details=Gweld manylion {0}
 tai.incomes.monetaryAmount.format.valid=Nodwch y swm mewn punnoedd cyfan – anwybyddwch y ceiniogau.
+
+tai.incomes.warning.preHeading=Diweddariad wedi dod i law
+tai.incomes.warning.employment.heading=Rydych eisoes wedi anfon incwm amcangyfrifedig newydd ar gyfer eich cyflogaeth gyda {0}
+tai.incomes.warning.customGaTitle=Rydych eisoes wedi anfon incwm amcangyfrifedig newydd
+tai.incomes.warning.employment.text1=Rydym wedi cael eich incwm amcangyfrifedig newydd, sef {0}, ar gyfer eich cyflogaeth gyda {1}.
+tai.incomes.warning.text2=Bydd eich cofnodion yn cael eu diweddaru cyn pen 48 awr.
+tai.incomes.warning.text3=Os bydd eich haen dreth yn newid, byddwch yn cael cadarnhad o’ch cod treth newydd ac yn talu swm gwahanol o dreth.
+tai.incomes.warning.employment.radio1=Hoffwn anfon incwm amcangyfrifedig arall ar gyfer fy nghyflogaeth gyda {0}
+tai.incomes.warning.employment.radio2=Hoffwn ddychwelyd i’m manylion cyflogaeth
+tai.incomes.warning.pension.heading=Rydych eisoes wedi anfon incwm amcangyfrifedig newydd ar gyfer eich pensiwn gan {0}
+tai.incomes.warning.pension.text1=Rydym wedi cael eich incwm amcangyfrifedig newydd, sef {0}, ar gyfer eich pensiwn gan {1}.
+tai.incomes.warning.pension.radio1=Hoffwn anfon incwm amcangyfrifedig arall ar gyfer fy mhensiwn gan {0}
+tai.incomes.warning.pension.radio2=Hoffwn ddychwelyd i’m manylion pensiwn
+tai.incomes.warning.cyPlus1.heading=Rydych eisoes wedi anfon incwm amcangyfrifedig newydd gan {0} ar gyfer y flwyddyn dreth nesaf
+tai.incomes.warning.cyPlus1.text1=Rydym wedi cael eich incwm amcangyfrifedig newydd, sef {0} ar gyfer {1}.
+tai.incomes.warning.cyPlus1.radio2=Hoffwn ddychwelyd i’m cymhariaeth o ran Treth Incwm
+
 tai.incomes.landing.Heading=Diweddarwch eich incwm amcangyfrifedig oddi wrth {0}
 tai.incomes.landing.title=Diweddarwch eich incwm amcangyfrifedig
 tai.incomes.landing.intro=Dylech ddiweddaru’ch incwm amcangyfrifedig os bu newid diweddar i’ch incwm ac rydych yn meddwl y bydd yn effeithio ar eich haen dreth bresennol.
@@ -1425,7 +1442,7 @@ tai.updateIncome.CYPlus1.same.heading=Eich incwm amcangyfrifedig ar gyfer {0}
 tai.updateIncome.CYPlus1.same.title=Diweddarwch eich incwm amcangyfrifedig
 tai.updateIncome.CYPlus1.same.paragraph1=Rydych wedi nodi {0}
 tai.updateIncome.CYPlus1.same.paragraph2=Mae hyn yr un peth â’r swm sydd gennym eisoes ar gyfer {0} ar gyfer y flwyddyn nesaf, felly does dim angen i chi ddiweddaru’ch incwm.
-tai.updateIncome.CYPlus1.same.cancel=Dychwelyd i’ch cymhariaeth Treth Incwm ar gyfer y flwyddyn dreth bresennol a’r flwyddyn dreth nesaf
+tai.updateIncome.CYPlus1.same.cancel=Dychwelyd i''ch Crynodeb Treth Incwm
 
 tai.taxCodeComparison.add.employer=Mae gennych gyflogaeth newydd gyda {0}
 tai.taxCodeComparison.add.pension=Mae gennych bensiwn preiffat newydd gyda {0}
@@ -1450,3 +1467,5 @@ tai.urbanner.text=Cymerwch ran yn ein harolwg byr (yn agor ffenestr neu dab newy
 tai.urbanner.reject=Dim diolch
 
 checkProgress.link=Gwiriwch gynnydd eich diweddariad
+
+tai.information = Gwybodaeth
