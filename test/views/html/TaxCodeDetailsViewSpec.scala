@@ -55,6 +55,7 @@ class TaxCodeDetailsViewSpec extends TaiViewSpec {
       doc must haveElementAtPathWithText("#taxCodeTerm_2_2 span", "K")
       doc must haveElementAtPathWithText("#taxCodeDescription_2_2", s"${messages("tai.taxCode.definition.announce")} ${messages("tai.taxCode.BR")}")
     }
+
   }
 
   val taxCodeDescription1 = DescriptionListViewModel("Your tax code for employer1: BR", ListMap("K" -> messages("tai.taxCode.BR")))

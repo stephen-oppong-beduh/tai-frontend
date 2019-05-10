@@ -36,6 +36,7 @@ import scala.language.postfixOps
 class DeceasedControllerSpec extends PlaySpec with FakeTaiPlayApplication with I18nSupport with MockitoSugar {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   "Deceased Controller" must {
     "load the deceased page" when {
       "triggered from any page" which {
