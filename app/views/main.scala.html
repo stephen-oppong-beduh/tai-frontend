@@ -269,6 +269,10 @@
     )
 }
 
+@mc = @{
+  Html(mainContent.toString() ++ "<script id='webchat-tag' type='text/javascript' src='https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js'></script>")
+}
+
 @templateArguments = @{
     if(!isUserResearchBannerHidden && ApplicationConfig.urBannerEnabled) {
         mustacheMap ++ Map[String, Any](
@@ -281,5 +285,5 @@
     } else mustacheMap
 }
 @{
-    templateRenderer.renderDefaultTemplate(ApplicationConfig.frontendTemplatePath, layouts.article(content = mainContent, includeGridWrapper = includeGridWrapper, articleClasses), templateArguments)
+    templateRenderer.renderDefaultTemplate(ApplicationConfig.frontendTemplatePath, layouts.article(content = mc, includeGridWrapper = includeGridWrapper, articleClasses), templateArguments)
 }

@@ -33,19 +33,13 @@ import uk.gov.hmrc.tai.util.viewHelpers.TaiViewSpec
 import uk.gov.hmrc.tai.viewModels.employments.WithinSixWeeksViewModel
 import uk.gov.hmrc.tai.viewModels.{CanWeContactByPhoneViewModel, CompanyBenefitViewModel, IncomeSourceSummaryViewModel}
 
-class mainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with MockitoSugar {
-
-  override def view: Html = views.html.employments.endEmploymentWithinSixWeeksError(model)
+class MainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with MockitoSugar {
 
 
-
-//  override def view = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever)
 
   "main template" must {
 
     "include webchat script" when {
-
-     // behave like pageWithTitle("teestestestes")
 
       "webchat is toggled on" in {
 
@@ -53,7 +47,7 @@ class mainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with Mock
 
         println(Console.YELLOW + "View contains --> {" + view + "}"+ Console.WHITE)
 
-//        when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(true)
+        when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(true)
         doc must haveElementWithId("webchat-tag")
       }
 
@@ -72,15 +66,12 @@ class mainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with Mock
 //    }
   }
 
-//  implicit val testTemplateRenderer = MockTemplateRenderer
-//  implicit val testPartialRetriever = MockPartialRetriever
-//  override lazy val fakeApplication = FakeApplication()
+  implicit val testTemplateRenderer = MockTemplateRenderer
+  implicit val testPartialRetriever = MockPartialRetriever
+  override lazy val fakeApplication = FakeApplication()
 
   val mockFeatureTogglesConfig = mock[FeatureTogglesConfig]
-
-  private val employerName = "Employer"
-  private lazy val earliestUpdateDate = new LocalDate(2017, 6, 20)
-  private lazy val latestPayDate = new LocalDate(2016, 5, 10)
-  private lazy val model = WithinSixWeeksViewModel(earliestUpdateDate, employerName, latestPayDate, 2)
+  
+  override def view = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever)
 
 }
