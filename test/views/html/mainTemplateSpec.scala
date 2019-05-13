@@ -18,26 +18,43 @@ package views.html
 
 import controllers.FakeTaiPlayApplication
 import mocks.{MockPartialRetriever, MockTemplateRenderer}
+import org.joda.time.LocalDate
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.mockito.Mockito.when
+import org.scalatest.mockito.MockitoSugar
+import play.api.data.Form
 import play.api.test.{FakeApplication, FakeRequest}
 import play.twirl.api.Html
 import uk.gov.hmrc.tai.config.FeatureTogglesConfig
+import uk.gov.hmrc.tai.forms.YesNoTextEntryForm
+import uk.gov.hmrc.tai.util.constants.FormValuesConstants
 import uk.gov.hmrc.tai.util.viewHelpers.TaiViewSpec
+import uk.gov.hmrc.tai.viewModels.employments.WithinSixWeeksViewModel
+import uk.gov.hmrc.tai.viewModels.{CanWeContactByPhoneViewModel, CompanyBenefitViewModel, IncomeSourceSummaryViewModel}
 
-class mainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication {
+class mainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with MockitoSugar {
 
-  implicit val testTemplateRenderer = MockTemplateRenderer
-  implicit val testPartialRetriever = MockPartialRetriever
-  override lazy val fakeApplication = FakeApplication()
-  override def view = views.html.main(""){Html("")}(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever)
+  override def view: Html = views.html.employments.endEmploymentWithinSixWeeksError(model)
+
+
+
+//  override def view = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever)
 
   "main template" must {
 
     "include webchat script" when {
 
+     // behave like pageWithTitle("teestestestes")
+
       "webchat is toggled on" in {
-        when(FeatureTogglesConfig.webChatEnabled).thenReturn(true)
-        doc must haveElementWithId("#webchat-tag")
+
+
+
+        println(Console.YELLOW + "View contains --> {" + view + "}"+ Console.WHITE)
+
+//        when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(true)
+        doc must haveElementWithId("webchat-tag")
       }
 
     }
@@ -54,5 +71,16 @@ class mainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication {
 //
 //    }
   }
+
+//  implicit val testTemplateRenderer = MockTemplateRenderer
+//  implicit val testPartialRetriever = MockPartialRetriever
+//  override lazy val fakeApplication = FakeApplication()
+
+  val mockFeatureTogglesConfig = mock[FeatureTogglesConfig]
+
+  private val employerName = "Employer"
+  private lazy val earliestUpdateDate = new LocalDate(2017, 6, 20)
+  private lazy val latestPayDate = new LocalDate(2016, 5, 10)
+  private lazy val model = WithinSixWeeksViewModel(earliestUpdateDate, employerName, latestPayDate, 2)
 
 }
