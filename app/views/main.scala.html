@@ -44,7 +44,8 @@
 )(implicit request: Request[_],
   messages: Messages,
   templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer,
-  partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+  partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever,
+  featureTogglesConfig: Option[uk.gov.hmrc.tai.config.FeatureTogglesConfig] = None)
 
 
 @serviceSuffix = @{
@@ -204,10 +205,6 @@
         <script type="text/javascript">@gaCallsAdditionalJs.get</script>
     }
 
-    @if(FeatureTogglesConfig.webChatEnabled){
-      <script id="webchat-tag" type="text/javascript" src="https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js"></script>
-    }
-
     @script
 }
 
@@ -269,8 +266,17 @@
     )
 }
 
-@mc = @{
-  Html(mainContent.toString() ++ "<script id='webchat-tag' type='text/javascript' src='https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js'></script>")
+@enhancedMainContent = @{
+  featureTogglesConfig match {
+    case Some(config) =>
+      if(config.webChatEnabled) {
+        Html(mainContent.toString() ++ "<script id='webchat-tag' type='text/javascript' src='https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js'></script>")
+      }
+      else {
+        mainContent
+      }
+    case _ => mainContent
+  }
 }
 
 @templateArguments = @{
@@ -285,5 +291,5 @@
     } else mustacheMap
 }
 @{
-    templateRenderer.renderDefaultTemplate(ApplicationConfig.frontendTemplatePath, layouts.article(content = mc, includeGridWrapper = includeGridWrapper, articleClasses), templateArguments)
+    templateRenderer.renderDefaultTemplate(ApplicationConfig.frontendTemplatePath, layouts.article(content = enhancedMainContent, includeGridWrapper = includeGridWrapper, articleClasses), templateArguments)
 }

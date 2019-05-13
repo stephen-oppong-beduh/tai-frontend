@@ -18,39 +18,29 @@ package views.html
 
 import controllers.FakeTaiPlayApplication
 import mocks.{MockPartialRetriever, MockTemplateRenderer}
-import org.joda.time.LocalDate
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.mockito.Mockito.when
 import org.scalatest.mockito.MockitoSugar
-import play.api.data.Form
 import play.api.test.{FakeApplication, FakeRequest}
 import play.twirl.api.Html
 import uk.gov.hmrc.tai.config.FeatureTogglesConfig
-import uk.gov.hmrc.tai.forms.YesNoTextEntryForm
-import uk.gov.hmrc.tai.util.constants.FormValuesConstants
 import uk.gov.hmrc.tai.util.viewHelpers.TaiViewSpec
-import uk.gov.hmrc.tai.viewModels.employments.WithinSixWeeksViewModel
-import uk.gov.hmrc.tai.viewModels.{CanWeContactByPhoneViewModel, CompanyBenefitViewModel, IncomeSourceSummaryViewModel}
 
 class MainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with MockitoSugar {
-
-
 
   "main template" must {
 
     "include webchat script" when {
-
       "webchat is toggled on" in {
-
-
-
-        println(Console.YELLOW + "View contains --> {" + view + "}"+ Console.WHITE)
-
         when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(true)
         doc must haveElementWithId("webchat-tag")
       }
+    }
 
+    "exclude webchat script" when {
+      "webchat is toggled off" in {
+        when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(false)
+        doc mustNot haveElementWithId("webchat-tag")
+      }
     }
 
 
@@ -71,7 +61,7 @@ class MainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with Mock
   override lazy val fakeApplication = FakeApplication()
 
   val mockFeatureTogglesConfig = mock[FeatureTogglesConfig]
-  
-  override def view = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever)
+
+  override def view = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
 
 }
