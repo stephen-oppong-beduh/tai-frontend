@@ -62,6 +62,7 @@ class MainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with Mock
 
   val mockFeatureTogglesConfig = mock[FeatureTogglesConfig]
 
-  override def view = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
+  override def view = views.html.main("Test")(Html("This is the main content"))(FakeRequest(),
+            messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
 
 }
