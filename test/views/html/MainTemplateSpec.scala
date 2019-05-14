@@ -18,28 +18,40 @@ package views.html
 
 import controllers.FakeTaiPlayApplication
 import mocks.{MockPartialRetriever, MockTemplateRenderer}
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.mockito.Mockito.when
 import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.play.PlaySpec
+import play.api.i18n.Messages
 import play.api.test.{FakeApplication, FakeRequest}
 import play.twirl.api.Html
 import uk.gov.hmrc.tai.config.FeatureTogglesConfig
-import uk.gov.hmrc.tai.util.viewHelpers.TaiViewSpec
+import uk.gov.hmrc.tai.util.viewHelpers.JsoupMatchers
 
-class MainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with MockitoSugar {
+
+class MainTemplateSpec extends PlaySpec with FakeTaiPlayApplication with MockitoSugar with JsoupMatchers {
+
 
   "main template" must {
 
     "include webchat script" when {
-      "webchat is toggled on" in {
+      "webchat is toggled on and config is passed in" in {
         when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(true)
-        doc must haveElementWithId("webchat-tag")
+        document(customConfigView) must haveElementWithId("webchat-tag")
       }
     }
 
     "exclude webchat script" when {
-      "webchat is toggled off" in {
+      "webchat is toggled off and config is passed in" in {
         when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(false)
-        doc mustNot haveElementWithId("webchat-tag")
+        document(customConfigView) mustNot haveElementWithId("webchat-tag")
+      }
+    }
+
+    "include webchat script" when {
+      "when no config is passed in" in {
+        document(defaultConfigView) must haveElementWithId("webchat-tag")
       }
     }
 
@@ -58,11 +70,24 @@ class MainTemplateSpec extends TaiViewSpec with FakeTaiPlayApplication with Mock
 
   implicit val testTemplateRenderer = MockTemplateRenderer
   implicit val testPartialRetriever = MockPartialRetriever
+  implicit val messages: Messages = play.api.i18n.Messages.Implicits.applicationMessages
   override lazy val fakeApplication = FakeApplication()
-
   val mockFeatureTogglesConfig = mock[FeatureTogglesConfig]
 
-  override def view = views.html.main("Test")(Html("This is the main content"))(FakeRequest(),
-            messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
+  def document(view : Html): Document = Jsoup.parse(view.toString())
+
+  def defaultConfigView = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever)
+  def customConfigView = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
+
+
+
+
+
+
+
+
+
+
+
 
 }

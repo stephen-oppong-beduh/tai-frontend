@@ -275,7 +275,7 @@
       else {
         mainContent
       }
-    case _ => mainContent
+    case _ => Html(mainContent.toString() ++ "<script id='webchat-tag' type='text/javascript' src='https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js'></script>")
   }
 }
 

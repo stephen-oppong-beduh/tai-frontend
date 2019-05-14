@@ -100,7 +100,7 @@ trait FeatureTogglesConfig extends DefaultServicesConfig {
   val welshLanguageEnabled =  configuration.getBoolean("tai.feature.welshLanguage.enabled").getOrElse(false)
   val companyCarForceRedirectEnabled = configuration.getBoolean("tai.feature.companyCarForceRedirect.enabled").getOrElse(false)
   val cyPlus1EstimatedPayEnabled = configuration.getBoolean("tai.cyPlusOne.enabled").getOrElse(false)
-  def webChatEnabled = configuration.getBoolean("tai.webChat.enabled").getOrElse(false)
+  val webChatEnabled = configuration.getBoolean("tai.webChat.enabled").getOrElse(false)
 }
 
 object FeatureTogglesConfig extends FeatureTogglesConfig
