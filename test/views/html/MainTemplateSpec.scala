@@ -48,7 +48,7 @@ class MainTemplateSpec extends PlaySpec with FakeTaiPlayApplication with Mockito
         document(customConfigView) mustNot haveElementWithId("webchat-tag")
       }
     }
-    
+
     "exclude webchat script" when {
       "webchat toggle is on and excludeWebchat true is passed in" in {
         when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(true)
@@ -66,7 +66,7 @@ class MainTemplateSpec extends PlaySpec with FakeTaiPlayApplication with Mockito
 
   def document(view : Html): Document = Jsoup.parse(view.toString())
 
-  def customConfigView = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
+  def customConfigView = views.html.main("Test", excludeWebchatScript = true)(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
 
 
 
