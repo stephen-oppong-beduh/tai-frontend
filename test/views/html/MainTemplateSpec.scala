@@ -36,36 +36,26 @@ class MainTemplateSpec extends PlaySpec with FakeTaiPlayApplication with Mockito
   "main template" must {
 
     "include webchat script" when {
-      "webchat is toggled on and config is passed in" in {
+      "webchat toggle is on" in {
         when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(true)
         document(customConfigView) must haveElementWithId("webchat-tag")
       }
     }
 
     "exclude webchat script" when {
-      "webchat is toggled off and config is passed in" in {
+      "webchat toggle is off" in {
         when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(false)
         document(customConfigView) mustNot haveElementWithId("webchat-tag")
       }
     }
-
-    "include webchat script" when {
-      "when no config is passed in" in {
-        document(defaultConfigView) must haveElementWithId("webchat-tag")
+    
+    "exclude webchat script" when {
+      "webchat toggle is on and excludeWebchat true is passed in" in {
+        when(mockFeatureTogglesConfig.webChatEnabled).thenReturn(true)
+        document(customConfigView) must haveElementWithId("webchat-tag")
       }
+
     }
-
-
-//    "not include webchat script" when {
-//
-//      "webchat is toggled on but include nuance webchat is false" in {
-//
-//
-//        doc mustNot haveElementWithId("header")
-//
-//      }
-//
-//    }
   }
 
   implicit val testTemplateRenderer = MockTemplateRenderer
@@ -76,7 +66,6 @@ class MainTemplateSpec extends PlaySpec with FakeTaiPlayApplication with Mockito
 
   def document(view : Html): Document = Jsoup.parse(view.toString())
 
-  def defaultConfigView = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever)
   def customConfigView = views.html.main("Test")(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
 
 
