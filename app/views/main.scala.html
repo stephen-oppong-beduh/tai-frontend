@@ -39,7 +39,8 @@
   gaCustomTitle: Option[String] = None,
   optimizelyAudience: Option[String] = None,
   pageHeader: Option[Html] = None,
-  script: Option[Html] = None
+  script: Option[Html] = None,
+  includeWebchatScript: Boolean = true
 )(mainContent: Html
 )(implicit request: Request[_],
   messages: Messages,
@@ -205,6 +206,20 @@
         <script type="text/javascript">@gaCallsAdditionalJs.get</script>
     }
 
+
+    featureTogglesConfig match {
+      case Some(config) =>
+        if(config.webChatEnabled && includeWebchatScript) {
+          Html(mainContent.toString() ++ "<script id='webchat-tag' type='text/javascript' src='https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js'></script>")
+        }
+        else {
+          mainContent
+        }
+      case _ => Html(mainContent.toString() ++ "<script id='webchat-tag' type='text/javascript' src='https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js'></script>")
+    }
+  }
+
+
     @script
 }
 
@@ -266,18 +281,7 @@
     )
 }
 
-@enhancedMainContent = @{
-  featureTogglesConfig match {
-    case Some(config) =>
-      if(config.webChatEnabled) {
-        Html(mainContent.toString() ++ "<script id='webchat-tag' type='text/javascript' src='https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js'></script>")
-      }
-      else {
-        mainContent
-      }
-    case _ => Html(mainContent.toString() ++ "<script id='webchat-tag' type='text/javascript' src='https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js'></script>")
-  }
-}
+
 
 @templateArguments = @{
     if(!isUserResearchBannerHidden && ApplicationConfig.urBannerEnabled) {

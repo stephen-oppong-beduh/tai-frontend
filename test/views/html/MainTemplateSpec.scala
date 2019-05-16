@@ -66,7 +66,7 @@ class MainTemplateSpec extends PlaySpec with FakeTaiPlayApplication with Mockito
 
   def document(view : Html): Document = Jsoup.parse(view.toString())
 
-  def customConfigView = views.html.main("Test", excludeWebchatScript = true)(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
+  def customConfigView = views.html.main("Test", includeWebchatScript = true)(Html("This is the main content"))(FakeRequest(), messages, testTemplateRenderer,testPartialRetriever,Some(mockFeatureTogglesConfig))
 
 
 
