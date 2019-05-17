@@ -8,7 +8,9 @@ GET         /historic-paye/:taxYear                                             
 GET         /timeout                                                                   @controllers.ServiceController.timeoutPage
 GET         /signout                                                                   @controllers.ServiceController.serviceSignout
 GET         /tax-estimate-unavailable                                                  @controllers.ServiceController.gateKeeper
+GET         /keep-alive                                                                @controllers.ServiceController.keepAlive
 GET         /deceased                                                                  @controllers.DeceasedController.deceased
+
 
 GET         /start-verify                                                              @controllers.AuthProviderController.verifyEntryPoint
 GET         /start-government-gateway                                                  @controllers.AuthProviderController.governmentGatewayEntryPoint

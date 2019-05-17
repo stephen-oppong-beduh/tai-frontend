@@ -209,6 +209,19 @@
       <script id="webchat-tag" type="text/javascript" src="https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js"></script>
     }
 
+    <script>
+          window.GOVUK.timeoutDialog({
+             timeout: 900,
+             countdown: 120,
+             message: 'For your security, we will delete your answers in',
+             keepAliveUrl: '@routes.ServiceController.keepAlive',
+             signOutUrl: '@routes.ServiceController.timeoutPage',
+             keepAliveButtonText: 'Continue with your session',
+             signOutButtonText: 'Delete your answers',
+          });
+    </script>
+
+
     @script
 }
 

@@ -21,7 +21,7 @@ import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, TaiUser}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{AnyContent, Request, Result}
+import play.api.mvc.{Action, AnyContent, Request, Result}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.frontend.controller.UnauthorisedAction
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -68,5 +68,11 @@ class ServiceController @Inject()(userDetailsConnector: UserDetailsConnector,
   def getGateKeeper(nino: Nino)(implicit request: Request[AnyContent]): Future[Result] = {
     Future.successful(Ok(views.html.manualCorrespondence()))
   } recoverWith handleErrorResponse("getServiceUnavailable", nino)
+
+  def keepAlive: Action[AnyContent] = Action.async { implicit request =>
+    Future.successful(
+      Ok("Ok")
+    )
+  }
 
 }
