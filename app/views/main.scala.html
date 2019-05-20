@@ -211,13 +211,14 @@
 
     <script>
           window.GOVUK.timeoutDialog({
-             timeout: 900,
-             countdown: 120,
-             message: 'For your security, we will delete your answers in',
+             timeout: 90,
+             countdown: 20,
+             title: 'You are going to be signed out',
+             message: 'Due to inactivity, you will be signed out of this service in',
              keepAliveUrl: '@routes.ServiceController.keepAlive',
              signOutUrl: '@routes.ServiceController.timeoutPage',
-             keepAliveButtonText: 'Continue with your session',
-             signOutButtonText: 'Delete your answers',
+             keepAliveButtonText: 'Stay signed in',
+             signOutButtonText: 'Sign out now'
           });
     </script>
 
