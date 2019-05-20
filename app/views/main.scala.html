@@ -209,6 +209,20 @@
       <script id="webchat-tag" type="text/javascript" src="https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js"></script>
     }
 
+    @if(isWelshActive){
+    <script>
+          window.GOVUK.timeoutDialog({
+             timeout: 90,
+             countdown: 20,
+             title: 'welsh welsh welsh',
+             message: 'welsh welsh welsh',
+             keepAliveUrl: '@routes.ServiceController.keepAlive',
+             signOutUrl: '@routes.ServiceController.timeoutPage',
+             keepAliveButtonText: 'welsh welsh welsh',
+             signOutButtonText: 'welsh welsh welsh'
+          });
+    </script>
+    } else {
     <script>
           window.GOVUK.timeoutDialog({
              timeout: 90,
@@ -221,7 +235,7 @@
              signOutButtonText: 'Sign out now'
           });
     </script>
-
+    }
 
     @script
 }
