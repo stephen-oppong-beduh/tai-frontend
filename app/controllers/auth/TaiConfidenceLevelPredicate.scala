@@ -16,6 +16,7 @@
 
 package controllers.auth
 
+import javax.inject.{Inject, Singleton}
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{AnyContent, Request}
 import uk.gov.hmrc.play.frontend.auth._
@@ -23,21 +24,17 @@ import uk.gov.hmrc.play.frontend.auth.connectors.domain.ConfidenceLevel
 import uk.gov.hmrc.tai.util.constants.TaiConstants.{CompletionUrl, FailureUrl, Origin}
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter.fromHeadersAndSession
-import uk.gov.hmrc.tai.config
 import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.util.constants.TaiConstants
 
-trait TaiConfidenceLevelPredicate extends PageVisibilityPredicate {
+@Singleton
+class TaiConfidenceLevelPredicate @Inject()(applicationConfig: ApplicationConfig) extends PageVisibilityPredicate {
 
-  def origin: String
-
-  def completionUrl: String
-
-  def failureUrl: String
-
-  def upliftUrl: String
+  def upliftUrl: String = applicationConfig.sa16UpliftUrl
+  def failureUrl: String = applicationConfig.pertaxServiceUpliftFailedUrl
+  def completionUrl: String = applicationConfig.taiFrontendServiceUrl
+  def origin: String = "TAI"
 
   def apply(authContext: AuthContext, request: Request[AnyContent]): Future[PageVisibilityResult] = {
 
@@ -65,14 +62,4 @@ trait TaiConfidenceLevelPredicate extends PageVisibilityPredicate {
       )
     )
 }
-// $COVERAGE-OFF$
-object TaiConfidenceLevelPredicate extends TaiConfidenceLevelPredicate {
-  override def upliftUrl: String = ApplicationConfig.sa16UpliftUrl
 
-  override def failureUrl: String = config.ApplicationConfig.pertaxServiceUpliftFailedUrl
-
-  override def completionUrl: String = config.ApplicationConfig.taiFrontendServiceUrl
-
-  override def origin: String = "TAI"
-}
-// $COVERAGE-ON$

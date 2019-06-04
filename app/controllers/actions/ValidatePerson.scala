@@ -16,10 +16,11 @@
 
 package controllers.actions
 
-import com.google.inject.{ImplementedBy, Inject, Singleton}
+import com.google.inject.ImplementedBy
 import controllers.auth.AuthenticatedRequest
 import controllers.routes
-import play.api.mvc.{ActionFilter, Result}
+import javax.inject.{Inject, Singleton}
+import play.api.mvc._
 import uk.gov.hmrc.tai.service.PersonService
 import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.http.HeaderCarrier
@@ -28,9 +29,11 @@ import uk.gov.hmrc.play.HeaderCarrierConverter
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class ValidatePersonImpl @Inject()(personService: PersonService)
-                           (implicit ec: ExecutionContext) extends ValidatePerson {
+class ValidatePersonImpl @Inject()(personService: PersonService,
+                                   cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends ValidatePerson {
 
+
+  override protected val executionContext: ExecutionContext = cc.executionContext
 
   override protected def filter[A](request: AuthenticatedRequest[A]): Future[Option[Result]] = {
 

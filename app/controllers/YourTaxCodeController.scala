@@ -37,9 +37,9 @@ class YourTaxCodeController @Inject()(taxAccountService: TaxAccountService,
                                       taxCodeChangeService: TaxCodeChangeService,
                                       authenticate: AuthAction,
                                       validatePerson: ValidatePerson,
+                                      featureTogglesConfig: FeatureTogglesConfig,
                                       override implicit val partialRetriever: FormPartialRetriever,
-                                      override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with FeatureTogglesConfig {
+                                      override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
 
   def taxCodes(year: TaxYear = TaxYear()): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

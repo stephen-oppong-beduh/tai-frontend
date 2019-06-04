@@ -17,6 +17,7 @@
 package controllers.auth
 
 import controllers.ErrorPagesHandler
+import javax.inject.{Inject, Singleton}
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages
@@ -36,7 +37,8 @@ import uk.gov.hmrc.tai.util.ViewModelHelper
 
 import scala.concurrent.Future
 
-object TaiAuthenticationProvider extends AnyAuthenticationProvider {
+@Singleton
+class TaiAuthenticationProvider @Inject()(applicationConfig: ApplicationConfig) extends AnyAuthenticationProvider {
 
   val logger = Logger(this.getClass)
 
@@ -79,7 +81,7 @@ object TaiAuthenticationProvider extends AnyAuthenticationProvider {
   }
 
   private def idaRedirect(implicit request: Request[_]): Future[Result] = {
-      lazy val idaSignIn = s"${ApplicationConfig.citizenAuthHost}/${ApplicationConfig.ida_web_context}/login"
+      lazy val idaSignIn = s"${applicationConfig.citizenAuthHost}/${applicationConfig.ida_web_context}/login"
       Future.successful(Redirect(idaSignIn).withSession(
         SessionKeys.loginOrigin -> "TAI",
         SessionKeys.redirect -> ConfigProperties.postSignInRedirectUrl.getOrElse(controllers.routes.WhatDoYouWantToDoController.whatDoYouWantToDoPage().url)
@@ -87,12 +89,12 @@ object TaiAuthenticationProvider extends AnyAuthenticationProvider {
   }
 
   private def ggRedirect(implicit request: Request[_]): Future[Result] = {
-    val postSignInUpliftUrl = s"${ViewModelHelper.urlEncode(ApplicationConfig.pertaxServiceUrl)}/do-uplift?redirectUrl=${ViewModelHelper.
+    val postSignInUpliftUrl = s"${ViewModelHelper.urlEncode(applicationConfig.pertaxServiceUrl)}/do-uplift?redirectUrl=${ViewModelHelper.
       urlEncode(ConfigProperties.postSignInRedirectUrl.
       getOrElse(controllers.routes.WhatDoYouWantToDoController.whatDoYouWantToDoPage().url))}"
 
-    lazy val ggSignIn = s"${ApplicationConfig.
-      companyAuthUrl}/${ApplicationConfig.gg_web_context}/sign-in?continue=${postSignInUpliftUrl}&accountType=individual"
+    lazy val ggSignIn = s"${applicationConfig.
+      companyAuthUrl}/${applicationConfig.gg_web_context}/sign-in?continue=${postSignInUpliftUrl}&accountType=individual"
     Future.successful(Redirect(ggSignIn))
   }
 }
