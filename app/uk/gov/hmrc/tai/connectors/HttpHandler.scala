@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.tai.connectors
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import play.Logger
 import play.api.http.Status._
 import play.api.libs.json.{JsValue, Writes}

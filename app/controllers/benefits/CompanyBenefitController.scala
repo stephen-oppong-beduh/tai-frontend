@@ -16,7 +16,7 @@
 
 package controllers.benefits
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import com.google.inject.name.Named
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson

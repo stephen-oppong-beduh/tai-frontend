@@ -16,9 +16,10 @@
 
 package controllers
 
-import com.google.inject.Inject
+
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
+import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer

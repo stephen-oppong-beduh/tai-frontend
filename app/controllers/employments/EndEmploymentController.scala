@@ -16,7 +16,7 @@
 
 package controllers.employments
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import com.google.inject.name.Named
 import controllers._
 import controllers.actions.ValidatePerson

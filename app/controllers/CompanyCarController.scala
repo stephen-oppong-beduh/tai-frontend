@@ -16,7 +16,7 @@
 
 package controllers
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import com.google.inject.name.Named
 import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, AuthenticatedRequest}

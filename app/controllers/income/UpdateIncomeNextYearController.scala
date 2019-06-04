@@ -16,7 +16,7 @@
 
 package controllers.income
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.audit.Auditable

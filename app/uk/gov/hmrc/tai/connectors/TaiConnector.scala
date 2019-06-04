@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.tai.connectors
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import play.api.libs.json.Reads
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.tai.config.{DefaultServicesConfig, WSHttp}

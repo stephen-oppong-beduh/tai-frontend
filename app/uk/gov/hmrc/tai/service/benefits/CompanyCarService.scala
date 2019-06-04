@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.tai.service.benefits
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import com.google.inject.name.Named
 import org.joda.time.LocalDate
 import uk.gov.hmrc.domain.Nino

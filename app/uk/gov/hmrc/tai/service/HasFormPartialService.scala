@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.tai.service
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import play.api.mvc.RequestHeader
 import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import uk.gov.hmrc.play.partials.HtmlPartial
