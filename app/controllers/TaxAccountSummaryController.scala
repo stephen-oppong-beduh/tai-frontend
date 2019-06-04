@@ -47,8 +47,7 @@ class TaxAccountSummaryController @Inject()(trackingService: TrackingService,
                                             validatePerson: ValidatePerson,
                                             override implicit val partialRetriever: FormPartialRetriever,
                                             override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with AuditConstants
-  with FeatureTogglesConfig {
+  with AuditConstants {
 
   def onPageLoad: Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

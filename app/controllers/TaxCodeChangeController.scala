@@ -45,7 +45,6 @@ class TaxCodeChangeController @Inject()(taxCodeChangeService: TaxCodeChangeServi
                                         taxCodeChangeReasonsService: TaxCodeChangeReasonsService,
                                         override implicit val partialRetriever: FormPartialRetriever,
                                         override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with FeatureTogglesConfig
   with YourTaxFreeAmount {
 
   def taxCodeComparison: Action[AnyContent] = (authenticate andThen validatePerson).async {

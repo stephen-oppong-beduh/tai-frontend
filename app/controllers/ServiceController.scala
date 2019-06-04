@@ -37,6 +37,7 @@ import scala.util.control.NonFatal
 class ServiceController @Inject()(userDetailsConnector: UserDetailsConnector,
                                   authenticate: AuthAction,
                                   validatePerson: ValidatePerson,
+                                  applicationConfig: ApplicationConfig,
                                   override implicit val partialRetriever: FormPartialRetriever,
                                   override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
 
@@ -50,10 +51,10 @@ class ServiceController @Inject()(userDetailsConnector: UserDetailsConnector,
 
       userDetailsConnector.userDetails(userDetails).map { x =>
         if (x.hasVerifyAuthProvider) {
-          Redirect(ApplicationConfig.citizenAuthFrontendSignOutUrl).
-            withSession(TaiConstants.SessionPostLogoutPage -> ApplicationConfig.feedbackSurveyUrl)
+          Redirect(applicationConfig.citizenAuthFrontendSignOutUrl).
+            withSession(TaiConstants.SessionPostLogoutPage -> applicationConfig.feedbackSurveyUrl)
         } else {
-          Redirect(ApplicationConfig.companyAuthFrontendSignOutUrl)
+          Redirect(applicationConfig.companyAuthFrontendSignOutUrl)
         }
       } recover {
         case NonFatal(e) => internalServerError("", Some(e))
