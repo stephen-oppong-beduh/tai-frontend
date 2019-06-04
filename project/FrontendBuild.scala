@@ -35,8 +35,7 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "play-language"                 %  "3.4.0",
     "uk.gov.hmrc" %% "local-template-renderer"       %  "2.4.0",
     "uk.gov.hmrc" %% "auth-client"                   % "2.20.0-play-25",
-    "com.typesafe.play" %% "play-json-joda"          % "2.6.10",
-    "com.google.inject" %% "guice"                   % "3.0.0"
+    "com.typesafe.play" %% "play-json-joda"          % "2.6.10"
 
   )
 
