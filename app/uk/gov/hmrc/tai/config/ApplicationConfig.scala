@@ -16,12 +16,13 @@
 
 package uk.gov.hmrc.tai.config
 
-import play.api.Play._
-import uk.gov.hmrc.play.config.ServicesConfig
+import javax.inject.{Inject,Singleton}
+import play.api.Configuration
 import uk.gov.hmrc.tai.model.TaxYear
 import views.html.helper
 
-class ApplicationConfig extends DefaultServicesConfig {
+@Singleton
+class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultServicesConfig {
 
   def statusRange = s"${TaxYear().prev.year}-${TaxYear().year}"
 
@@ -97,17 +98,14 @@ class ApplicationConfig extends DefaultServicesConfig {
   lazy val isTaiCy3Enabled = configuration.getBoolean("tai.cy3.enabled").getOrElse(false)
 }
 
-object ApplicationConfig extends ApplicationConfig
-
-trait FeatureTogglesConfig extends DefaultServicesConfig {
-  val cyPlusOneEnabled = configuration.getBoolean("tai.cyPlusOne.enabled").getOrElse(false)
-  val welshLanguageEnabled =  configuration.getBoolean("tai.feature.welshLanguage.enabled").getOrElse(false)
-  val companyCarForceRedirectEnabled = configuration.getBoolean("tai.feature.companyCarForceRedirect.enabled").getOrElse(false)
-  val cyPlus1EstimatedPayEnabled = configuration.getBoolean("tai.cyPlusOne.enabled").getOrElse(false)
-  val webChatEnabled = configuration.getBoolean("tai.webChat.enabled").getOrElse(false)
+@Singleton
+class FeatureTogglesConfig @Inject()(configuration: Configuration) extends DefaultServicesConfig {
+  val cyPlusOneEnabled = configuration.getOptional("tai.cyPlusOne.enabled").getOrElse(false)
+  val welshLanguageEnabled =  configuration.getOptional("tai.feature.welshLanguage.enabled").getOrElse(false)
+  val companyCarForceRedirectEnabled = configuration.getOptional("tai.feature.companyCarForceRedirect.enabled").getOrElse(false)
+  val cyPlus1EstimatedPayEnabled = configuration.getOptional("tai.cyPlusOne.enabled").getOrElse(false)
+  val webChatEnabled = configuration.getOptional("tai.webChat.enabled").getOrElse(false)
 }
-
-object FeatureTogglesConfig extends FeatureTogglesConfig
 
 trait TaiConfig extends DefaultServicesConfig {
   lazy val baseURL: String = baseUrl("tai")
