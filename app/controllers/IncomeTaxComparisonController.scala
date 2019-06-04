@@ -43,9 +43,9 @@ class IncomeTaxComparisonController @Inject()(val auditConnector: AuditConnector
                                               updateNextYearsIncomeService: UpdateNextYearsIncomeService,
                                               authenticate: AuthAction,
                                               validatePerson: ValidatePerson,
+                                              featureTogglesConfig: FeatureTogglesConfig,
                                               override implicit val partialRetriever: FormPartialRetriever,
-                                              override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with FeatureTogglesConfig {
+                                              override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
 
   def onPageLoad(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -106,7 +106,7 @@ class IncomeTaxComparisonController @Inject()(val auditConnector: AuditConnector
               taxCodeComparisonModel, taxFreeAmountComparisonModel, employmentViewModel, isEstimatedPayJourneyComplete)
 
             implicit val user = request.taiUser
-            Ok(views.html.incomeTaxComparison.Main(model, cyPlus1EstimatedPayEnabled))
+            Ok(views.html.incomeTaxComparison.Main(model, featureTogglesConfig.cyPlus1EstimatedPayEnabled))
           }
           case _ => throw new RuntimeException("Not able to fetch income tax comparision details")
         }

@@ -44,8 +44,7 @@ class IncomeSourceSummaryController @Inject()(val auditConnector: AuditConnector
                                               authenticate: AuthAction,
                                               validatePerson: ValidatePerson,
                                               override implicit val partialRetriever: FormPartialRetriever,
-                                              override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with FeatureTogglesConfig {
+                                              override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
 
   def onPageLoad(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.tai.config
 
-import javax.inject.{Inject,Singleton}
-import play.api.Configuration
+import javax.inject.{Inject, Singleton}
+import play.api.{Configuration, Play}
 import uk.gov.hmrc.tai.model.TaxYear
 import views.html.helper
 
@@ -79,11 +79,11 @@ class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultS
   lazy val scottishRateIncomeTaxUrl: String = "https://www.gov.uk/scottish-rate-income-tax"
   lazy val welshRateIncomeTaxUrl: String = "https://www.gov.uk/welsh-income-tax"
   lazy val welshRateIncomeTaxWelshUrl: String = "https://www.gov.uk/treth-incwm-cymru"
-
   lazy val frontendTemplatePath: String = configuration.getString(s"govuk-tax.$env.services.frontend-template-provider.path").getOrElse("/template/mustache")
-
   lazy val webchatIconUrl = configuration.getString("tai.webchat.iconUrl").getOrElse("not found")
   lazy val webchatJsUrl = configuration.getString("tai.webchat.jsUrl").getOrElse("not found")
+  lazy val numberOfPreviousYearsToShow = configuration.getOptional[Int]("tai.numberOfPreviousYearsToShow").getOrElse(3)
+
 
 
   def fetchUrl(service: String) = {
@@ -100,11 +100,11 @@ class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultS
 
 @Singleton
 class FeatureTogglesConfig @Inject()(configuration: Configuration) extends DefaultServicesConfig {
-  val cyPlusOneEnabled = configuration.getOptional("tai.cyPlusOne.enabled").getOrElse(false)
-  val welshLanguageEnabled =  configuration.getOptional("tai.feature.welshLanguage.enabled").getOrElse(false)
+  val cyPlusOneEnabled = configuration.getOptional[Boolean]("tai.cyPlusOne.enabled").getOrElse(false)
+  val welshLanguageEnabled =  configuration.getOptional[Boolean]("tai.feature.welshLanguage.enabled").getOrElse(false)
   val companyCarForceRedirectEnabled = configuration.getOptional[Boolean]("tai.feature.companyCarForceRedirect.enabled").getOrElse(false)
-  val cyPlus1EstimatedPayEnabled = configuration.getOptional("tai.cyPlusOne.enabled").getOrElse(false)
-  val webChatEnabled = configuration.getOptional("tai.webChat.enabled").getOrElse(false)
+  val cyPlus1EstimatedPayEnabled = configuration.getOptional[Boolean]("tai.cyPlusOne.enabled").getOrElse(false)
+  val webChatEnabled = configuration.getOptional[Boolean]("tai.webChat.enabled").getOrElse(false)
 }
 
 trait TaiConfig extends DefaultServicesConfig {

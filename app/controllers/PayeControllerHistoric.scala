@@ -39,10 +39,9 @@ class PayeControllerHistoric @Inject()(val config: ApplicationConfig,
                                        employmentService: EmploymentService,
                                        authenticate: AuthAction,
                                        validatePerson: ValidatePerson,
+                                       applicationConfig: ApplicationConfig,
                                        override implicit val partialRetriever: FormPartialRetriever,
                                        override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
-
-  val numberOfPreviousYearsToShow: Int = Play.configuration.getInt("tai.numberOfPreviousYearsToShow").getOrElse(3)
 
   def lastYearPaye(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     Future.successful(Redirect(controllers.routes.PayeControllerHistoric.payePage(TaxYear().prev)))
@@ -68,7 +67,7 @@ class PayeControllerHistoric @Inject()(val config: ApplicationConfig,
       } yield {
         implicit val user = request.taiUser
         Ok(views.html.paye.historicPayAsYouEarn(HistoricPayAsYouEarnViewModel(
-          taxYear, employments, hasTaxCodeRecordsInYearPerEmployment), numberOfPreviousYearsToShow))
+          taxYear, employments, hasTaxCodeRecordsInYearPerEmployment), applicationConfig.numberOfPreviousYearsToShow))
       }
     }
   } recoverWith hodStatusRedirect
