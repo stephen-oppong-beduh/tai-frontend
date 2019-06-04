@@ -80,11 +80,10 @@ trait ErrorPagesHandler {
 
   @deprecated("Prefer chaining of named partial functions for clarity", "Introduction of new WDYWTD page")
   def handleErrorResponse(methodName: String, nino: Nino)
-                         (implicit request: Request[_]):
+                         (implicit request: Request[_], messages: Messages):
 
   PartialFunction[Throwable, Future[Result]] = PartialFunction[Throwable, Future[Result]] {
     throwable: Throwable =>
-      implicit val messages = play.api.i18n.Messages.Implicits.applicationMessages
       throwable match {
         case e: Upstream4xxResponse => {
           Logger.warn(s"<Upstream4xxResponse> - $methodName nino $nino")

@@ -16,20 +16,15 @@
 
 package controllers
 
-import javax.inject.Inject
-import com.google.inject.name.Named
 import controllers.actions.ValidatePerson
-import controllers.audit.Auditable
 import controllers.auth.{AuthAction, AuthedUser}
+import javax.inject.{Inject, Named}
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.audit.http.connector.AuditConnector
-import uk.gov.hmrc.play.frontend.auth.DelegationAwareActions
-import uk.gov.hmrc.play.frontend.auth.connectors.{AuthConnector, DelegationConnector}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.config.FeatureTogglesConfig
@@ -45,6 +40,7 @@ import uk.gov.hmrc.tai.util._
 import uk.gov.hmrc.tai.util.constants._
 import uk.gov.hmrc.tai.viewModels.{GoogleAnalyticsSettings, SameEstimatedPayViewModel}
 
+
 import scala.Function.tupled
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -59,8 +55,7 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
                                  override implicit val partialRetriever: FormPartialRetriever,
                                  override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
   with JourneyCacheConstants
-  with FormValuesConstants
-  with FeatureTogglesConfig {
+  with FormValuesConstants {
 
   def cancel(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

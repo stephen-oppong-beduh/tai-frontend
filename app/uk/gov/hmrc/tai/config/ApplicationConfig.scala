@@ -102,7 +102,7 @@ class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultS
 class FeatureTogglesConfig @Inject()(configuration: Configuration) extends DefaultServicesConfig {
   val cyPlusOneEnabled = configuration.getOptional("tai.cyPlusOne.enabled").getOrElse(false)
   val welshLanguageEnabled =  configuration.getOptional("tai.feature.welshLanguage.enabled").getOrElse(false)
-  val companyCarForceRedirectEnabled = configuration.getOptional("tai.feature.companyCarForceRedirect.enabled").getOrElse(false)
+  val companyCarForceRedirectEnabled = configuration.getOptional[Boolean]("tai.feature.companyCarForceRedirect.enabled").getOrElse(false)
   val cyPlus1EstimatedPayEnabled = configuration.getOptional("tai.cyPlusOne.enabled").getOrElse(false)
   val webChatEnabled = configuration.getOptional("tai.webChat.enabled").getOrElse(false)
 }
