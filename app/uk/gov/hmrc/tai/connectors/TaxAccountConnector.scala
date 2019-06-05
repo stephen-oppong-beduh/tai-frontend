@@ -16,10 +16,10 @@
 
 package uk.gov.hmrc.tai.connectors
 
-import com.google.inject.Inject
+import javax.inject.Inject
 import play.api.Logger
 import play.api.libs.json.Reads
-import uk.gov.hmrc.domain.Nino
+import uk.gov.hmrc.auth.core.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.tai.config.DefaultServicesConfig

@@ -23,7 +23,7 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits.applicationMessages
 import play.api.mvc.Results._
 import play.api.mvc.{AnyContent, Request, Result}
-import uk.gov.hmrc.domain.Nino
+import uk.gov.hmrc.auth.core.Nino
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 import uk.gov.hmrc.play.HeaderCarrierConverter.fromHeadersAndSession
 import uk.gov.hmrc.play.frontend.auth.{AnyAuthenticationProvider, _}

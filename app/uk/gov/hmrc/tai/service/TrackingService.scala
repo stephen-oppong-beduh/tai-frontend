@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.tai.service
 
-import com.google.inject.Inject
-import com.google.inject.name.Named
+import javax.inject.Inject
+import javax.inject.name.Named
 import play.api.Logger
 import uk.gov.hmrc.tai.connectors.TrackingConnector
 import uk.gov.hmrc.tai.model.domain.tracking.{TrackedForm, TrackedFormDone}

@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.tai.config
 
-import com.google.inject.AbstractModule
+import javax.inject.AbstractModule
 import play.api.inject.{Binding, Module}
 import play.api.{Configuration, Environment}
 import uk.gov.hmrc.auth.core

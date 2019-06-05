@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.tai.connectors
 
-import com.google.inject.Inject
-import uk.gov.hmrc.domain.Nino
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.tai.config.DefaultServicesConfig
 import uk.gov.hmrc.tai.model.domain.IncorrectIncome

@@ -17,7 +17,7 @@
 package uk.gov.hmrc.tai.connectors
 
 import akka.actor.ActorSystem
-import com.google.inject.Singleton
+import javax.inject.Singleton
 import play.api.Play
 import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.http._

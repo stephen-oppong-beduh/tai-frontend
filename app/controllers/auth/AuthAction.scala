@@ -16,7 +16,7 @@
 
 package controllers.auth
 
-import com.google.inject.{ImplementedBy, Inject, Singleton}
+import javax.inject.{ImplementedBy, Inject, Singleton}
 import controllers.routes
 import play.Logger
 import play.api.mvc.Results.Redirect
@@ -24,7 +24,7 @@ import play.api.mvc._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name, ~}
-import uk.gov.hmrc.domain.Nino
+import uk.gov.hmrc.auth.core.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
 

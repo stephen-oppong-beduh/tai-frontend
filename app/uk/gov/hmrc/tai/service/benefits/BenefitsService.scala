@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.tai.service.benefits
 
-import com.google.inject.Inject
-import uk.gov.hmrc.domain.Nino
+import javax.inject.Inject
+import uk.gov.hmrc.auth.core.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.tai.connectors.BenefitsConnector
 import uk.gov.hmrc.tai.model.domain.benefits.{Benefits, EndedCompanyBenefit}

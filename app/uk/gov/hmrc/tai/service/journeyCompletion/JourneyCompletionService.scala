@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.tai.service.journeyCompletion
 
-import com.google.inject.Inject
-import com.google.inject.name.Named
+import javax.inject.Inject
+import javax.inject.name.Named
 import play.api.Logger
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.tai.service.journeyCache.JourneyCacheService

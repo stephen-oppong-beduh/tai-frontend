@@ -22,7 +22,7 @@ import org.scalatestplus.play.OneServerPerSuite
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
-import uk.gov.hmrc.domain.Nino
+import uk.gov.hmrc.auth.core.Nino
 import uk.gov.hmrc.tai.model.domain.Person
 
 trait FakeTaiPlayApplication extends OneServerPerSuite with PatienceConfiguration with TestSuite {

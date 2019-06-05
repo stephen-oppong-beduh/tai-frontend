@@ -17,23 +17,27 @@
 package uk.gov.hmrc.tai.config
 
 import akka.actor.ActorSystem
-import play.api.Play
+import com.google.inject.Inject
+import play.api.{Configuration, Environment, Play}
+import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http.hooks.HttpHooks
 import uk.gov.hmrc.http.{HttpDelete, HttpGet, HttpPost, HttpPut}
 import uk.gov.hmrc.play.audit.http.HttpAuditing
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector => Auditing}
-import uk.gov.hmrc.play.frontend.auth.connectors.{AuthConnector, DelegationConnector}
-import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
+import uk.gov.hmrc.play.bootstrap.config.LoadAuditingConfig
+//import uk.gov.hmrc.play.frontend.auth.connectors.{AuthConnector, DelegationConnector}
+//import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
 import uk.gov.hmrc.play.http.ws._
 import uk.gov.hmrc.play.partials._
 
-object AuditConnector extends Auditing with DefaultAppName with DefaultRunMode {
-  override lazy val auditingConfig = LoadAuditingConfig(s"$env.auditing")
+@Singleton
+class AuditConnector @Inject()(configuration: Configuration, env: Environment) extends Auditing with DefaultAppName with DefaultRunMode {
+  override lazy val auditingConfig = LoadAuditingConfig(configuration, env.mode,s"$env.auditing")
 }
 
 trait Hooks extends HttpHooks with HttpAuditing {
   override val hooks = Seq(AuditingHook)
-  override lazy val auditConnector: Auditing = AuditConnector
+  override lazy val auditConnector: Auditing = new AuditConnector()
 }
 
 trait WSHttp extends HttpGet with WSGet
