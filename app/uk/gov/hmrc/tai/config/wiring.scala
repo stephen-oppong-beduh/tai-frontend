@@ -49,13 +49,12 @@ object WSHttp extends WSHttp{
   override lazy val actorSystem: ActorSystem = ActorSystem()
 }
 
-trait WSHttpProxy extends WSHttp with WSProxy with DefaultRunMode with HttpAuditing with DefaultServicesConfig
+trait WSHttpProxy extends WSHttp with WSProxy with DefaultRunMode with DefaultServicesConfig
 
 object WSHttpProxy extends WSHttpProxy {
   override lazy val configuration = Some(Play.current.configuration.underlying)
   override def appName = getString("appName")
   override lazy val wsProxyServer = WSProxyConfiguration(s"proxy")
-  override lazy val auditConnector = AuditConnector
   override lazy val actorSystem: ActorSystem = ActorSystem()
 }
 
