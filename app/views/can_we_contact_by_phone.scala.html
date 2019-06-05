@@ -24,7 +24,6 @@
 @import includes.forms.inputRadioGroupStyling
 
 @(      incomingAuthedUser: Option[controllers.auth.AuthedUser],
-        incomingUser: Option[controllers.auth.TaiUser],
         viewModel: CanWeContactByPhoneViewModel,
         yesNoForm: Form[YesNoTextEntryForm])(implicit request: Request[_],
         messages: Messages,
@@ -44,7 +43,6 @@
 @main(
     title = viewModel.mainHeading,
     authedUser = incomingAuthedUser,
-    user = incomingUser,
     pageHeader = Some(header),
     articleClasses = None,
     gaCustomTitle = None) {
