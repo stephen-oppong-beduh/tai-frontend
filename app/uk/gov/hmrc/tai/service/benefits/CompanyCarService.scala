@@ -19,7 +19,7 @@ package uk.gov.hmrc.tai.service.benefits
 import javax.inject.Inject
 import javax.inject.name.Named
 import org.joda.time.LocalDate
-import uk.gov.hmrc.auth.core.Nino
+import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.tai.connectors.CompanyCarConnector
 import uk.gov.hmrc.tai.connectors.responses.{TaiNoCompanyCarFoundResponse, TaiResponse, TaiSuccessResponse, TaiSuccessResponseWithPayload}

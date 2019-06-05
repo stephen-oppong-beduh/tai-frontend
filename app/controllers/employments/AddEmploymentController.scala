@@ -16,6 +16,7 @@
 
 package controllers.employments
 
+import com.google.inject.name.Named
 import javax.inject.Inject
 import javax.inject.name.Named
 import controllers.TaiBaseController
@@ -28,7 +29,7 @@ import play.api.data.validation.{Constraint, Invalid, Valid}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.auth.core.Nino
+import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -226,7 +227,7 @@ class AddEmploymentController @Inject()(auditService: AuditService,
               case _ => None
             }
             implicit val user = request.taiUser
-            Ok(views.html.can_we_contact_by_phone(Some(user),None,
+            Ok(views.html.can_we_contact_by_phone(Some(user),
               telephoneNumberViewModel,
               YesNoTextEntryForm.form().fill(YesNoTextEntryForm(optSeq.head, telNoToDisplay))
             ))
@@ -241,7 +242,7 @@ class AddEmploymentController @Inject()(auditService: AuditService,
           Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
           formWithErrors => {
               implicit val user = request.taiUser
-              Future.successful(BadRequest(views.html.can_we_contact_by_phone(Some(user), None, telephoneNumberViewModel, formWithErrors)))
+              Future.successful(BadRequest(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel, formWithErrors)))
           },
           form => {
             val mandatoryData = Map(AddEmployment_TelephoneQuestionKey -> Messages(s"tai.label.${form.yesNoChoice.getOrElse(NoValue).toLowerCase}"))

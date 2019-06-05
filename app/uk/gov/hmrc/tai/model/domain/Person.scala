@@ -17,7 +17,7 @@
 package uk.gov.hmrc.tai.model.domain
 
 import play.api.libs.json.{Format, Json}
-import uk.gov.hmrc.auth.core.Nino
+import uk.gov.hmrc.domain.Nino
 
 case class Person(nino: Nino,
                   firstName: String,

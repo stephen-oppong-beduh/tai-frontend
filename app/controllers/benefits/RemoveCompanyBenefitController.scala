@@ -25,7 +25,7 @@ import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
-
+import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -152,7 +152,7 @@ class RemoveCompanyBenefitController @Inject()(@Named("End Company Benefit") jou
           YesNoTextEntryForm(currentCache.get(EndCompanyBenefit_TelephoneQuestionKey), currentCache.get(EndCompanyBenefit_TelephoneNumberKey))
         )
 
-        Ok(views.html.can_we_contact_by_phone(Some(user), None, telephoneNumberViewModel, form))
+        Ok(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel, form))
       }
   }
 
@@ -169,7 +169,7 @@ class RemoveCompanyBenefitController @Inject()(@Named("End Company Benefit") jou
         formWithErrors => {
           journeyCacheService.currentCache map { currentCache =>
             val telephoneNumberViewModel = extractViewModelFromCache(currentCache)
-            BadRequest(views.html.can_we_contact_by_phone(Some(user), None, telephoneNumberViewModel, formWithErrors))
+            BadRequest(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel, formWithErrors))
           }
         },
         form => {

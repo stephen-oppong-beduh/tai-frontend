@@ -23,7 +23,7 @@ import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.auth.core.Nino
+import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -77,7 +77,7 @@ class TaxAccountSummaryController @Inject()(trackingService: TrackingService,
       taxCodeIncomes <- taxAccountService.taxCodeIncomes(nino, TaxYear())
       nonTaxCodeIncome <- taxAccountService.nonTaxCodeIncomes(nino, TaxYear())
       employments <- employmentService.employments(nino, TaxYear())
-      isAnyFormInProgress <- trackingService.isAnyIFormInProgress(nino.nino.getOrElse(""))
+      isAnyFormInProgress <- trackingService.isAnyIFormInProgress(nino.nino)
     } yield {
       (taxCodeIncomes, nonTaxCodeIncome) match {
         case (TaiSuccessResponseWithPayload(taxCodeIncomes: Seq[TaxCodeIncome]),
