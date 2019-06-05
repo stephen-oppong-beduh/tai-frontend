@@ -77,7 +77,7 @@ class TaxAccountSummaryController @Inject()(trackingService: TrackingService,
       taxCodeIncomes <- taxAccountService.taxCodeIncomes(nino, TaxYear())
       nonTaxCodeIncome <- taxAccountService.nonTaxCodeIncomes(nino, TaxYear())
       employments <- employmentService.employments(nino, TaxYear())
-      isAnyFormInProgress <- trackingService.isAnyIFormInProgress(nino.nino)
+      isAnyFormInProgress <- trackingService.isAnyIFormInProgress(nino.nino.getOrElse(""))
     } yield {
       (taxCodeIncomes, nonTaxCodeIncome) match {
         case (TaiSuccessResponseWithPayload(taxCodeIncomes: Seq[TaxCodeIncome]),

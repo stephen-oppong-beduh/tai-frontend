@@ -95,7 +95,7 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
 
     auditNumberOfTaxCodesReturned(nino)
 
-    trackingService.isAnyIFormInProgress(nino.nino) flatMap { trackingResponse: TimeToProcess =>
+    trackingService.isAnyIFormInProgress(nino.nino.getOrElse("")) flatMap { trackingResponse: TimeToProcess =>
 
       if (cyPlusOneEnabled) {
 

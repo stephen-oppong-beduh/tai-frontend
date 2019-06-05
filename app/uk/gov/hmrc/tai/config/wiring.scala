@@ -17,8 +17,7 @@
 package uk.gov.hmrc.tai.config
 
 import akka.actor.ActorSystem
-import com.google.inject.Inject
-import play.api.{Configuration, Environment, Play}
+import play.api.Play
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.http.hooks.HttpHooks
 import uk.gov.hmrc.http.{HttpDelete, HttpGet, HttpPost, HttpPut}
@@ -30,14 +29,13 @@ import uk.gov.hmrc.play.bootstrap.config.LoadAuditingConfig
 import uk.gov.hmrc.play.http.ws._
 import uk.gov.hmrc.play.partials._
 
-@Singleton
-class AuditConnector @Inject()(configuration: Configuration, env: Environment) extends Auditing with DefaultAppName with DefaultRunMode {
-  override lazy val auditingConfig = LoadAuditingConfig(configuration, env.mode,s"$env.auditing")
+object AuditConnector extends Auditing with DefaultAppName with DefaultRunMode {
+  override lazy val auditingConfig = LoadAuditingConfig(s"$env.auditing")
 }
 
 trait Hooks extends HttpHooks with HttpAuditing {
   override val hooks = Seq(AuditingHook)
-  override lazy val auditConnector: Auditing = new AuditConnector()
+  override lazy val auditConnector: Auditing = AuditConnector
 }
 
 trait WSHttp extends HttpGet with WSGet

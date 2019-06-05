@@ -16,9 +16,9 @@
 
 package controllers
 
-import javax.inject.Inject
 import controllers.actions.ValidatePerson
-import controllers.auth.{AuthAction, TaiUser}
+import controllers.auth.AuthAction
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{AnyContent, Request, Result}
@@ -28,7 +28,6 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.connectors.UserDetailsConnector
-import uk.gov.hmrc.tai.model.domain.Person
 import uk.gov.hmrc.tai.util.constants.TaiConstants
 
 import scala.concurrent.Future
