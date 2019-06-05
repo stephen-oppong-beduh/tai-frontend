@@ -16,11 +16,11 @@
 
 package controllers.benefits
 
-import javax.inject.Inject
-import javax.inject.name.Named
+import com.google.inject.name.Named
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
+import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
@@ -64,7 +64,7 @@ class CompanyBenefitController @Inject()(employmentService: EmploymentService,
 
       (for {
         currentCache <- journeyCacheService.currentCache
-        employment <- employmentService.employment(Nino(user.getNino), currentCache(EndCompanyBenefit_EmploymentIdKey).toInt)
+        employment <- employmentService.employment(Nino(true,Some(user.getNino)), currentCache(EndCompanyBenefit_EmploymentIdKey).toInt)
       } yield {
         employment match {
           case Some(employment) =>
