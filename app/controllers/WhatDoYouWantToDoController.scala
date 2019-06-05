@@ -17,7 +17,6 @@
 package controllers
 
 import controllers.actions.ValidatePerson
-import controllers.audit.Auditable
 import controllers.auth.{AuthAction, AuthedUser}
 import javax.inject.Inject
 import play.api.Logger
@@ -50,7 +49,6 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
                                             validatePerson: ValidatePerson,
                                             override implicit val partialRetriever: FormPartialRetriever,
                                             override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with Auditable
   with FeatureTogglesConfig {
 
   implicit val recoveryLocation: RecoveryLocation = classOf[WhatDoYouWantToDoController]

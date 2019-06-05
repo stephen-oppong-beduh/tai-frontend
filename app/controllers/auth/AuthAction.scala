@@ -17,6 +17,7 @@
 package controllers.auth
 
 import javax.inject.{Inject, Singleton}
+import com.google.inject.ImplementedBy
 import controllers.routes
 import play.Logger
 import play.api.mvc.Results.Redirect
@@ -37,7 +38,7 @@ case class AuthedUser(name: String, validNino: String, utr: String, userDetailsU
 
   def getNino = validNino
 
-  def nino: Nino = Nino(validNino)
+  def nino: Nino = Nino.apply(true,Some(validNino))
 
   def getUTR = utr
 }

@@ -21,7 +21,5 @@ import uk.gov.hmrc.tai.config.AuditConnector
 trait AuthenticationConnectors {
 
   lazy val auditConnector = AuditConnector
-  lazy val authConnector = FrontendAuthConnector
-  lazy val delegationConnector = FrontEndDelegationConnector
 
 }
