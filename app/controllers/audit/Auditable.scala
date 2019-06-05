@@ -16,32 +16,29 @@
 
 package controllers.audit
 
-import controllers.auth.{AuthedUser, TaiUser}
-import uk.gov.hmrc.play.audit.http.connector.AuditConnector
-import uk.gov.hmrc.play.audit.model.DataEvent
-
-import scala.concurrent.ExecutionContext.Implicits.global
+import controllers.auth.AuthedUser
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 
 trait Auditable {
 
   def auditConnector: AuditConnector
 
-  def sendActingAttorneyAuditEvent(auditType : String)(implicit hc: HeaderCarrier, user: TaiUser) = {
+  def sendActingAttorneyAuditEvent(auditType : String)(implicit hc: HeaderCarrier, user: AuthedUser) = {
 
-    if(user.authContext.isDelegating) {
-      val auditEvent = DataEvent(
-        auditSource = "tai-frontend",
-        auditType = auditType,
-        tags = hc.headers.toMap,
-        detail = Map(
-          "attorneyName" -> user.authContext.attorney.fold("")(_.name),
-          "nino" ->  user.getNino,
-          "utr" -> user.getUTR
-        )
-      )
-      val auditResponse = auditConnector.sendEvent(auditEvent)
-    }
+//    if(user.authContext.isDelegating) {
+//      val auditEvent = DataEvent(
+//        auditSource = "tai-frontend",
+//        auditType = auditType,
+//        tags = hc.headers.toMap,
+//        detail = Map(
+//          "attorneyName" -> user.authContext.attorney.fold("")(_.name),
+//          "nino" ->  user.getNino,
+//          "utr" -> user.getUTR
+//        )
+//      )
+//      val auditResponse = auditConnector.sendEvent(auditEvent)
+//    }
 
   }
 }

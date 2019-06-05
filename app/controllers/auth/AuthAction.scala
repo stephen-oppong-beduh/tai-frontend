@@ -16,7 +16,7 @@
 
 package controllers.auth
 
-import javax.inject.{ImplementedBy, Inject, Singleton}
+import javax.inject.{Inject, Singleton}
 import controllers.routes
 import play.Logger
 import play.api.mvc.Results.Redirect

@@ -16,7 +16,7 @@
 
 package controllers
 
-import uk.gov.hmrc.tai.config.{AuditConnector, FrontEndDelegationConnector, FrontendAuthConnector}
+import uk.gov.hmrc.tai.config.AuditConnector
 
 trait AuthenticationConnectors {
 
