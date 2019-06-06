@@ -26,7 +26,7 @@ import uk.gov.hmrc.tai.service.journeyCache._
 class TaiModule extends Module {
 
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = Seq(
-    bind[FormPartialRetriever].toInstance(TaiHtmlPartialRetriever),
+    bind[FormPartialRetriever].to(classOf[TaiHtmlPartialRetriever]),
     bind[TemplateRenderer].toInstance(LocalTemplateRenderer),
     bind[WSHttpProxy].toInstance(WSHttpProxy),
     bind[WSHttp].toInstance(WSHttp),
