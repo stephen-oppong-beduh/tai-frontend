@@ -17,7 +17,7 @@
 package controllers.pensions
 
 import javax.inject.Inject
-import javax.inject.name.Named
+import com.google.inject.name.Named
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction

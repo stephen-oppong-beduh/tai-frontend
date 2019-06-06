@@ -17,7 +17,7 @@
 package uk.gov.hmrc.tai.service
 
 import javax.inject.Inject
-import javax.inject.name.Named
+import com.google.inject.name.Named
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
