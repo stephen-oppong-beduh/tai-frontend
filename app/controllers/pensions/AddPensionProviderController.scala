@@ -244,7 +244,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
         Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
         formWithErrors => {
           val user = Some(request.taiUser)
-          Future.successful(BadRequest(views.html.can_we_contact_by_phone(user, None, contactPhonePensionProvider, formWithErrors)))
+          Future.successful(BadRequest(views.html.can_we_contact_by_phone(user, contactPhonePensionProvider, formWithErrors)))
         },
         form => {
           val mandatoryData = Map(AddPensionProvider_TelephoneQuestionKey -> Messages(s"tai.label.${form.yesNoChoice.getOrElse(NoValue).toLowerCase}"))
