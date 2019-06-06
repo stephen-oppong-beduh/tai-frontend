@@ -26,10 +26,14 @@ import play.api.{Configuration, Play}
 import play.twirl.api.Html
 import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler
 import uk.gov.hmrc.play.config.ControllerConfig
+import uk.gov.hmrc.play.partials.FormPartialRetriever
+import uk.gov.hmrc.tai.connectors.LocalTemplateRenderer
 import uk.gov.hmrc.urls.Link
 
-class MyErrorHandler @Inject()(
-                                val messagesApi: MessagesApi, val configuration: Configuration) extends FrontendErrorHandler {
+class TaiErrorHandler @Inject()(val messagesApi: MessagesApi, val configuration: Configuration) extends FrontendErrorHandler {
+
+  implicit val templateRenderer = LocalTemplateRenderer
+  implicit val partialRetriever = FormPartialRetriever
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]) = {
     views.html.error_template_noauth(pageTitle, heading, message)
