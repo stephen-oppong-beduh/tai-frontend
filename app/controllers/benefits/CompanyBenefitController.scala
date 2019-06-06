@@ -24,7 +24,7 @@ import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.auth.core.Nino
+import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.forms.benefits.UpdateOrRemoveCompanyBenefitDecisionForm
@@ -64,7 +64,7 @@ class CompanyBenefitController @Inject()(employmentService: EmploymentService,
 
       (for {
         currentCache <- journeyCacheService.currentCache
-        employment <- employmentService.employment(Nino(true,Some(user.getNino)), currentCache(EndCompanyBenefit_EmploymentIdKey).toInt)
+        employment <- employmentService.employment(Nino(user.getNino), currentCache(EndCompanyBenefit_EmploymentIdKey).toInt)
       } yield {
         employment match {
           case Some(employment) =>

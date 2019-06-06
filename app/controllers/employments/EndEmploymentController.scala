@@ -16,8 +16,8 @@
 
 package controllers.employments
 
+import com.google.inject.name.Named
 import javax.inject.Inject
-import javax.inject.name.Named
 import controllers._
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
@@ -27,7 +27,7 @@ import play.api.data.validation.{Constraint, Invalid, Valid}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Result}
-import uk.gov.hmrc.auth.core.Nino
+import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -251,7 +251,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
         employmentId <- journeyCacheService.mandatoryValueAsInt(EndEmployment_EmploymentIdKey)
         telephoneCache <- journeyCacheService.optionalValues(EndEmployment_TelephoneQuestionKey, EndEmployment_TelephoneNumberKey)
       } yield {
-        Ok(views.html.can_we_contact_by_phone(Some(user), None, telephoneNumberViewModel(employmentId),
+        Ok(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel(employmentId),
           YesNoTextEntryForm.form().fill(YesNoTextEntryForm(telephoneCache(0), telephoneCache(1)))))
       }
   }
@@ -266,7 +266,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
         Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
         formWithErrors => {
           journeyCacheService.mandatoryValueAsInt(EndEmployment_EmploymentIdKey) map { employmentId =>
-            BadRequest(views.html.can_we_contact_by_phone(Some(user), None, telephoneNumberViewModel(employmentId), formWithErrors))
+            BadRequest(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel(employmentId), formWithErrors))
           }
         },
         form => {
