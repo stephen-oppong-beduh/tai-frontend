@@ -38,7 +38,7 @@ case class AuthedUser(name: String, validNino: String, utr: String, userDetailsU
 
   def getNino = validNino
 
-  def nino: Nino = Nino(true,Some(validNino))
+  def nino: Nino = Nino(validNino)
 
   def getUTR = utr
 }
