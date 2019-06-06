@@ -18,10 +18,8 @@ package controllers.employments
 
 import com.google.inject.name.Named
 import javax.inject.Inject
-import javax.inject.name.Named
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
-import controllers.audit.Auditable
 import controllers.auth.AuthAction
 import org.joda.time.LocalDate
 import play.api.Play.current
