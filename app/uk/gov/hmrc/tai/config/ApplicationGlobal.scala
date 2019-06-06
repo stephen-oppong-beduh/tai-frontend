@@ -30,10 +30,10 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.tai.connectors.LocalTemplateRenderer
 import uk.gov.hmrc.urls.Link
 
-class TaiErrorHandler @Inject()(val messagesApi: MessagesApi, val configuration: Configuration) extends FrontendErrorHandler {
+class TaiErrorHandler @Inject()(taiHtmlPartialRetriever: TaiHtmlPartialRetriever, val messagesApi: MessagesApi, val configuration: Configuration) extends FrontendErrorHandler {
 
   implicit val templateRenderer = LocalTemplateRenderer
-  implicit val partialRetriever = FormPartialRetriever
+  implicit val partialRetriever = taiHtmlPartialRetriever
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]) = {
     views.html.error_template_noauth(pageTitle, heading, message)
