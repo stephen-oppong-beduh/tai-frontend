@@ -32,7 +32,7 @@ trait Metrics {
   def incrementFailedCounter(m: Metric): Unit
 }
 
-object Metrics extends Metrics with MicroserviceMetrics{
+object Metrics extends Metrics with MicroserviceMetrics {
 
   val registry: MetricRegistry = metrics.defaultRegistry
   val timers: Map[Metric, Timer] = Map(

@@ -16,8 +16,7 @@
 
 package controllers.pensions
 
-import javax.inject.Inject
-import javax.inject.name.Named
+import javax.inject.{Inject, Named}
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
