@@ -23,11 +23,11 @@ import org.scalatestplus.play.PlaySpec
 import play.api.libs.json.{JsArray, Json}
 import uk.gov.hmrc.domain.{Generator, Nino}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 import uk.gov.hmrc.tai.connectors.responses.{TaiSuccessResponseWithPayload, TaiTaxAccountFailureResponse}
 import uk.gov.hmrc.tai.model.TaxYear
 import uk.gov.hmrc.tai.model.domain.income.OtherBasisOfOperation
 import uk.gov.hmrc.tai.model.domain.{TaxCodeChange, TaxCodeRecord}
-
 import utils.WireMockHelper
 import utils.factories.TaxCodeMismatchFactory
 
@@ -278,7 +278,7 @@ class TaxCodeChangeConnectorSpec extends PlaySpec with MockitoSugar with FakeTai
 
   private def generateNino: Nino = new Generator(new Random).nextNino
 
-  val httpHandler: HttpHandler = new HttpHandler(WSHttp)
+  val httpHandler: HttpHandler = new HttpHandler(mock[DefaultHttpClient])
 
   private class TestTaxCodeChangeConnector extends TaxCodeChangeConnector(httpHandler) {
     override val serviceUrl: String = s"http://localhost:${server.port()}"
