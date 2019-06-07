@@ -17,20 +17,20 @@
 package controllers
 
 import uk.gov.hmrc.http.SessionKeys
-import uk.gov.hmrc.play.frontend.auth.AuthenticationProviderIds
-import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
+//import uk.gov.hmrc.play.frontend.auth.AuthenticationProviderIds
+import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
 
 class AuthProviderController extends FrontendController {
 
   def verifyEntryPoint =  UnauthorisedAction { implicit request =>
     Redirect(routes.TaxAccountSummaryController.onPageLoad().url).withNewSession.addingToSession(
-      SessionKeys.authProvider -> AuthenticationProviderIds.VerifyProviderId
+      SessionKeys.authProvider -> "AuthenticationProviderIds.VerifyProviderId"
     )
   }
 
   def governmentGatewayEntryPoint =  UnauthorisedAction { implicit request =>
     Redirect(routes.TaxAccountSummaryController.onPageLoad().url).withNewSession.addingToSession(
-      SessionKeys.authProvider -> AuthenticationProviderIds.GovernmentGatewayId
+      SessionKeys.authProvider -> "AuthenticationProviderIds.GovernmentGatewayId"
     )
   }
 }

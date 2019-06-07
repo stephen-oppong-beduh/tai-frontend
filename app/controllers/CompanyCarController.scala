@@ -16,9 +16,10 @@
 
 package controllers
 
+import com.google.inject.name.Named
+import javax.inject.Inject
 import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, AuthenticatedRequest}
-import javax.inject.{Inject, Named}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
@@ -40,11 +41,10 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
                                      sessionService: SessionService,
                                      authenticate: AuthAction,
                                      validatePerson: ValidatePerson,
-                                     applicationConfig: ApplicationConfig,
-                                     featureTogglesConfig: FeatureTogglesConfig,
                                      override implicit val partialRetriever: FormPartialRetriever,
                                      override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with JourneyCacheConstants {
+  with JourneyCacheConstants
+  with FeatureTogglesConfig {
 
   def redirectCompanyCarSelection(employmentId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -64,7 +64,7 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
           case TaiSuccessResponseWithPayload(x: Map[String, String]) =>
             Ok(views.html.benefits.updateCompanyCar(UpdateOrRemoveCarForm.createForm, CompanyCarChoiceViewModel(x)))
           case TaiNoCompanyCarFoundResponse(_) =>
-            Redirect(applicationConfig.companyCarServiceUrl)
+            Redirect(ApplicationConfig.companyCarServiceUrl)
         }
       }
   }
@@ -80,10 +80,10 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
         },
         formData => {
             formData.whatDoYouWantToDo match {
-              case Some("removeCar") if !featureTogglesConfig.companyCarForceRedirectEnabled =>
-                sessionService.invalidateCache() map (_ => Redirect(applicationConfig.companyCarDetailsUrl))
+              case Some("removeCar") if !companyCarForceRedirectEnabled =>
+                sessionService.invalidateCache() map (_ => Redirect(ApplicationConfig.companyCarDetailsUrl))
               case _ =>
-                sessionService.invalidateCache() map (_ => Redirect(applicationConfig.companyCarServiceUrl))
+                sessionService.invalidateCache() map (_ => Redirect(ApplicationConfig.companyCarServiceUrl))
             }
           }
       )

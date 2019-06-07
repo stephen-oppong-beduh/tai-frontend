@@ -16,9 +16,10 @@
 
 package controllers
 
+import com.google.inject.name.Named
+import javax.inject.Inject
 import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, AuthedUser}
-import javax.inject.{Inject, Named}
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.data.Form
@@ -40,7 +41,6 @@ import uk.gov.hmrc.tai.util._
 import uk.gov.hmrc.tai.util.constants._
 import uk.gov.hmrc.tai.viewModels.{GoogleAnalyticsSettings, SameEstimatedPayViewModel}
 
-
 import scala.Function.tupled
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -55,7 +55,8 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
                                  override implicit val partialRetriever: FormPartialRetriever,
                                  override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
   with JourneyCacheConstants
-  with FormValuesConstants {
+  with FormValuesConstants
+  with FeatureTogglesConfig {
 
   def cancel(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

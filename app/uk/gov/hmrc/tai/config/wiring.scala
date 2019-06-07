@@ -17,13 +17,18 @@
 package uk.gov.hmrc.tai.config
 
 import akka.actor.ActorSystem
+import javax.inject.Inject
 import play.api.Play
+import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.http.hooks.HttpHooks
 import uk.gov.hmrc.http.{HttpDelete, HttpGet, HttpPost, HttpPut}
 import uk.gov.hmrc.play.audit.http.HttpAuditing
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector => Auditing}
-import uk.gov.hmrc.play.frontend.auth.connectors.{AuthConnector, DelegationConnector}
-import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
+import uk.gov.hmrc.play.bootstrap.config.LoadAuditingConfig
+import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
+//import uk.gov.hmrc.play.frontend.auth.connectors.{AuthConnector, DelegationConnector}
+//import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
 import uk.gov.hmrc.play.http.ws._
 import uk.gov.hmrc.play.partials._
 
@@ -47,27 +52,16 @@ object WSHttp extends WSHttp{
   override lazy val actorSystem: ActorSystem = ActorSystem()
 }
 
-trait WSHttpProxy extends WSHttp with WSProxy with DefaultRunMode with HttpAuditing with DefaultServicesConfig
+trait WSHttpProxy extends WSHttp with WSProxy with DefaultRunMode with DefaultServicesConfig
 
 object WSHttpProxy extends WSHttpProxy {
   override lazy val configuration = Some(Play.current.configuration.underlying)
   override def appName = getString("appName")
   override lazy val wsProxyServer = WSProxyConfiguration(s"proxy")
-  override lazy val auditConnector = AuditConnector
   override lazy val actorSystem: ActorSystem = ActorSystem()
 }
 
-object TaiHtmlPartialRetriever extends FormPartialRetriever {
+class TaiHtmlPartialRetriever @Inject()(sessionCookieCrypto: SessionCookieCrypto) extends FormPartialRetriever {
   override val httpGet = WSHttp
-  override def crypto: String => String = ApplicationGlobal.sessionCookieCryptoFilter.encrypt
-}
-
-object FrontendAuthConnector extends AuthConnector with DefaultServicesConfig {
-  lazy val serviceUrl = baseUrl("auth")
-  lazy val http = WSHttp
-}
-
-object FrontEndDelegationConnector extends DelegationConnector with DefaultServicesConfig {
-  override protected def serviceUrl: String = baseUrl("delegation")
-  override protected def http: WSHttp = WSHttp
+  override def crypto: String => String = cookie => sessionCookieCrypto.crypto.encrypt(PlainText(cookie)).value
 }

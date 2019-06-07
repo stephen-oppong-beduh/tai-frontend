@@ -16,10 +16,9 @@
 
 package controllers
 
-import javax.inject.Inject
 import controllers.actions.ValidatePerson
-import controllers.audit.Auditable
 import controllers.auth.{AuthAction, AuthedUser}
+import javax.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -48,10 +47,9 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
                                             auditService: AuditService,
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,
-                                            featureTogglesConfig: FeatureTogglesConfig,
                                             override implicit val partialRetriever: FormPartialRetriever,
                                             override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with Auditable {
+  with FeatureTogglesConfig {
 
   implicit val recoveryLocation: RecoveryLocation = classOf[WhatDoYouWantToDoController]
 
@@ -97,7 +95,7 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
 
     trackingService.isAnyIFormInProgress(nino.nino) flatMap { trackingResponse: TimeToProcess =>
 
-      if (featureTogglesConfig.cyPlusOneEnabled) {
+      if (cyPlusOneEnabled) {
 
         val hasTaxCodeChanged = taxCodeChangeService.hasTaxCodeChanged(nino)
         val cy1TaxAccountSummary = taxAccountService.taxAccountSummary(nino, TaxYear().next)
@@ -109,7 +107,7 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
           taxAccountSummary match {
             case TaiSuccessResponseWithPayload(_) => {
               val model = WhatDoYouWantToDoViewModel(
-                trackingResponse, featureTogglesConfig.cyPlusOneEnabled, taxCodeChanged.changed, taxCodeChanged.mismatch)
+                trackingResponse, cyPlusOneEnabled, taxCodeChanged.changed, taxCodeChanged.mismatch)
 
               Logger.debug(s"wdywtdViewModelCYEnabledAndGood $model")
 
@@ -128,7 +126,7 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
       }
       else {
         taxCodeChangeService.hasTaxCodeChanged(nino).map(hasTaxCodeChanged => {
-          val model = WhatDoYouWantToDoViewModel(trackingResponse, featureTogglesConfig.cyPlusOneEnabled, hasTaxCodeChanged.changed, hasTaxCodeChanged.mismatch)
+          val model = WhatDoYouWantToDoViewModel(trackingResponse, cyPlusOneEnabled, hasTaxCodeChanged.changed, hasTaxCodeChanged.mismatch)
 
           Logger.debug(s"wdywtdViewModelCYDisabled $model")
 

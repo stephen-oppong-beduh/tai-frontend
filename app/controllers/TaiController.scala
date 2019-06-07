@@ -16,11 +16,10 @@
 
 package controllers.tai
 
-import controllers.{AssetsBuilder, AssetsMetadata}
+import controllers.AssetsBuilder
 import javax.inject.{Inject, Singleton}
 import play.api.http.HttpErrorHandler
 
 @Singleton
-class TaiController @Inject() (errorHandler: HttpErrorHandler,
-                               meta: AssetsMetadata) extends AssetsBuilder(errorHandler, meta)
+class TaiController @Inject() (errorHandler: HttpErrorHandler) extends AssetsBuilder(errorHandler)
 

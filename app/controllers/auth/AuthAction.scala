@@ -16,7 +16,8 @@
 
 package controllers.auth
 
-import com.google.inject.{ImplementedBy, Inject, Singleton}
+import javax.inject.{Inject, Singleton}
+import com.google.inject.ImplementedBy
 import controllers.routes
 import play.Logger
 import play.api.mvc.Results.Redirect
