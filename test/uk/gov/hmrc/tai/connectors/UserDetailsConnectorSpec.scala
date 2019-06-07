@@ -23,7 +23,6 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import uk.gov.hmrc.http.{CoreGet, HeaderCarrier}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.tai.model.UserDetails
 
 import scala.concurrent.duration._

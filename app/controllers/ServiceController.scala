@@ -33,8 +33,7 @@ import uk.gov.hmrc.tai.util.constants.TaiConstants
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-class ServiceController @Inject()(userDetailsConnector: UserDetailsConnector,
-                                  authenticate: AuthAction,
+class ServiceController @Inject()(authenticate: AuthAction,
                                   validatePerson: ValidatePerson,
                                   override implicit val partialRetriever: FormPartialRetriever,
                                   override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
@@ -45,17 +44,12 @@ class ServiceController @Inject()(userDetailsConnector: UserDetailsConnector,
 
   def serviceSignout = (authenticate andThen validatePerson).async {
     implicit request =>
-      val userDetails: String = request.taiUser.userDetailsUri
 
-      userDetailsConnector.userDetails(userDetails).map { x =>
-        if (x.hasVerifyAuthProvider) {
-          Redirect(ApplicationConfig.citizenAuthFrontendSignOutUrl).
-            withSession(TaiConstants.SessionPostLogoutPage -> ApplicationConfig.feedbackSurveyUrl)
-        } else {
-          Redirect(ApplicationConfig.companyAuthFrontendSignOutUrl)
-        }
-      } recover {
-        case NonFatal(e) => internalServerError("", Some(e))
+      if (request.taiUser.providerType == TaiConstants.AuthProviderVerify) {
+        Future.successful(Redirect(ApplicationConfig.citizenAuthFrontendSignOutUrl).
+          withSession(TaiConstants.SessionPostLogoutPage -> ApplicationConfig.feedbackSurveyUrl))
+      } else {
+        Future.successful(Redirect(ApplicationConfig.companyAuthFrontendSignOutUrl))
       }
   }
 
