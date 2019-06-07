@@ -16,7 +16,7 @@
 
 package controllers.pensions
 
-import builders.{AuthBuilder, RequestBuilder}
+import builders.{RequestBuilder}
 import controllers.actions.FakeValidatePerson
 import controllers.{FakeAuthAction, FakeTaiPlayApplication}
 import mocks.MockTemplateRenderer
