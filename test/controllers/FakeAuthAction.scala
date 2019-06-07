@@ -25,9 +25,17 @@ import scala.concurrent.Future
 import scala.util.Random
 
 object FakeAuthAction extends AuthAction {
-
   val nino = new Generator(new Random).nextNino
   val user = AuthedUser("person name", nino.toString(), "userDetailsUri", TaiConstants.AuthProviderGG, "200")
+
+  override def invokeBlock[A](request: Request[A], block: (AuthenticatedRequest[A]) => Future[Result]): Future[Result] =
+    block(AuthenticatedRequest(request, user))
+}
+
+object FakeAuthActionVerify extends AuthAction {
+
+  val nino = new Generator(new Random).nextNino
+  val user = AuthedUser("person name", nino.toString(), "userDetailsUri", TaiConstants.AuthProviderVerify, "200")
 
   override def invokeBlock[A](request: Request[A], block: (AuthenticatedRequest[A]) => Future[Result]): Future[Result] =
     block(AuthenticatedRequest(request, user))
