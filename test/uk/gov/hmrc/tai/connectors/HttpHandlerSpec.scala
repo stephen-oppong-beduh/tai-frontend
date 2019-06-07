@@ -25,7 +25,6 @@ import org.scalatestplus.play.PlaySpec
 import play.api.http.Status._
 import play.api.libs.json.{Format, JsString, Json}
 import uk.gov.hmrc.http._
-import uk.gov.hmrc.tai.config.WSHttp
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}

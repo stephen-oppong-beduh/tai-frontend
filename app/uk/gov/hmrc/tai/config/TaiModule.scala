@@ -28,8 +28,6 @@ class TaiModule extends Module {
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = Seq(
     bind[FormPartialRetriever].to(classOf[TaiHtmlPartialRetriever]),
     bind[TemplateRenderer].toInstance(LocalTemplateRenderer),
-    bind[WSHttpProxy].toInstance(WSHttpProxy),
-    bind[WSHttp].toInstance(WSHttp),
     // Journey Cache Services
     bind[JourneyCacheService].qualifiedWith("Add Employment").to(classOf[AddEmploymentJourneyCacheService]),
     bind[JourneyCacheService].qualifiedWith("Add Pension Provider").to(classOf[AddPensionProviderJourneyCacheService]),

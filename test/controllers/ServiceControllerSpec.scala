@@ -36,7 +36,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.auth.connectors.{AuthConnector, DelegationConnector}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.play.test.UnitSpec
-import uk.gov.hmrc.tai.config.{ApplicationConfig, WSHttp}
+import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.connectors._
 import uk.gov.hmrc.tai.model.UserDetails
 import uk.gov.hmrc.tai.service.PersonService

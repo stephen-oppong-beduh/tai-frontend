@@ -27,6 +27,7 @@ import uk.gov.hmrc.play.audit.http.HttpAuditing
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector => Auditing}
 import uk.gov.hmrc.play.bootstrap.config.LoadAuditingConfig
 import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 //import uk.gov.hmrc.play.frontend.auth.connectors.{AuthConnector, DelegationConnector}
 //import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
 import uk.gov.hmrc.play.http.ws._
@@ -61,7 +62,7 @@ object WSHttpProxy extends WSHttpProxy {
   override lazy val actorSystem: ActorSystem = ActorSystem()
 }
 
-class TaiHtmlPartialRetriever @Inject()(sessionCookieCrypto: SessionCookieCrypto) extends FormPartialRetriever {
-  override val httpGet = WSHttp
+class TaiHtmlPartialRetriever @Inject()(sessionCookieCrypto: SessionCookieCrypto, http: DefaultHttpClient) extends FormPartialRetriever {
+  override val httpGet = http
   override def crypto: String => String = cookie => sessionCookieCrypto.crypto.encrypt(PlainText(cookie)).value
 }
