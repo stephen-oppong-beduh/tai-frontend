@@ -25,7 +25,6 @@ import uk.gov.hmrc.tai.config.DefaultServicesConfig
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
-@Singleton
 class LocalTemplateRenderer @Inject()(http: DefaultHttpClient) extends TemplateRenderer with DefaultServicesConfig {
 
   override lazy val templateServiceBaseUrl = baseUrl("frontend-template-provider")
