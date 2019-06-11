@@ -48,6 +48,7 @@ import scala.util.control.NonFatal
 
 class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountService,
                                                 pensionProviderService: PensionProviderService,
+                                                applicationConfig: ApplicationConfig,
                                                 auditService: AuditService,
                                                 authenticate: AuthAction,
                                                 validatePerson: ValidatePerson,
@@ -106,7 +107,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
               journeyCacheService.cache(UpdatePensionProvider_ReceivePensionQuestionKey, Messages("tai.label.yes")).map { _ =>
                 Redirect(controllers.pensions.routes.UpdatePensionProviderController.whatDoYouWantToTellUs())
               }
-            case _ => Future.successful(Redirect(ApplicationConfig.incomeFromEmploymentPensionLinkUrl))
+            case _ => Future.successful(Redirect(applicationConfig.incomeFromEmploymentPensionLinkUrl))
           }
         )
       }

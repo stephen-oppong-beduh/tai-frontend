@@ -21,6 +21,8 @@ import play.api.libs.json.Json
 import uk.gov.hmrc.tai.model.domain.{Employment, EmploymentIncome, PensionIncome}
 import uk.gov.hmrc.tai.model.domain.income.{Live, TaxCodeIncome}
 import play.api.i18n.Messages
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
 case class EmploymentAmount(name: String, description: String,
                             employmentId: Int,

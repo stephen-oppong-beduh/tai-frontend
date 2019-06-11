@@ -29,12 +29,12 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.config.FeatureTogglesConfig
 
-class TaiLanguageController @Inject()(authenticate: AuthAction,
+class TaiLanguageController @Inject()(featureTogglesConfig: FeatureTogglesConfig,
+                                      authenticate: AuthAction,
                                       validatePerson: ValidatePerson,
                                       override implicit val partialRetriever: FormPartialRetriever,
                                       override implicit val templateRenderer: TemplateRenderer) extends LanguageController
-  with TaiBaseController
-  with FeatureTogglesConfig {
+  with TaiBaseController {
 
   override protected def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),
@@ -43,7 +43,7 @@ class TaiLanguageController @Inject()(authenticate: AuthAction,
 
   override protected def fallbackURL: String = controllers.routes.WhatDoYouWantToDoController.whatDoYouWantToDoPage.url
 
-  protected def isWelshEnabled = welshLanguageEnabled
+  protected def isWelshEnabled = featureTogglesConfig.welshLanguageEnabled
 
   override def switchToLanguage(language: String): Action[AnyContent] = (authenticate andThen validatePerson) {
     implicit request =>

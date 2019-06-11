@@ -56,14 +56,14 @@ class IncomeUpdateCalculatorController @Inject()(incomeService: IncomeService,
                                                  estimatedPayJourneyCompletionService: EstimatedPayJourneyCompletionService,
                                                  authenticate: AuthAction,
                                                  validatePerson: ValidatePerson,
+                                                 featureTogglesConfig: FeatureTogglesConfig,
                                                  @Named("Update Income") implicit val journeyCacheService: JourneyCacheService,
                                                  override implicit val partialRetriever: FormPartialRetriever,
                                                  override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
   with JourneyCacheConstants
   with EditIncomeIrregularPayConstants
   with UpdatedEstimatedPayJourneyCache
-  with FormValuesConstants
-  with FeatureTogglesConfig {
+  with FormValuesConstants {
 
   def onPageLoad(id: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

@@ -75,7 +75,7 @@
                 <p class="icon icon-plus display-block">
                     @Link.toInternalPage(
                     id=Some("addMissingAddition"),
-                    url=ApplicationConfig.taxFreeAllowanceLinkUrl,
+                    url=viewModel.links.taxFreeAllowanceLinkUrl,
                     value=Some(Messages("tai.taxFreeAmount.missing.section.addition")),
                     cssClasses=Some(""),
                     dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("tai.taxFreeAmount.missing.section.addition")}"))).toHtml
@@ -84,7 +84,7 @@
                 <p class="icon icon-plus display-block">
                     @Link.toInternalPage(
                     id=Some("addMissingDeduction"),
-                    url=ApplicationConfig.companyBenefitsLinkUrl,
+                    url=viewModel.links.companyBenefitsLinkUrl,
                     value=Some(Messages("add.missing.company.benefit")),
                     cssClasses=Some(""),
                     dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("add.missing.company.benefit")}"))).toHtml
@@ -93,7 +93,7 @@
                 <p class="icon icon-plus display-block">
                     @Link.toInternalPage(
                     id=Some("addMissingIncome"),
-                    url=ApplicationConfig.otherIncomeLinkUrl,
+                    url=viewModel.links.otherIncomeLinkUrl,
                     value=Some(Messages("tai.taxFreeAmount.missing.section.income")),
                     cssClasses=Some(""),
                     dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("tai.taxFreeAmount.missing.section.income")}"))).toHtml

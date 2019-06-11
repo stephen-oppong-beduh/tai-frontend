@@ -18,6 +18,8 @@ package uk.gov.hmrc.tai.connectors
 
 import javax.inject.Inject
 import play.api.libs.json.Reads
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 import uk.gov.hmrc.tai.config.{DefaultServicesConfig}

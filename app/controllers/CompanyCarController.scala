@@ -16,8 +16,7 @@
 
 package controllers
 
-import com.google.inject.name.Named
-import javax.inject.Inject
+import javax.inject.{Inject, Named}
 import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, AuthenticatedRequest}
 import play.api.Play.current
@@ -39,13 +38,12 @@ import scala.concurrent.Future
 class CompanyCarController @Inject()(companyCarService: CompanyCarService,
                                      @Named("Company Car") journeyCacheService: JourneyCacheService,
                                      sessionService: SessionService,
+                                     featureTogglesConfig: FeatureTogglesConfig,
                                      authenticate: AuthAction,
                                      validatePerson: ValidatePerson,
                                      override implicit val partialRetriever: FormPartialRetriever,
                                      override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with JourneyCacheConstants
-  with FeatureTogglesConfig {
-
+  with JourneyCacheConstants {
   def redirectCompanyCarSelection(employmentId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       journeyCacheService.cache(CompanyCar_EmployerIdKey, employmentId.toString) map {
@@ -80,7 +78,7 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
         },
         formData => {
             formData.whatDoYouWantToDo match {
-              case Some("removeCar") if !companyCarForceRedirectEnabled =>
+              case Some("removeCar") if !featureTogglesConfig.companyCarForceRedirectEnabled =>
                 sessionService.invalidateCache() map (_ => Redirect(ApplicationConfig.companyCarDetailsUrl))
               case _ =>
                 sessionService.invalidateCache() map (_ => Redirect(ApplicationConfig.companyCarServiceUrl))

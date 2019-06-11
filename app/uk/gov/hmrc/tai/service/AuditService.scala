@@ -34,7 +34,8 @@ import scala.concurrent.Future
 
 @Singleton
 class AuditService @Inject()(val auditConnector: AuditConnector,
-                             personService: PersonService) extends DefaultAppName {
+                             personService: PersonService,
+                             applicationConfig: ApplicationConfig) extends DefaultAppName {
 
   val userEnterEvent = "userEntersService"
   val employmentPensionEvent = "startedEmploymentPensionJourney"
@@ -102,14 +103,14 @@ class AuditService @Inject()(val auditConnector: AuditConnector,
     }
 
     val (redirectUri, auditEventName) = iformName match {
-      case EmployeePensionIForm => (ApplicationConfig.incomeFromEmploymentPensionLinkUrl, employmentPensionEvent)
-      case CompanyBenefitsIform => (ApplicationConfig.companyBenefitsLinkUrl, companyBenefitsEvent)
-      case CompanyCarsIform => (ApplicationConfig.companyCarServiceUrl, companyCarEvent)
-      case MedicalBenefitsIform => (ApplicationConfig.medBenefitServiceUrl, medicalBenefitsEvent)
-      case OtherIncomeIform => (ApplicationConfig.otherIncomeLinkUrl, otherIncomeEvent)
-      case InvestIncomeIform => (ApplicationConfig.investmentIncomeLinkUrl, investIncomeEvent)
-      case StateBenefitsIform => (ApplicationConfig.taxableStateBenefitLinkUrl, stateBenefitEvent)
-      case MarriageAllowanceService => (ApplicationConfig.marriageServiceHistoryUrl, marriageAllowanceEvent)
+      case EmployeePensionIForm => (applicationConfig.incomeFromEmploymentPensionLinkUrl, employmentPensionEvent)
+      case CompanyBenefitsIform => (applicationConfig.companyBenefitsLinkUrl, companyBenefitsEvent)
+      case CompanyCarsIform => (applicationConfig.companyCarServiceUrl, companyCarEvent)
+      case MedicalBenefitsIform => (applicationConfig.medBenefitServiceUrl, medicalBenefitsEvent)
+      case OtherIncomeIform => (applicationConfig.otherIncomeLinkUrl, otherIncomeEvent)
+      case InvestIncomeIform => (applicationConfig.investmentIncomeLinkUrl, investIncomeEvent)
+      case StateBenefitsIform => (applicationConfig.taxableStateBenefitLinkUrl, stateBenefitEvent)
+      case MarriageAllowanceService => (applicationConfig.marriageServiceHistoryUrl, marriageAllowanceEvent)
     }
     sendIformRedirectUriAuditEvent(nino, fetchPath(request), auditEventName)
     Future.successful(redirectUri)

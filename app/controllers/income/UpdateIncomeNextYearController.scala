@@ -42,12 +42,12 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 class UpdateIncomeNextYearController @Inject()(updateNextYearsIncomeService: UpdateNextYearsIncomeService,
+                                               featureTogglesConfig: FeatureTogglesConfig,
                                                val auditConnector: AuditConnector,
                                                authenticate: AuthAction,
                                                validatePerson: ValidatePerson,
                                                override implicit val partialRetriever: FormPartialRetriever,
                                                override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with FeatureTogglesConfig
   with FormValuesConstants {
 
   def onPageLoad(employmentId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
@@ -187,7 +187,7 @@ class UpdateIncomeNextYearController @Inject()(updateNextYearsIncomeService: Upd
       implicit val user = request.taiUser
       val nino = user.nino
 
-      if (cyPlusOneEnabled) {
+      if (featureTogglesConfig.cyPlusOneEnabled) {
         (updateNextYearsIncomeService.submit(employmentId, user.nino) map {
           case TaiSuccessResponse => Redirect(routes.UpdateIncomeNextYearController.success(employmentId))
           case _ => throw new RuntimeException(s"Not able to update estimated pay for $employmentId")
@@ -237,7 +237,7 @@ class UpdateIncomeNextYearController @Inject()(updateNextYearsIncomeService: Upd
   }
 
   private def preAction(action: => Future[Result])(implicit request: Request[AnyContent]): Future[Result] = {
-    if (cyPlusOneEnabled) {
+    if (featureTogglesConfig.cyPlusOneEnabled) {
       action
     } else {
       Future.successful(NotFound(error4xxPageWithLink(Messages("global.error.pageNotFound404.title"))))

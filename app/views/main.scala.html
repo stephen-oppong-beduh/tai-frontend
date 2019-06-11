@@ -39,7 +39,8 @@
   optimizelyAudience: Option[String] = None,
   pageHeader: Option[Html] = None,
   script: Option[Html] = None,
-  includeWebchatScript: Boolean = true
+  includeWebchatScript: Boolean = true,
+  applicationConfig: Option[ApplicationConfig] = None
 )(mainContent: Html
 )(implicit request: Request[_],
   messages: Messages,
@@ -92,7 +93,7 @@
     }
 }
 
-@helpForm = @{partialRetriever.getPartialContent(ApplicationConfig.reportAProblemPartialUrl)}
+@helpForm = @{applicationConfig.map(x => partialRetriever.getPartialContent(x.reportAProblemPartialUrl)) }
 
 
 @googleAnalytics = @{
@@ -102,8 +103,8 @@
     }
 
     Map[String, Any](
-        "trackingId" -> ApplicationConfig.analyticsToken,
-        "cookieDomain" -> ApplicationConfig.analyticsHost,
+        "trackingId" -> applicationConfig.map(_.analyticsToken),
+        "cookieDomain" -> applicationConfig.map(_.analyticsHost),
         "confidenceLevel" -> confidenceLevel,
         "authProvider" -> authProvider
 

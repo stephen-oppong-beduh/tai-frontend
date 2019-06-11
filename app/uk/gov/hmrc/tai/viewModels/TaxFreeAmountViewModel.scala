@@ -18,18 +18,25 @@ package uk.gov.hmrc.tai.viewModels
 
 import play.api.i18n.Messages
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
+import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.model.TaxFreeAmountDetails
 import uk.gov.hmrc.tai.model.domain.calculation.CodingComponent
 import uk.gov.hmrc.tai.util.{TaxAccountCalculator, TaxAccountCalculatorImpl, ViewModelHelper}
 
+case class TaxFreeAmountLinks(otherIncomeLinkUrl: String,
+                              companyBenefitsLinkUrl: String,
+                              taxFreeAllowanceLinkUrl: String)
+
+
 case class TaxFreeAmountViewModel(header: String,
-                                     title: String,
-                                     annualTaxFreeAmount: String,
-                                     taxFreeAmountSummary: TaxFreeAmountSummaryViewModel)
+                                  title: String,
+                                  annualTaxFreeAmount: String,
+                                  taxFreeAmountSummary: TaxFreeAmountSummaryViewModel,
+                                  links: TaxFreeAmountLinks)
 
 object TaxFreeAmountViewModel extends ViewModelHelper {
 
-  def apply(codingComponents: Seq[CodingComponent],taxFreeAmountDetails: TaxFreeAmountDetails)
+  def apply(applicationConfig: ApplicationConfig, codingComponents: Seq[CodingComponent], taxFreeAmountDetails: TaxFreeAmountDetails)
            (implicit messages: Messages): TaxFreeAmountViewModel = {
 
     val taxFreeAmountMsg = Messages("tai.taxFreeAmount.heading.pt1")
@@ -41,12 +48,14 @@ object TaxFreeAmountViewModel extends ViewModelHelper {
 
     val taxFreeAmountTotal: BigDecimal = taxAccountCalculator.taxFreeAmount(codingComponents)
 
-    val taxFreeAmountSummary  = TaxFreeAmountSummaryViewModel(
+    val taxFreeAmountSummary = TaxFreeAmountSummaryViewModel(
       codingComponents,
       taxFreeAmountDetails,
       taxFreeAmountTotal)
 
-    TaxFreeAmountViewModel(headerWithAdditionalMarkup, title, withPoundPrefixAndSign(MoneyPounds(taxFreeAmountTotal, 0)), taxFreeAmountSummary)
+    val taxFreeAmountLinks = TaxFreeAmountLinks(applicationConfig.otherIncomeLinkUrl, applicationConfig.companyBenefitsLinkUrl, applicationConfig.taxFreeAllowanceLinkUrl)
+
+    TaxFreeAmountViewModel(headerWithAdditionalMarkup, title, withPoundPrefixAndSign(MoneyPounds(taxFreeAmountTotal, 0)), taxFreeAmountSummary, taxFreeAmountLinks)
   }
 
 }

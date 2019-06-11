@@ -92,7 +92,7 @@ object TaxFreeAmountSummaryViewModel extends ViewModelHelper {
   private def additionRows(codingComponents: Seq[CodingComponent], taxFreeAmountDetails: TaxFreeAmountDetails)(implicit messages: Messages): Seq[TaxFreeAmountSummaryRowViewModel] = {
 
     val additionComponents: Seq[CodingComponent] = codingComponents.collect {
-      case cc @ CodingComponent(_: AllowanceComponentType, _, _, _, _) if !isPersonalAllowanceComponent(cc) => cc
+      case cc@CodingComponent(_: AllowanceComponentType, _, _, _, _) if !isPersonalAllowanceComponent(cc) => cc
     }
     if (additionComponents.isEmpty) {
       Seq(TaxFreeAmountSummaryRowViewModel(
@@ -124,10 +124,12 @@ object TaxFreeAmountSummaryViewModel extends ViewModelHelper {
 
   private def deductionRows(codingComponents: Seq[CodingComponent], taxFreeAmountDetails: TaxFreeAmountDetails
                            )(implicit messages: Messages): Seq[TaxFreeAmountSummaryRowViewModel] = {
-    val deductionComponents: Seq[CodingComponent] = codingComponents.filter({_.componentType match{
-      case _: AllowanceComponentType => false
-      case _ => true
-    }})
+    val deductionComponents: Seq[CodingComponent] = codingComponents.filter({
+      _.componentType match {
+        case _: AllowanceComponentType => false
+        case _ => true
+      }
+    })
     if (deductionComponents.isEmpty) {
       Seq(TaxFreeAmountSummaryRowViewModel(
         Messages("tai.taxFreeAmount.table.deductions.noDeduction"),
@@ -179,16 +181,17 @@ object TaxFreeAmountSummaryRowViewModel extends ViewModelHelper {
   def apply(label: String, value: String, link: ChangeLinkViewModel): TaxFreeAmountSummaryRowViewModel =
     new TaxFreeAmountSummaryRowViewModel(TaxSummaryLabel(label), value, link)
 
-  def apply(codingComponent: CodingComponent,
+  def apply(applicationConfig: ApplicationConfig,
+            codingComponent: CodingComponent,
             taxFreeAmountDetails: TaxFreeAmountDetails)(implicit messages: Messages): TaxFreeAmountSummaryRowViewModel = {
     val label: TaxSummaryLabel = TaxSummaryLabel(codingComponent.componentType, codingComponent.employmentId, taxFreeAmountDetails, codingComponent.amount)
     val value = withPoundPrefix(MoneyPounds(codingComponent.amount, 0))
-    val link = createChangeLink(codingComponent)
+    val link = createChangeLink(applicationConfig, codingComponent)
 
     TaxFreeAmountSummaryRowViewModel(label, value, link)
   }
 
-  private def createChangeLink(codingComponent: CodingComponent)(implicit messages: Messages): ChangeLinkViewModel = {
+  private def createChangeLink(applicationConfig: ApplicationConfig, codingComponent: CodingComponent)(implicit messages: Messages): ChangeLinkViewModel = {
     codingComponent.componentType match {
       case MedicalInsurance =>
         val url = routes.ExternalServiceRedirectController.auditInvalidateCacheAndRedirectService(TaiConstants.MedicalBenefitsIform).url
@@ -200,16 +203,16 @@ object TaxFreeAmountSummaryRowViewModel extends ViewModelHelper {
         val url = routes.ExternalServiceRedirectController.auditInvalidateCacheAndRedirectService(TaiConstants.MarriageAllowanceService).url
         ChangeLinkViewModel(isDisplayed = true, Messages("tai.taxFreeAmount.table.taxComponent.MarriageAllowanceTransferred"), url)
       case CarBenefit =>
-        val url = s"${ApplicationConfig.updateCompanyCarDetailsUrl}/${codingComponent.employmentId.getOrElse(0)}"
+        val url = s"${applicationConfig.updateCompanyCarDetailsUrl}/${codingComponent.employmentId.getOrElse(0)}"
         ChangeLinkViewModel(isDisplayed = true, Messages("tai.taxFreeAmount.table.taxComponent.CarBenefit"), url)
       case CarFuelBenefit =>
-        val url = s"${ApplicationConfig.updateCompanyCarDetailsUrl}/${codingComponent.employmentId.getOrElse(0)}"
+        val url = s"${applicationConfig.updateCompanyCarDetailsUrl}/${codingComponent.employmentId.getOrElse(0)}"
         ChangeLinkViewModel(isDisplayed = true, Messages("tai.taxFreeAmount.table.taxComponent.CarFuelBenefit"), url)
       case companyBenefit: BenefitComponentType =>
         val url = controllers.benefits.routes.CompanyBenefitController.redirectCompanyBenefitSelection(codingComponent.employmentId.getOrElse(0), companyBenefit).url
         ChangeLinkViewModel(isDisplayed = true, Messages(s"tai.taxFreeAmount.table.taxComponent.${codingComponent.componentType.toString}"), url)
       case allowanceComponentType: AllowanceComponentType =>
-        val url = ApplicationConfig.taxFreeAllowanceLinkUrl
+        val url = applicationConfig.taxFreeAllowanceLinkUrl
         ChangeLinkViewModel(isDisplayed = true, Messages(s"tai.taxFreeAmount.table.taxComponent.${allowanceComponentType.toString}"), url)
       case _ =>
         ChangeLinkViewModel(isDisplayed = false)

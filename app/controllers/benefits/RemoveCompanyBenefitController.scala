@@ -16,8 +16,7 @@
 
 package controllers.benefits
 
-import com.google.inject.name.Named
-import javax.inject.Inject
+import javax.inject.{Inject, Named}
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
