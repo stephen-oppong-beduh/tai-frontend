@@ -1,10 +1,7 @@
-import play.routes.compiler.StaticRoutesGenerator
-import play.sbt.routes.RoutesKeys.routesGenerator
 import sbt.Keys._
 import sbt.Tests.{Group, SubProcess}
 import sbt._
 import scoverage.ScoverageKeys
-import uk.gov.hmrc.versioning.SbtGitVersioning
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
 
@@ -12,11 +9,10 @@ trait MicroService {
 
   import uk.gov.hmrc._
   import DefaultBuildSettings._
-  import uk.gov.hmrc.SbtAutoBuildPlugin
+  import uk.gov.hmrc.{SbtArtifactory, SbtAutoBuildPlugin}
   import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
   import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
   import uk.gov.hmrc.versioning.SbtGitVersioning
-  import uk.gov.hmrc.SbtArtifactory
 
   val appName: String
 
@@ -79,8 +75,7 @@ trait MicroService {
     .settings(scalaVersion := "2.11.11")
     .settings(
       libraryDependencies ++= appDependencies,
-      retrieveManaged := true,
-      routesGenerator := StaticRoutesGenerator)
+      retrieveManaged := true)
     .settings(inConfig(ITTestPhases.TemplateTest)(Defaults.testSettings): _*)
     .configs(IntegrationTest)
     .settings(inConfig(ITTestPhases.TemplateItTest)(Defaults.itSettings): _*)
