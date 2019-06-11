@@ -17,13 +17,11 @@
 package controllers
 
 import com.google.inject.name.Named
-import javax.inject.Inject
 import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, AuthedUser}
+import javax.inject.Inject
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -42,7 +40,7 @@ import uk.gov.hmrc.tai.util.constants._
 import uk.gov.hmrc.tai.viewModels.{GoogleAnalyticsSettings, SameEstimatedPayViewModel}
 
 import scala.Function.tupled
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
 class IncomeController @Inject()(@Named("Update Income") journeyCacheService: JourneyCacheService,
@@ -50,13 +48,16 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
                                  employmentService: EmploymentService,
                                  incomeService: IncomeService,
                                  estimatedPayJourneyCompletionService: EstimatedPayJourneyCompletionService,
+                                 featureTogglesConfig: FeatureTogglesConfig,
                                  authenticate: AuthAction,
                                  validatePerson: ValidatePerson,
+                                 mcc: MessagesControllerComponents,
                                  override implicit val partialRetriever: FormPartialRetriever,
-                                 override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
+                                 override implicit val templateRenderer: TemplateRenderer)
+                                (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with JourneyCacheConstants
-  with FormValuesConstants
-  with FeatureTogglesConfig {
+  with FormValuesConstants {
 
   def cancel(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

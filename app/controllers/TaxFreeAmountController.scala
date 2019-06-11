@@ -21,7 +21,7 @@ import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.connectors.responses.TaiSuccessResponseWithPayload
@@ -39,9 +39,10 @@ class TaxFreeAmountController @Inject()(codingComponentService: CodingComponentS
                                         companyCarService: CompanyCarService,
                                         authenticate: AuthAction,
                                         validatePerson: ValidatePerson,
+                                        mcc: MessagesControllerComponents,
                                         override implicit val partialRetriever: FormPartialRetriever,
                                         override implicit val templateRenderer: TemplateRenderer
-                                       ) extends TaiBaseController {
+                                       ) extends TaiBaseController(mcc) {
 
   def taxFreeAmount: Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

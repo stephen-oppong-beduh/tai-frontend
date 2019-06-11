@@ -21,6 +21,7 @@ import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.connectors.responses.TaiSuccessResponseWithPayload
@@ -31,6 +32,8 @@ import uk.gov.hmrc.tai.service.benefits.CompanyCarService
 import uk.gov.hmrc.tai.viewModels.PreviousYearUnderpaymentViewModel
 import views.html.previousYearUnderpayment
 
+import scala.concurrent.ExecutionContext
+
 
 class UnderpaymentFromPreviousYearController @Inject()(codingComponentService: CodingComponentService,
                                                        employmentService: EmploymentService,
@@ -38,8 +41,11 @@ class UnderpaymentFromPreviousYearController @Inject()(codingComponentService: C
                                                        taxAccountService: TaxAccountService,
                                                        authenticate: AuthAction,
                                                        validatePerson: ValidatePerson,
+                                                       mcc: MessagesControllerComponents,
                                                        override implicit val partialRetriever: FormPartialRetriever,
-                                                       override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+                                                       override implicit val templateRenderer: TemplateRenderer)
+                                                      (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   def underpaymentExplanation = (authenticate andThen validatePerson).async {
     implicit request =>

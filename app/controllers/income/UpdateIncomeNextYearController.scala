@@ -23,7 +23,7 @@ import controllers.auth.{AuthAction, AuthedUser}
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Request, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -38,7 +38,7 @@ import uk.gov.hmrc.tai.util.constants.FormValuesConstants
 import uk.gov.hmrc.tai.viewModels.income.ConfirmAmountEnteredViewModel
 import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.{DuplicateSubmissionCYPlus1EmploymentViewModel, DuplicateSubmissionCYPlus1PensionViewModel, DuplicateSubmissionEstimatedPay}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
 class UpdateIncomeNextYearController @Inject()(updateNextYearsIncomeService: UpdateNextYearsIncomeService,
@@ -46,8 +46,11 @@ class UpdateIncomeNextYearController @Inject()(updateNextYearsIncomeService: Upd
                                                val auditConnector: AuditConnector,
                                                authenticate: AuthAction,
                                                validatePerson: ValidatePerson,
+                                               mcc: MessagesControllerComponents,
                                                override implicit val partialRetriever: FormPartialRetriever,
-                                               override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
+                                               override implicit val templateRenderer: TemplateRenderer)
+                                              (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with FormValuesConstants {
 
   def onPageLoad(employmentId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {

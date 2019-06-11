@@ -16,23 +16,18 @@
 
 package controllers
 
-import javax.inject.Inject
 import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, AuthenticatedRequest}
-import play.api.Play
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Request, Result}
-import uk.gov.hmrc.domain.Nino
+import javax.inject.Inject
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.model.TaxYear
-import uk.gov.hmrc.tai.model.domain.Person
 import uk.gov.hmrc.tai.service.{EmploymentService, TaxCodeChangeService}
 import uk.gov.hmrc.tai.viewModels.HistoricPayAsYouEarnViewModel
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class PayeControllerHistoric @Inject()(val config: ApplicationConfig,
                                        taxCodeChangeService: TaxCodeChangeService,
@@ -40,8 +35,10 @@ class PayeControllerHistoric @Inject()(val config: ApplicationConfig,
                                        authenticate: AuthAction,
                                        validatePerson: ValidatePerson,
                                        applicationConfig: ApplicationConfig,
+                                       mcc: MessagesControllerComponents,
                                        override implicit val partialRetriever: FormPartialRetriever,
-                                       override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+                                       override implicit val templateRenderer: TemplateRenderer)(implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   def lastYearPaye(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     Future.successful(Redirect(controllers.routes.PayeControllerHistoric.payePage(TaxYear().prev)))

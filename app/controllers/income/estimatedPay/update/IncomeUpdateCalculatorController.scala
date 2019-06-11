@@ -24,7 +24,7 @@ import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Request, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -47,7 +47,7 @@ import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.{GrossPayPeriodTitl
 import uk.gov.hmrc.tai.viewModels.income.{ConfirmAmountEnteredViewModel, EditIncomeIrregularHoursViewModel}
 
 import scala.Function.tupled
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
 class IncomeUpdateCalculatorController @Inject()(incomeService: IncomeService,
@@ -58,8 +58,11 @@ class IncomeUpdateCalculatorController @Inject()(incomeService: IncomeService,
                                                  validatePerson: ValidatePerson,
                                                  featureTogglesConfig: FeatureTogglesConfig,
                                                  @Named("Update Income") implicit val journeyCacheService: JourneyCacheService,
+                                                 mcc: MessagesControllerComponents,
                                                  override implicit val partialRetriever: FormPartialRetriever,
-                                                 override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
+                                                 override implicit val templateRenderer: TemplateRenderer)
+                                                (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with JourneyCacheConstants
   with EditIncomeIrregularPayConstants
   with UpdatedEstimatedPayJourneyCache

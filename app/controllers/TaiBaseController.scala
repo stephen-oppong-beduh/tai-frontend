@@ -16,14 +16,14 @@
 
 package controllers
 
+import play.api.i18n.I18nSupport
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 
-trait TaiBaseController extends FrontendController with ErrorPagesHandler {
-
-  implicit def templateRenderer: TemplateRenderer
-  implicit def partialRetriever: FormPartialRetriever
-
+abstract class TaiBaseController(mcc: MessagesControllerComponents) extends FrontendController(mcc) with ErrorPagesHandler with I18nSupport {
+  override implicit def templateRenderer: TemplateRenderer
+  override implicit def partialRetriever: FormPartialRetriever
 }
 

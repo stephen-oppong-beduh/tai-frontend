@@ -24,7 +24,7 @@ import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -40,7 +40,7 @@ import uk.gov.hmrc.tai.viewModels.CanWeContactByPhoneViewModel
 import uk.gov.hmrc.tai.viewModels.pensions.{CheckYourAnswersViewModel, PensionNumberViewModel}
 
 import scala.Function.tupled
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.language.postfixOps
 import scala.util.control.NonFatal
 
@@ -51,8 +51,11 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
                                              validatePerson: ValidatePerson,
                                              @Named("Add Pension Provider") journeyCacheService: JourneyCacheService,
                                              @Named("Track Successful Journey") successfulJourneyCacheService: JourneyCacheService,
+                                             mcc: MessagesControllerComponents,
                                              override implicit val partialRetriever: FormPartialRetriever,
-                                             override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
+                                             override implicit val templateRenderer: TemplateRenderer)
+                                            (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with JourneyCacheConstants
   with AuditConstants
   with FormValuesConstants {

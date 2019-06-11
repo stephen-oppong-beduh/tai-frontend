@@ -21,7 +21,7 @@ import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -34,6 +34,7 @@ import uk.gov.hmrc.tai.service.journeyCompletion.EstimatedPayJourneyCompletionSe
 import uk.gov.hmrc.tai.service.{EmploymentService, TaxAccountService}
 import uk.gov.hmrc.tai.viewModels.IncomeSourceSummaryViewModel
 
+import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
 class IncomeSourceSummaryController @Inject()(val auditConnector: AuditConnector,
@@ -43,8 +44,11 @@ class IncomeSourceSummaryController @Inject()(val auditConnector: AuditConnector
                                               estimatedPayJourneyCompletionService: EstimatedPayJourneyCompletionService,
                                               authenticate: AuthAction,
                                               validatePerson: ValidatePerson,
+                                              mcc: MessagesControllerComponents,
                                               override implicit val partialRetriever: FormPartialRetriever,
-                                              override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+                                              override implicit val templateRenderer: TemplateRenderer)
+                                             (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   def onPageLoad(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

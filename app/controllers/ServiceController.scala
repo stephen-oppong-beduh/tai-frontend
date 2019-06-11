@@ -19,26 +19,25 @@ package controllers
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import javax.inject.Inject
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{AnyContent, Request, Result}
+import play.api.mvc.{AnyContent, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.play.bootstrap.controller.UnauthorisedAction
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.config.ApplicationConfig
-import uk.gov.hmrc.tai.connectors.UserDetailsConnector
 import uk.gov.hmrc.tai.util.constants.TaiConstants
 
-import scala.concurrent.Future
-import scala.util.control.NonFatal
+import scala.concurrent.{ExecutionContext, Future}
 
-class ServiceController @Inject()(authenticate: AuthAction,
+class ServiceController @Inject()(applicationConfig: ApplicationConfig,
+                                  authenticate: AuthAction,
                                   validatePerson: ValidatePerson,
+                                  mcc: MessagesControllerComponents,
                                   override implicit val partialRetriever: FormPartialRetriever,
-                                  override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+                                  override implicit val templateRenderer: TemplateRenderer)
+                                 (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
-  def timeoutPage() = UnauthorisedAction.async {
+  def timeoutPage() = Action.async {
     implicit request => Future.successful(Ok(views.html.timeout()))
   }
 
@@ -46,10 +45,10 @@ class ServiceController @Inject()(authenticate: AuthAction,
     implicit request =>
 
       if (request.taiUser.providerType == TaiConstants.AuthProviderVerify) {
-        Future.successful(Redirect(ApplicationConfig.citizenAuthFrontendSignOutUrl).
-          withSession(TaiConstants.SessionPostLogoutPage -> ApplicationConfig.feedbackSurveyUrl))
+        Future.successful(Redirect(applicationConfig.citizenAuthFrontendSignOutUrl).
+          withSession(TaiConstants.SessionPostLogoutPage -> applicationConfig.feedbackSurveyUrl))
       } else {
-        Future.successful(Redirect(ApplicationConfig.companyAuthFrontendSignOutUrl))
+        Future.successful(Redirect(applicationConfig.companyAuthFrontendSignOutUrl))
       }
   }
 

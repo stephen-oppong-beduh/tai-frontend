@@ -22,20 +22,23 @@ import controllers.auth.AuthAction
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.config.{ApplicationConfig, ProxyHttpClient}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class HelpController @Inject()(val config: ApplicationConfig,
                                val httpGet: ProxyHttpClient,
                                authenticate: AuthAction,
                                validatePerson: ValidatePerson,
+                               mcc: MessagesControllerComponents,
                                override implicit val partialRetriever: FormPartialRetriever,
                                override implicit val templateRenderer: TemplateRenderer
-                              ) extends TaiBaseController {
+                              )(implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   val webChatURL = config.webchatAvailabilityUrl
 

@@ -23,7 +23,7 @@ import controllers.auth.AuthAction
 import play.api.Play.current
 import play.api.i18n.Lang
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -32,9 +32,10 @@ import uk.gov.hmrc.tai.config.FeatureTogglesConfig
 class TaiLanguageController @Inject()(featureTogglesConfig: FeatureTogglesConfig,
                                       authenticate: AuthAction,
                                       validatePerson: ValidatePerson,
+                                      mcc: MessagesControllerComponents,
                                       override implicit val partialRetriever: FormPartialRetriever,
                                       override implicit val templateRenderer: TemplateRenderer) extends LanguageController
-  with TaiBaseController {
+  with TaiBaseController(mcc) {
 
   override protected def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),

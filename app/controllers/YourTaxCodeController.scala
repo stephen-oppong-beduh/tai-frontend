@@ -21,7 +21,7 @@ import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.config.FeatureTogglesConfig
@@ -31,6 +31,7 @@ import uk.gov.hmrc.tai.model.domain.income.TaxCodeIncome
 import uk.gov.hmrc.tai.service.{PersonService, TaxAccountService, TaxCodeChangeService}
 import uk.gov.hmrc.tai.viewModels.{TaxCodeViewModel, TaxCodeViewModelPreviousYears}
 
+import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
 class YourTaxCodeController @Inject()(taxAccountService: TaxAccountService,
@@ -38,8 +39,11 @@ class YourTaxCodeController @Inject()(taxAccountService: TaxAccountService,
                                       authenticate: AuthAction,
                                       validatePerson: ValidatePerson,
                                       featureTogglesConfig: FeatureTogglesConfig,
+                                      mcc: MessagesControllerComponents,
                                       override implicit val partialRetriever: FormPartialRetriever,
-                                      override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+                                      override implicit val templateRenderer: TemplateRenderer)
+                                     (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   def taxCodes(year: TaxYear = TaxYear()): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

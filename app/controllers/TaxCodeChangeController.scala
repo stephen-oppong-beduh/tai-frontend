@@ -21,7 +21,7 @@ import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -34,7 +34,7 @@ import uk.gov.hmrc.tai.service.yourTaxFreeAmount.{DescribedYourTaxFreeAmountServ
 import uk.gov.hmrc.tai.util.yourTaxFreeAmount.{IabdTaxCodeChangeReasons, YourTaxFreeAmount}
 import uk.gov.hmrc.tai.viewModels.taxCodeChange.TaxCodeChangeViewModel
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class TaxCodeChangeController @Inject()(taxCodeChangeService: TaxCodeChangeService,
                                         taxAccountService: TaxAccountService,
@@ -43,8 +43,11 @@ class TaxCodeChangeController @Inject()(taxCodeChangeService: TaxCodeChangeServi
                                         validatePerson: ValidatePerson,
                                         yourTaxFreeAmountService: YourTaxFreeAmountService,
                                         taxCodeChangeReasonsService: TaxCodeChangeReasonsService,
+                                        mcc: MessagesControllerComponents,
                                         override implicit val partialRetriever: FormPartialRetriever,
-                                        override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
+                                        override implicit val templateRenderer: TemplateRenderer)
+                                       (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with YourTaxFreeAmount {
 
   def taxCodeComparison: Action[AnyContent] = (authenticate andThen validatePerson).async {

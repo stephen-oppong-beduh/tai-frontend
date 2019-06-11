@@ -23,7 +23,7 @@ import controllers.auth.AuthAction
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -42,7 +42,7 @@ import uk.gov.hmrc.tai.viewModels.benefit.{BenefitViewModel, RemoveCompanyBenefi
 import views.html.benefits.removeCompanyBenefitCheckYourAnswers
 
 import scala.Function.tupled
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.math.BigDecimal.RoundingMode
 
 class RemoveCompanyBenefitController @Inject()(@Named("End Company Benefit") journeyCacheService: JourneyCacheService,
@@ -50,9 +50,11 @@ class RemoveCompanyBenefitController @Inject()(@Named("End Company Benefit") jou
                                                benefitsService: BenefitsService,
                                                authenticate: AuthAction,
                                                validatePerson: ValidatePerson,
+                                               mcc: MessagesControllerComponents,
                                                implicit val templateRenderer: TemplateRenderer,
                                                implicit val partialRetriever: FormPartialRetriever)
-  extends TaiBaseController
+                                              (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
     with JourneyCacheConstants
     with FormValuesConstants
     with RemoveCompanyBenefitStopDateConstants {

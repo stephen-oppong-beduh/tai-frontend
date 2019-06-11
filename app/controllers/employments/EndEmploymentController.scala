@@ -26,7 +26,7 @@ import play.api.Play.current
 import play.api.data.validation.{Constraint, Invalid, Valid}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
@@ -43,7 +43,7 @@ import uk.gov.hmrc.tai.viewModels.employments.{EmploymentViewModel, WithinSixWee
 import uk.gov.hmrc.tai.viewModels.income.IncomeCheckYourAnswersViewModel
 
 import scala.Function.tupled
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class EndEmploymentController @Inject()(auditService: AuditService,
                                         employmentService: EmploymentService,
@@ -52,9 +52,11 @@ class EndEmploymentController @Inject()(auditService: AuditService,
                                         @Named("End Employment") journeyCacheService: JourneyCacheService,
                                         @Named("Track Successful Journey") successfulJourneyCacheService: JourneyCacheService,
                                         val auditConnector: AuditConnector,
+                                        mcc: MessagesControllerComponents,
                                         implicit val templateRenderer: TemplateRenderer,
                                         implicit val partialRetriever: FormPartialRetriever
-                                       ) extends TaiBaseController
+                                       ) (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with JourneyCacheConstants
   with FormValuesConstants
   with IrregularPayConstants

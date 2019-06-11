@@ -24,7 +24,7 @@ import play.api.Play.current
 import play.api.data.validation.{Constraint, Invalid, Valid}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -43,7 +43,7 @@ import uk.gov.hmrc.tai.viewModels.pensions.PensionProviderViewModel
 import uk.gov.hmrc.tai.viewModels.pensions.update.UpdatePensionCheckYourAnswersViewModel
 
 import scala.Function.tupled
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
 class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountService,
@@ -54,8 +54,11 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
                                                 validatePerson: ValidatePerson,
                                                 @Named("Update Pension Provider") journeyCacheService: JourneyCacheService,
                                                 @Named("Track Successful Journey") successfulJourneyCacheService: JourneyCacheService,
+                                                mcc: MessagesControllerComponents,
                                                 override implicit val partialRetriever: FormPartialRetriever,
-                                                override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
+                                                override implicit val templateRenderer: TemplateRenderer)
+                                               (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with JourneyCacheConstants
   with FormValuesConstants {
 

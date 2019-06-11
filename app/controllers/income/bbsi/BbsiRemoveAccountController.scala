@@ -17,24 +17,27 @@
 package controllers.income.bbsi
 
 
-import javax.inject.Inject
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import javax.inject.Inject
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.service.BbsiService
 
+import scala.concurrent.ExecutionContext
+
 
 class BbsiRemoveAccountController @Inject()(bbsiService: BbsiService,
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,
+                                            mcc: MessagesControllerComponents,
                                             override implicit val partialRetriever: FormPartialRetriever,
-                                            override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+                                            override implicit val templateRenderer: TemplateRenderer)
+                                           (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   def checkYourAnswers(id: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

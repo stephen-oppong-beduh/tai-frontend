@@ -16,12 +16,10 @@
 
 package controllers
 
-import javax.inject.{Inject, Named}
 import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, AuthenticatedRequest}
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import javax.inject.{Inject, Named}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.config.{ApplicationConfig, FeatureTogglesConfig}
@@ -33,16 +31,20 @@ import uk.gov.hmrc.tai.service.journeyCache.JourneyCacheService
 import uk.gov.hmrc.tai.util.constants.JourneyCacheConstants
 import uk.gov.hmrc.tai.viewModels.benefit.CompanyCarChoiceViewModel
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class CompanyCarController @Inject()(companyCarService: CompanyCarService,
                                      @Named("Company Car") journeyCacheService: JourneyCacheService,
                                      sessionService: SessionService,
                                      featureTogglesConfig: FeatureTogglesConfig,
+                                     applicationConfig: ApplicationConfig,
                                      authenticate: AuthAction,
                                      validatePerson: ValidatePerson,
+                                     mcc: MessagesControllerComponents,
                                      override implicit val partialRetriever: FormPartialRetriever,
-                                     override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
+                                     override implicit val templateRenderer: TemplateRenderer)
+                                    (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with JourneyCacheConstants {
   def redirectCompanyCarSelection(employmentId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -62,7 +64,7 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
           case TaiSuccessResponseWithPayload(x: Map[String, String]) =>
             Ok(views.html.benefits.updateCompanyCar(UpdateOrRemoveCarForm.createForm, CompanyCarChoiceViewModel(x)))
           case TaiNoCompanyCarFoundResponse(_) =>
-            Redirect(ApplicationConfig.companyCarServiceUrl)
+            Redirect(applicationConfig.companyCarServiceUrl)
         }
       }
   }
@@ -79,9 +81,9 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
         formData => {
             formData.whatDoYouWantToDo match {
               case Some("removeCar") if !featureTogglesConfig.companyCarForceRedirectEnabled =>
-                sessionService.invalidateCache() map (_ => Redirect(ApplicationConfig.companyCarDetailsUrl))
+                sessionService.invalidateCache() map (_ => Redirect(applicationConfig.companyCarDetailsUrl))
               case _ =>
-                sessionService.invalidateCache() map (_ => Redirect(ApplicationConfig.companyCarServiceUrl))
+                sessionService.invalidateCache() map (_ => Redirect(applicationConfig.companyCarServiceUrl))
             }
           }
       )

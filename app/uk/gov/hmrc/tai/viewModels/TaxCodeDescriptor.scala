@@ -25,7 +25,7 @@ import uk.gov.hmrc.urls.Link
 import scala.collection.immutable.ListMap
 
 
-trait TaxCodeDescriptor {
+class TaxCodeDescriptor(applicationConfig: ApplicationConfig) {
 
   type TaxCodeDescriptionTranslator = TaxCodeDescription => ListMap[String, String]
 
@@ -57,7 +57,7 @@ trait TaxCodeDescriptor {
 
     scottishRegex.findFirstIn(taxCode) match {
       case Some(code) => ListMap(code -> messages(s"tai.taxCode$previousOrCurrent.$code",
-        Link.toExternalPage(url = ApplicationConfig.scottishRateIncomeTaxUrl, value=Some(messages("tai.taxCode.scottishIncomeText.link"))).toHtml))
+        Link.toExternalPage(url = applicationConfig.scottishRateIncomeTaxUrl, value=Some(messages("tai.taxCode.scottishIncomeText.link"))).toHtml))
       case _ => ListMap[String, String]()
     }
   }
@@ -69,7 +69,7 @@ trait TaxCodeDescriptor {
     welshRegex.findFirstIn(taxCode) match {
       case Some(code) => ListMap(code -> messages(s"tai.taxCode$previousOrCurrent.$code",
         Link.toExternalPage(url =
-          if(messages.lang.language == "cy") {ApplicationConfig.welshRateIncomeTaxWelshUrl} else {ApplicationConfig.welshRateIncomeTaxUrl},
+          if(messages.lang.language == "cy") {applicationConfig.welshRateIncomeTaxWelshUrl} else {applicationConfig.welshRateIncomeTaxUrl},
           value=Some(messages("tai.taxCode.welshIncomeText.link"))).toHtml))
       case _ => ListMap[String, String]()
     }

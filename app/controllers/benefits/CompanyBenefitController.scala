@@ -22,7 +22,7 @@ import controllers.auth.AuthAction
 import javax.inject.{Inject, Named}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -33,15 +33,18 @@ import uk.gov.hmrc.tai.service.journeyCache.JourneyCacheService
 import uk.gov.hmrc.tai.util.constants.{JourneyCacheConstants, TaiConstants, UpdateOrRemoveCompanyBenefitDecisionConstants}
 import uk.gov.hmrc.tai.viewModels.benefit.CompanyBenefitDecisionViewModel
 
+import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
 class CompanyBenefitController @Inject()(employmentService: EmploymentService,
                                          @Named("End Company Benefit") journeyCacheService: JourneyCacheService,
                                          authenticate: AuthAction,
                                          validatePerson: ValidatePerson,
+                                         mcc: MessagesControllerComponents,
                                          override implicit val templateRenderer: TemplateRenderer,
                                          override implicit val partialRetriever: FormPartialRetriever)
-  extends TaiBaseController
+                                        (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
     with JourneyCacheConstants
     with UpdateOrRemoveCompanyBenefitDecisionConstants {
 

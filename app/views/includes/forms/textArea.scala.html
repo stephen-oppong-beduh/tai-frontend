@@ -27,16 +27,16 @@
         maxlength: String = "",
         hintClass: String = "",
         rows: String = "7"
-)(implicit lang: Lang, m: Messages)
+)(implicit messages: Messages)
 
 <div class="form-group @if(field.hasErrors){form-group-error} @if(panel) { panel-indent} @if(jsHidden) { js-hidden}">
     <label class="form-label@if(bold) {-bold}" for="@field.id">
         @if(labelText.nonEmpty) {
             @if(labelHidden) { <span class="visuallyhidden">}
-            @Messages(labelText)
+            @messages(labelText)
             @if(labelHidden) {</span>}
         }
-        @if(hintText.nonEmpty) { <span class="form-hint @hintClass" id="@{ field.id }-hint">@Messages(hintText)</span> }
+        @if(hintText.nonEmpty) { <span class="form-hint @hintClass" id="@{ field.id }-hint">@messages(hintText)</span> }
         @if(fieldErrorsEnabled && field.hasErrors) { <span class="error-message">@field.errors.map(_.message)</span> }
     </label>
 

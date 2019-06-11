@@ -16,19 +16,19 @@
 
 package controllers
 
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.http.SessionKeys
-//import uk.gov.hmrc.play.frontend.auth.AuthenticationProviderIds
-import uk.gov.hmrc.play.bootstrap.controller.{FrontendController, UnauthorisedAction}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-class AuthProviderController extends FrontendController {
+class AuthProviderController(mcc: MessagesControllerComponents) extends FrontendController(mcc) {
 
-  def verifyEntryPoint =  UnauthorisedAction { implicit request =>
+  def verifyEntryPoint =  Action { implicit request =>
     Redirect(routes.TaxAccountSummaryController.onPageLoad().url).withNewSession.addingToSession(
       SessionKeys.authProvider -> "AuthenticationProviderIds.VerifyProviderId"
     )
   }
 
-  def governmentGatewayEntryPoint =  UnauthorisedAction { implicit request =>
+  def governmentGatewayEntryPoint =  Action { implicit request =>
     Redirect(routes.TaxAccountSummaryController.onPageLoad().url).withNewSession.addingToSession(
       SessionKeys.authProvider -> "AuthenticationProviderIds.GovernmentGatewayId"
     )

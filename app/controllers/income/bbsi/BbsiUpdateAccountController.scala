@@ -23,7 +23,7 @@ import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -35,15 +35,18 @@ import uk.gov.hmrc.tai.util.FormHelper
 import uk.gov.hmrc.tai.util.constants.JourneyCacheConstants
 import uk.gov.hmrc.tai.viewModels.income.{BbsiUpdateAccountViewModel, BbsiUpdateInterestViewModel}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 
 class BbsiUpdateAccountController @Inject()(bbsiService: BbsiService,
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,
                                             @Named("Update Bank Account") journeyCacheService: JourneyCacheService,
+                                            mcc: MessagesControllerComponents,
                                             override implicit val partialRetriever: FormPartialRetriever,
-                                            override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
+                                            override implicit val templateRenderer: TemplateRenderer)
+                                           (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with JourneyCacheConstants {
 
   def captureInterest(id: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {

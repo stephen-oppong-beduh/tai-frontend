@@ -16,10 +16,9 @@
 
 package controllers
 
-import javax.inject.Inject
 import controllers.auth.{AuthAction, AuthedUser}
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import javax.inject.Inject
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 
@@ -27,8 +26,9 @@ import scala.concurrent.Future
 
 
 class DeceasedController @Inject()(authenticate: AuthAction,
+                                   mcc: MessagesControllerComponents,
                                    override implicit val partialRetriever: FormPartialRetriever,
-                                   override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+                                   override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController(mcc) {
 
   def deceased() = authenticate.async {
     implicit request =>

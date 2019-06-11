@@ -20,7 +20,7 @@ import javax.inject.Inject
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Request, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.play.config
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -30,10 +30,13 @@ import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.util.ViewModelHelper
 import uk.gov.hmrc.tai.util.constants.TaiConstants._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class UnauthorisedController @Inject()(applicationConfig: ApplicationConfig)(override implicit val partialRetriever: FormPartialRetriever,
-                                       override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+class UnauthorisedController @Inject()(applicationConfig: ApplicationConfig, mcc: MessagesControllerComponents)
+                                      (override implicit val partialRetriever: FormPartialRetriever,
+                                       override implicit val templateRenderer: TemplateRenderer)
+                                      (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   def upliftUrl: String = applicationConfig.sa16UpliftUrl
   def failureUrl: String = applicationConfig.pertaxServiceUpliftFailedUrl

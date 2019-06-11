@@ -19,19 +19,24 @@ package controllers
 import javax.inject.Inject
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.service.{AuditService, SessionService}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 
+import scala.concurrent.ExecutionContext
+
 class ExternalServiceRedirectController @Inject()(sessionService: SessionService,
                                                   auditService: AuditService,
                                                   authenticate: AuthAction,
                                                   validatePerson: ValidatePerson,
+                                                  mcc: MessagesControllerComponents,
                                                   override implicit val partialRetriever: FormPartialRetriever,
-                                                  override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+                                                  override implicit val templateRenderer: TemplateRenderer)
+                                                 (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   def auditInvalidateCacheAndRedirectService(serviceAndIFormName: String): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request => {

@@ -24,7 +24,7 @@ import play.api.Play.current
 import play.api.data.validation.{Constraint, Invalid, Valid}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -39,7 +39,7 @@ import uk.gov.hmrc.tai.viewModels.CanWeContactByPhoneViewModel
 import uk.gov.hmrc.tai.viewModels.employments.{EmploymentViewModel, UpdateEmploymentCheckYourAnswersViewModel}
 
 import scala.Function.tupled
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
 class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
@@ -48,8 +48,11 @@ class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
                                            validatePerson: ValidatePerson,
                                            @Named("Update Employment") journeyCacheService: JourneyCacheService,
                                            @Named("Track Successful Journey") successfulJourneyCacheService: JourneyCacheService,
+                                           mcc: MessagesControllerComponents,
                                            override implicit val partialRetriever: FormPartialRetriever,
-                                           override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
+                                           override implicit val templateRenderer: TemplateRenderer)
+                                          (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc)
   with JourneyCacheConstants
   with AuditConstants
   with FormValuesConstants {

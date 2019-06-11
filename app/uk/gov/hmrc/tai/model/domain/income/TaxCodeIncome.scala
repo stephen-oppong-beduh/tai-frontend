@@ -20,6 +20,9 @@ import org.joda.time.LocalDate
 import play.api.libs.json._
 import uk.gov.hmrc.tai.model.domain.TaxComponentType
 import uk.gov.hmrc.tai.util.constants.TaiConstants
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
+
 
 sealed trait BasisOfOperation
 case object Week1Month1BasisOfOperation extends BasisOfOperation

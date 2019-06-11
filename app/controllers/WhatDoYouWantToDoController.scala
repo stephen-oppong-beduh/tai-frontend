@@ -37,7 +37,7 @@ import uk.gov.hmrc.tai.model.domain.income.TaxCodeIncome
 import uk.gov.hmrc.tai.service._
 import uk.gov.hmrc.tai.viewModels.WhatDoYouWantToDoViewModel
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService,
                                             taxCodeChangeService: TaxCodeChangeService,
@@ -47,9 +47,12 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
                                             auditService: AuditService,
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,
+                                            featureTogglesConfig: FeatureTogglesConfig,
+                                            mcc: MessagesControllerComponents,
                                             override implicit val partialRetriever: FormPartialRetriever,
-                                            override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController
-  with FeatureTogglesConfig {
+                                            override implicit val templateRenderer: TemplateRenderer)
+                                           (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   implicit val recoveryLocation: RecoveryLocation = classOf[WhatDoYouWantToDoController]
 
@@ -95,7 +98,7 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
 
     trackingService.isAnyIFormInProgress(nino.nino) flatMap { trackingResponse: TimeToProcess =>
 
-      if (cyPlusOneEnabled) {
+      if (featureTogglesConfig.cyPlusOneEnabled) {
 
         val hasTaxCodeChanged = taxCodeChangeService.hasTaxCodeChanged(nino)
         val cy1TaxAccountSummary = taxAccountService.taxAccountSummary(nino, TaxYear().next)
@@ -107,7 +110,7 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
           taxAccountSummary match {
             case TaiSuccessResponseWithPayload(_) => {
               val model = WhatDoYouWantToDoViewModel(
-                trackingResponse, cyPlusOneEnabled, taxCodeChanged.changed, taxCodeChanged.mismatch)
+                trackingResponse, featureTogglesConfig.cyPlusOneEnabled, taxCodeChanged.changed, taxCodeChanged.mismatch)
 
               Logger.debug(s"wdywtdViewModelCYEnabledAndGood $model")
 
@@ -126,7 +129,7 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
       }
       else {
         taxCodeChangeService.hasTaxCodeChanged(nino).map(hasTaxCodeChanged => {
-          val model = WhatDoYouWantToDoViewModel(trackingResponse, cyPlusOneEnabled, hasTaxCodeChanged.changed, hasTaxCodeChanged.mismatch)
+          val model = WhatDoYouWantToDoViewModel(trackingResponse, featureTogglesConfig.cyPlusOneEnabled, hasTaxCodeChanged.changed, hasTaxCodeChanged.mismatch)
 
           Logger.debug(s"wdywtdViewModelCYDisabled $model")
 

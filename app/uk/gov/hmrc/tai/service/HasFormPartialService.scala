@@ -29,17 +29,19 @@ import uk.gov.hmrc.tai.util.EnhancedPartialRetriever
 import scala.concurrent.Future
 
 
-class HasFormPartialService @Inject()(sessionCookieCrypto: SessionCookieCrypto, httpClient: DefaultHttpClient) extends EnhancedPartialRetriever {
+class HasFormPartialService @Inject()(applicationConfig: ApplicationConfig,
+                                      sessionCookieCrypto: SessionCookieCrypto,
+                                      httpClient: DefaultHttpClient) extends EnhancedPartialRetriever {
 
   override val http: HttpGet = httpClient
   override def crypto: String => String = cookie => sessionCookieCrypto.crypto.encrypt(PlainText(cookie)).value
 
   def getIncomeTaxPartial(implicit request: RequestHeader): Future[HtmlPartial] = {
-    loadPartial(ApplicationConfig.incomeTaxFormPartialLinkUrl)
+    loadPartial(applicationConfig.incomeTaxFormPartialLinkUrl)
   }
 
   def getIncomeFromEmploymentPensionPartial(implicit request: RequestHeader): Future[HtmlPartial] = {
-    loadPartial(ApplicationConfig.incomeFromEmploymentPensionPartialLinkUrl)
+    loadPartial(applicationConfig.incomeFromEmploymentPensionPartialLinkUrl)
   }
 }
 

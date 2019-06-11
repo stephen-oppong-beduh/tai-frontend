@@ -22,7 +22,7 @@ import controllers.auth._
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Request, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.BadRequestException
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -34,15 +34,18 @@ import uk.gov.hmrc.tai.model.domain.income.TaxCodeIncome
 import uk.gov.hmrc.tai.service.{EmploymentService, PersonService, TaxAccountService}
 import uk.gov.hmrc.tai.viewModels.{HistoricIncomeCalculationViewModel, YourIncomeCalculationViewModel}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class YourIncomeCalculationController @Inject()(personService: PersonService,
                                                 taxAccountService: TaxAccountService,
                                                 employmentService: EmploymentService,
                                                 authenticate: AuthAction,
                                                 validatePerson: ValidatePerson,
+                                                mcc: MessagesControllerComponents,
                                                 override implicit val partialRetriever: FormPartialRetriever,
-                                                override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController {
+                                                override implicit val templateRenderer: TemplateRenderer)
+                                               (implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   def yourIncomeCalculationPage(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
