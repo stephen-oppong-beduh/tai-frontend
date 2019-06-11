@@ -27,17 +27,17 @@ private object AppDependencies {
 
   val compile = Seq(
     filters,
-    "uk.gov.hmrc"  %% "play-conditional-form-mapping" % "0.2.0",
-    "uk.gov.hmrc"  %% "bootstrap-play-25"             % "4.12.0",
-    "uk.gov.hmrc"  %% "domain"                        % "5.6.0-play-25",
-    "uk.gov.hmrc"  %% "url-builder"                   % "2.1.0",
-    "uk.gov.hmrc"  %% "play-partials"                 % "6.9.0-play-25",
+    "uk.gov.hmrc"  %% "play-conditional-form-mapping" % "1.1.0-play-26",
+    "uk.gov.hmrc"  %% "bootstrap-play-26"             % "0.40.0",
+    "uk.gov.hmrc"  %% "domain"                        % "5.6.0-play-26",
+    "uk.gov.hmrc"  %% "url-builder"                   % "3.1.0",
+    "uk.gov.hmrc"  %% "play-partials"                 % "6.9.0-play-26",
     "uk.gov.hmrc"  %% "csp-client"                    % "3.4.0",
     "uk.gov.hmrc"  %% "play-language"                 % "3.4.0",
     "uk.gov.hmrc"  %% "local-template-renderer"       % "2.4.0",
-    "uk.gov.hmrc"  %% "auth-client"                   % "2.20.0-play-25",
-    "uk.gov.hmrc"  %% "govuk-template"                % "5.35.0-play-25",
-    "uk.gov.hmrc"  %% "play-ui"                       % "7.40.0-play-25",
+    "uk.gov.hmrc"  %% "auth-client"                   % "2.20.0-play-26",
+    "uk.gov.hmrc"  %% "govuk-template"                % "5.35.0-play-26",
+    "uk.gov.hmrc"  %% "play-ui"                       % "7.40.0-play-26",
     "com.typesafe.play" %% "play-json-joda"           % "2.6.10"
 
   )
@@ -51,7 +51,7 @@ private object AppDependencies {
     def apply() = new TestDependencies {
       override lazy val test = Seq(
         "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % scope,
-        "uk.gov.hmrc"       %%    "hmrctest"   %  "3.8.0-play-25"  % scope,
+        "uk.gov.hmrc"       %%    "hmrctest"   %  "3.8.0-play-26"  % scope,
         "org.pegdown"        %    "pegdown"    %  "1.6.0"  % scope,
         "org.jsoup"          %    "jsoup"      %  "1.8.3"  % scope,
         "org.mockito"      % "mockito-all" % "1.9.5" % scope,
@@ -67,7 +67,7 @@ private object AppDependencies {
     def apply() = new TestDependencies {
       override lazy val scope: String = "it"
       override lazy val test = Seq(
-        "uk.gov.hmrc" %% "hmrctest" % "3.8.0-play-25" % scope,
+        "uk.gov.hmrc" %% "hmrctest" % "3.8.0-play-26" % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % scope,
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.8.3" % scope,
