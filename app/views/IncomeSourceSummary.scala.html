@@ -23,11 +23,10 @@
 @import uk.gov.hmrc.urls.Link
 @import uk.gov.hmrc.tai.util.constants.TaiConstants
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(model: IncomeSourceSummaryViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(model: IncomeSourceSummaryViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{"Your employment details for current tax year"}
 
@@ -75,8 +74,7 @@
         preHeadingText = model.displayName)
 }
 
-@main(title = title, authedUser = Some(user), pageHeader = Some(header), articleClasses = None, gaCustomTitle = Some(title))
-    {
+@main(title = title, authedUser = Some(user), pageHeader = Some(header), articleClasses = None, gaCustomTitle = Some(title)) {
     @if(model.isPension){
         <p  aria-hidden="true">
             @Link.toInternalPage(

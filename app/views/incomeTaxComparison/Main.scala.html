@@ -21,11 +21,10 @@
 @import uk.gov.hmrc.urls.Link
 @import uk.gov.hmrc.tai.viewModels.incomeTaxComparison.{IncomeTaxComparisonViewModel, EstimatedIncomeTaxComparisonViewModel}
 @import uk.gov.hmrc.tai.model.TaxYear
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
 @this(taxCodes: TaxCodes, main: views.html.main, applicationConfig: ApplicationConfig)
 
-@(incomeTaxComparisonViewModel: IncomeTaxComparisonViewModel, estimatedPayEnabled: Boolean)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(incomeTaxComparisonViewModel: IncomeTaxComparisonViewModel, estimatedPayEnabled: Boolean)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{"Income Tax comparison - current and next tax years"}
 
@@ -54,8 +53,7 @@
 @main(title = messages("tai.incomeTaxComparison.heading"),
     gaCustomTitle = Some(messages("tai.incomeTaxComparison.heading")),
     pageHeader = Some(header),
-    authedUser = Some(user))
-    {
+    authedUser = Some(user)) {
     <div class="grid-row">
         <div class="column-two-thirds">
             @if(incomeTaxComparisonViewModel.isEstimatedCYPlusOneJourneyCompleted){

@@ -14,14 +14,7 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.tai.config.ApplicationConfig
-
-@this(  webchat_available: views.html.help.webchat_available,
-        webchat_closed: views.html.help.webchat_closed,
-        webchat_busy: views.html.help.webchat_busy,
-        webchat_error: views.html.help.webchat_error,
-        main: views.html.main,
-        applicationConfig: ApplicationConfig)
+@this(webchat_available: views.html.help.webchat_available, webchat_closed: views.html.help.webchat_closed, webchat_busy: views.html.help.webchat_busy, webchat_error: views.html.help.webchat_error, main: views.html.main)
 
 @(status : Option[String] = None)(implicit request: Request[_], messages: Messages,
 user: controllers.auth.AuthedUser,
@@ -35,8 +28,7 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
     authedUser = Some(user),
     clickWebChat = true,
     gaCustomTitle = None
-)
-    {
+) {
 
 <header class="page-header">
     <h1 class="heading-xlarge" id="getHelpTitle">@Messages("tai.getHelp.h1")</h1>

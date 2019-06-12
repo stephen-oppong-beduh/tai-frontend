@@ -19,11 +19,10 @@
 @import includes.forms._
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(dateForm: Form[LocalDate], bankName: String, id:Int)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(dateForm: Form[LocalDate], bankName: String, id:Int)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @header = @{
     ptaHeader(
@@ -40,8 +39,7 @@
     pageHeader = Some(header),
     articleClasses = None,
     gaCustomTitle = Some(Messages("tai.closeBankAccount.closeDateForm.customGaTitle"))
-    )
-    {
+    ) {
 
         @form(action = controllers.income.bbsi.routes.BbsiCloseAccountController.submitCloseDate(id)) {
         @date(

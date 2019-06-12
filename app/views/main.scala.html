@@ -21,31 +21,24 @@
 @import uk.gov.hmrc.tai.config.{ApplicationConfig, FeatureTogglesConfig}
 @import uk.gov.hmrc.play.language.LanguageUtils
 @import uk.gov.hmrc.tai.viewModels.GoogleAnalyticsSettings
+@import uk.gov.hmrc.play.views.html.layouts.Article
 
-@this(applicationConfig: ApplicationConfig)
+@this(applicationConfig: ApplicationConfig, featureTogglesConfig: FeatureTogglesConfig, article: Article, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 
-@(title: String,
-  sidebarLinks: Option[Html] = None,
+
+@(title: String, sidebarLinks: Option[Html] = None,
   sidebarClass: Option[String] = None,
   articleClasses: Option[String] = Some("full-width"),
-  authedUser: Option[controllers.auth.AuthedUser] = None,
-  employerName: Option[String] = None,
+  authedUser: Option[controllers.auth.AuthedUser] = None, employerName: Option[String] = None,
   includeGridWrapper: Boolean = false,
   webChat: Boolean = false,
   clickWebChat: Boolean = false,
   gaCallsAdditionalJs: Option[Html] = None,
   gaSettings: GoogleAnalyticsSettings = GoogleAnalyticsSettings(),
   gaCustomTitle: Option[String] = None,
-  optimizelyAudience: Option[String] = None,
-  pageHeader: Option[Html] = None,
+  optimizelyAudience: Option[String] = None, pageHeader: Option[Html] = None,
   script: Option[Html] = None,
-  includeWebchatScript: Boolean = true)
-(mainContent: Html
-)(implicit request: Request[_],
-  messages: Messages,
-  templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer,
-  partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
-
+  includeWebchatScript: Boolean = true)(mainContent: Html)(implicit request: Request[_], messages: Messages)
 
 @serviceSuffix = @{
     s"- ${Messages("tai.service.navTitle")} - GOV.UK"
@@ -187,7 +180,7 @@
         <script type="text/javascript">@gaCallsAdditionalJs.get</script>
     }
 
-    @if(FeatureTogglesConfig.webChatEnabled && includeWebchatScript){
+    @if(featureTogglesConfig.webChatEnabled && includeWebchatScript){
       <script id="webchat-tag" type="text/javascript" src="https://hmrc-uk.digital.nuance.com/chatskins/launch/inqChatLaunch10006719.js"></script>
     }
 
@@ -196,7 +189,7 @@
 
 
 @isWelshEnabled = @{
-    FeatureTogglesConfig.welshLanguageEnabled
+    featureTogglesConfig.welshLanguageEnabled
 }
 
 @isWelshActive = @{
@@ -256,12 +249,12 @@
         mustacheMap ++ Map[String, Any](
             "fullWidthBannerTitle" -> Messages("tai.urbanner.title"),
             "fullWidthBannerText" -> Messages("tai.urbanner.text"),
-            "fullWidthBannerLink" -> ApplicationConfig.urBannerLink,
+            "fullWidthBannerLink" -> applicationConfig.urBannerLink,
             "fullWidthBannerDismissText" -> Messages("tai.urbanner.reject"),
             "fullWidthBannerGaAction" -> "Help improve HMRC letters"
         )
     } else mustacheMap
 }
 @{
-    templateRenderer.renderDefaultTemplate(applicationConfig.frontendTemplatePath, layouts.article(content = mainContent, includeGridWrapper = includeGridWrapper, articleClasses), templateArguments)
+    templateRenderer.renderDefaultTemplate(applicationConfig.frontendTemplatePath, article(content = mainContent, includeGridWrapper = includeGridWrapper, articleClasses), templateArguments)
 }

@@ -19,11 +19,10 @@
 @import includes.{cancelLink, ptaHeader}
 @import uk.gov.hmrc.play.views.html.helpers.{errorSummary, form}
 @import includes.forms.inputRadioGroupStyling
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(updateRemoveForm: Form[Option[String]], employmentName: String, empId: Int)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(updateRemoveForm: Form[Option[String]], employmentName: String, empId: Int)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{"Update or remove employer- Do you currently work for this employer?"}
 
@@ -42,8 +41,7 @@
     authedUser = Some(user),
     pageHeader = Some(header),
     articleClasses = None,
-    gaCustomTitle = Some(messages("tai.employment.decision.customGaTitle")))
-    {
+    gaCustomTitle = Some(messages("tai.employment.decision.customGaTitle"))) {
 
     @form(action = controllers.employments.routes.EndEmploymentController.handleEmploymentUpdateRemove, Symbol("data-journey-dynamic-radios") -> "" ) {
         <div class="form-group">

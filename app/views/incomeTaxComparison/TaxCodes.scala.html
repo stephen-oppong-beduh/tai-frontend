@@ -18,8 +18,10 @@
 @import uk.gov.hmrc.tai.viewModels.TaxCodeDetail
 @import uk.gov.hmrc.tai.config.ApplicationConfig
 @import uk.gov.hmrc.urls.Link
+@import uk.gov.hmrc.tai.config.FeatureTogglesConfig
+@import uk.gov.hmrc.play.views.html.layouts.Article
 
-@this(applicationConfig: ApplicationConfig)
+@this(applicationConfig: ApplicationConfig, featureTogglesConfig: FeatureTogglesConfig, article: Article, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 
 @(model: TaxCodeComparisonViewModel)(implicit messages: Messages)
 

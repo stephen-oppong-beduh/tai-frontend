@@ -14,11 +14,9 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.tai.config.ApplicationConfig
+@this(main: views.html.main)
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
-
-@()(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@()(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @import uk.gov.hmrc.urls.Link
 @import uk.gov.hmrc.play.views.html.layouts.loginStatus
@@ -26,8 +24,7 @@
 @main(title = Messages("tai.gatekeeper.refuse.title"),
     authedUser = Some(user),
     articleClasses = Some("full-width"),
-    gaCustomTitle = None)
-    {
+    gaCustomTitle = None) {
 <header class="page-header">
     <h1>@Messages("tai.gatekeeper.refuse.title")</h1>
 </header>

@@ -17,9 +17,8 @@
 @import includes.ptaHeader
 @import includes.cancelLink
 @import uk.gov.hmrc.tai.viewModels.GoogleAnalyticsSettings
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(employerName: String,
   form: Option[Form[_]],
@@ -33,9 +32,7 @@
 )(content: Html
 )(implicit request: Request[_],
   user: controllers.auth.AuthedUser,
-  messages: Messages,
-  templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer,
-  partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+  messages: Messages)
 @header = @{
     ptaHeader(
         formForErrorSummary = form,
@@ -54,8 +51,7 @@
     employerName = Some(employerName),
     gaCustomTitle = None,
     gaSettings = gaSettings
-)
-    {
+) {
     <div class="section flush--bottom soft--top soft--bottom">
         @content
 

@@ -20,11 +20,10 @@
 @import uk.gov.hmrc.urls.Link
 @import uk.gov.hmrc.tai.model.TaxYear
 @import uk.gov.hmrc.play.views.formatting.Money._
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(untaxedInterest: UntaxedInterest)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(untaxedInterest: UntaxedInterest)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @header = @{
     ptaHeader(
@@ -40,8 +39,7 @@
     pageHeader = Some(header),
     articleClasses = None,
     gaCustomTitle = None
-)
-    {
+) {
     <p>@messages("tai.bbsi.account.desc1")</p>
     <p>@messages("tai.bbsi.account.desc2")</p>
 

@@ -15,10 +15,8 @@
  *@
 
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
-
+@this(main: views.html.main)
 
 @(employmentName: String, isPension: Boolean)(
     implicit request: Request[_],
@@ -35,8 +33,7 @@
     articleClasses = Some("full-width"),
     authedUser = Some(user),
     employerName = Some(employmentName)
-)
-    {
+) {
 <div class="column-two-thirds">
     <header class="grid-row margin-bottom-large">
         <div class="govuk-box-highlight">

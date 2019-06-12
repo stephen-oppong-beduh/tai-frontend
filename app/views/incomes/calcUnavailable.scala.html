@@ -14,9 +14,7 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.tai.config.ApplicationConfig
-
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(employmentId: Int, employerName: String)(implicit request: Request[_], messages: Messages,
 user: controllers.auth.AuthedUser,
@@ -45,8 +43,7 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
     pageHeader = Some(header),
     employerName = Some(employerName),
     gaCustomTitle = None
-)
-    {
+) {
 <div>
     <h2 class="heading-medium flush--top">@messages("tai.unableToCalculate.nextSteps")</h2>
     <p>@messages("tai.unableToCalculate.cantCalc")</p>

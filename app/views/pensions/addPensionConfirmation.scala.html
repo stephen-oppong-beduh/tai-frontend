@@ -16,20 +16,17 @@
 
 @import uk.gov.hmrc.urls.Link
 @import includes.confirmation_summary
-
 @import views.html.includes.confirmationSuccessBanner
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@()(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@()(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 
 @main(
     title = Messages("tai.pensionConfirmation.heading"),
     authedUser = Some(user),
     articleClasses = None,
-    gaCustomTitle = None)
-    {
+    gaCustomTitle = None) {
 
     @confirmationSuccessBanner()
 

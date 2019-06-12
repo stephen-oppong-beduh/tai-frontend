@@ -19,9 +19,8 @@
 @import uk.gov.hmrc.tai.viewModels.employments.WithinSixWeeksViewModel
 @import uk.gov.hmrc.urls.Link
 @import includes.ptaHeader
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(model: WithinSixWeeksViewModel)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 
@@ -40,8 +39,7 @@
     authedUser = Some(user),
     pageHeader = Some(header),
     gaCustomTitle = None
-)
-    {
+) {
 
     <p>@messages("tai.endEmploymentWithinSixWeeksError.employerAndPayDate", model.employerName, model.latestPayDateInHtml)</p>
     <p>@messages("tai.endEmploymentWithinSixWeeksError.whatTheEmployerShouldDo", model.earliestUpdateDateInHtml)</p>

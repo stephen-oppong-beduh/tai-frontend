@@ -21,11 +21,10 @@
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 @import uk.gov.hmrc.tai.viewModels.employments.EmploymentViewModel
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(dateForm: Form[LocalDate], viewmodel: EmploymentViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(dateForm: Form[LocalDate], viewmodel: EmploymentViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @header = @{
     ptaHeader(
@@ -40,8 +39,7 @@
       authedUser = Some(user),
       pageHeader = Some(header),
       articleClasses = None,
-      gaCustomTitle = Some(Messages("tai.endEmployment.endDateForm.customGaTitle")))
-    {
+      gaCustomTitle = Some(Messages("tai.endEmployment.endDateForm.customGaTitle"))) {
 
     @form(action = controllers.employments.routes.EndEmploymentController.handleEndEmploymentPage(viewmodel.empId)) {
         @date(

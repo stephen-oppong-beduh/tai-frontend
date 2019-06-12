@@ -14,16 +14,12 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.tai.config.ApplicationConfig
-
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(noCYIncomeTaxErrorViewModel: uk.gov.hmrc.tai.viewModels.NoCYIncomeTaxErrorViewModel
 )(implicit request: Request[_],
   messages: Messages,
-  user: controllers.auth.AuthedUser,
-  templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer,
-  partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+  user: controllers.auth.AuthedUser)
 
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.urls.Link
@@ -60,8 +56,7 @@
     articleClasses = None,
     authedUser = Some(user),
     pageHeader = Some(header)
-)
-    {
+) {
     <p id="no-income-info">
         @noCYIncomeTaxErrorViewModel.endDate match {
             case Some(date) => {

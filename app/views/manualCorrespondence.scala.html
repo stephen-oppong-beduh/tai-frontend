@@ -15,18 +15,19 @@
  *@
 
 @import uk.gov.hmrc.tai.config.ApplicationConfig
+@import uk.gov.hmrc.tai.config.FeatureTogglesConfig
+@import uk.gov.hmrc.play.views.html.layouts.Article
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@()(implicit request: Request[_], messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@()(implicit request: Request[_], messages: Messages)
 
 @import uk.gov.hmrc.urls.Link
 
 @main(
 title=Messages("tai.gatekeeper.refuse.title"),
 gaCustomTitle = None
-)
-    {
+) {
 
   <div class="grid-row">
     <div class="column-two-thirds">

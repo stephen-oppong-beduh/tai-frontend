@@ -22,9 +22,8 @@
 @import uk.gov.hmrc.tai.forms.YesNoForm
 
 @import uk.gov.hmrc.tai.model.domain.income.IncomeSource
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 
 @(yesNoForm: Form[YesNoForm], employer: IncomeSource)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser,
@@ -49,8 +48,7 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
     pageHeader = Some(header),
     employerName = Some(employer.name),
     gaCustomTitle = None
-    )
-    {
+    ) {
     @form(action = controllers.income.estimatedPay.update.routes.IncomeUpdateCalculatorController.handleBonusPayments, Symbol("data-dynamic-form") -> "true") {
 
         @{inputRadioGroupStyling(

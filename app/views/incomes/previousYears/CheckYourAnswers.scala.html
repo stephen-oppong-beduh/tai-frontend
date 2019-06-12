@@ -21,11 +21,10 @@
 @import includes._
 @import includes.forms._
 @import uk.gov.hmrc.tai.model.TaxYear
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(viewModel: UpdateIncomeDetailsCheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(viewModel: UpdateIncomeDetailsCheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @header = @{
   ptaHeader(
@@ -39,8 +38,7 @@
   authedUser = Some(user),
   pageHeader = Some(header),
   articleClasses = None
-)
-    {
+) {
 
     <div class="section">
         @checkYourAnswers(

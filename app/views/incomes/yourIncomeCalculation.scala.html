@@ -23,15 +23,12 @@
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 @import includes.ptaHeader
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(model: YourIncomeCalculationViewModel)(implicit request: Request[_],
 user: controllers.auth.AuthedUser,
-messages: Messages,
-templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer,
-partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+messages: Messages)
 
 @gaEventActionString = @{"Taxable income"}
 
@@ -60,8 +57,7 @@ partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
     employerName = Some(model.employerName),
     gaCustomTitle = Some(Messages("tai.income.calculation.TaxableIncomeDetails.gaTitle")),
     articleClasses = None
-)
-    {
+) {
 
     <div class="grid-row">
 

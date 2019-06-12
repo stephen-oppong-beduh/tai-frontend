@@ -19,11 +19,10 @@
 @import includes.forms._
 @import includes.cancelLink
 @import includes.ptaHeader
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(wdywtdForm: Form[uk.gov.hmrc.tai.forms.UpdateOrRemoveCarForm], viewModel: uk.gov.hmrc.tai.viewModels.benefit.CompanyCarChoiceViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(wdywtdForm: Form[uk.gov.hmrc.tai.forms.UpdateOrRemoveCarForm], viewModel: uk.gov.hmrc.tai.viewModels.benefit.CompanyCarChoiceViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{Messages("tai.changeCompanyCar.title")}
 
@@ -40,8 +39,7 @@
     authedUser = Some(user),
     pageHeader = Some(header),
     articleClasses = None,
-    gaCustomTitle = None)
-    {
+    gaCustomTitle = None) {
 
     @form( action=controllers.routes.CompanyCarController.handleUserJourneyChoice, args=(Symbol("class"), "subsection"),(Symbol("data-journey-dynamic-radios"), "") ){
 

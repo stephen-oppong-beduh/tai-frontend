@@ -20,11 +20,10 @@
 @import uk.gov.hmrc.play.views.html.helpers.{form, errorSummary, input}
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 @import uk.gov.hmrc.urls.Link
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(pensionProviderName: String)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(pensionProviderName: String)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{"We can’t add this pension provider yet"}
 
@@ -41,8 +40,7 @@
   authedUser = Some(user),
   pageHeader = Some(header),
   articleClasses = None,
-  gaCustomTitle = None)
-    {
+  gaCustomTitle = None) {
 
     <div class="subsection flush--top">
         <p>@Messages("tai.addPensionProvider.errorPage.para1", pensionProviderName)</p>

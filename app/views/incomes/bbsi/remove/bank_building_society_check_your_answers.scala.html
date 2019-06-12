@@ -18,11 +18,10 @@
 @import includes.forms._
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(id: Int, bankName: String)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(id: Int, bankName: String)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @header = @{
     ptaHeader(
@@ -38,8 +37,7 @@
     pageHeader = Some(header),
     articleClasses = None,
     gaCustomTitle = Some(Messages("tai.bbsi.remove.checkYourAnswers.customGaTitle"))
-)
-    {
+) {
 
     <p>@Messages("tai.bbsi.remove.checkYourAnswers.description", bankName)</p>
 

@@ -20,11 +20,10 @@
 @import uk.gov.hmrc.tai.viewModels.estimatedIncomeTax.DetailedIncomeTaxEstimateViewModel
 @import includes.ptaHeader
 @import uk.gov.hmrc.play.views.formatting.Money._
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(viewModel: DetailedIncomeTaxEstimateViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(viewModel: DetailedIncomeTaxEstimateViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{Messages("tai.estimatedIncome.detailedEstimate.title")}
 
@@ -48,8 +47,7 @@
     pageHeader = Some(header),
     authedUser = Some(user),
     gaCustomTitle = None
-)
-    {
+) {
     <div class="grid-row">
         <div class="grid grid-2-3">
             <div class="inner-block">

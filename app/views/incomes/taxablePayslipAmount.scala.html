@@ -21,12 +21,11 @@
 @import includes.cancelLink
 @import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.TaxablePaySlipAmountViewModel
 @import includes.forms.{submit, input}
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(viewModel: TaxablePaySlipAmountViewModel)(implicit request: Request[_],
-messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{"Taxable pay from your payslip"}
 
@@ -45,9 +44,7 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
     articleClasses = None,
     authedUser = Some(user),
     pageHeader = Some(header),
-    employerName = Some(viewModel.employer.name)
-)
-    {
+    employerName = Some(viewModel.employer.name)) {
     <div>
         <p>@messages("tai.taxablePayslip.taxablePay.explanation")</p>
         <p>@messages("tai.taxablePayslip.shownOnPayslip")</p>

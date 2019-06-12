@@ -20,11 +20,10 @@
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.urls.Link
 @import includes.ptaHeader
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(taxCodeViewModel: TaxCodeViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(taxCodeViewModel: TaxCodeViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{"Your tax codes"}
 
@@ -42,8 +41,7 @@
     authedUser = Some(user),
     pageHeader = Some(header),
     articleClasses = Some("full-width"),
-    includeWebchatScript = false)
-    {
+    includeWebchatScript = false) {
 
     <div class="grid-row">
         <div class="grid grid-2-3">

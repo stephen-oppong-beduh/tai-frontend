@@ -18,12 +18,11 @@
 @import uk.gov.hmrc.tai.viewModels.taxCodeChange.YourTaxFreeAmountViewModel
 @import includes.taxFreeAmountSummaryComparison
 @import uk.gov.hmrc.urls.Link
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 
-@(currentTaxFreeAmount: YourTaxFreeAmountViewModel)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(currentTaxFreeAmount: YourTaxFreeAmountViewModel)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 
 @gaEventActionString = @{"Your tax-free amount"}
 
@@ -43,8 +42,7 @@
     authedUser = Some(user),
     gaCustomTitle = None,
     includeWebchatScript = false
-)
-    {
+) {
     <div class="column-two-thirds">
 
         <div class="grid-row">

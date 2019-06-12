@@ -15,7 +15,6 @@
  *@
 
 @import includes.ptaHeader
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import uk.gov.hmrc.tai.util.ViewModelHelper._
 @import uk.gov.hmrc.tai.service.TaxPeriodLabelService
@@ -25,9 +24,7 @@
 
 @this(main: views.html.main, applicationConfig: ApplicationConfig)
 
-
-@(viewModel: uk.gov.hmrc.tai.viewModels.HistoricPayAsYouEarnViewModel, noOfPreviousYearsToShow: Int)(implicit request: Request[_], user: controllers.auth.AuthedUser,
-messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(viewModel: uk.gov.hmrc.tai.viewModels.HistoricPayAsYouEarnViewModel, noOfPreviousYearsToShow: Int)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 
 @gaEventActionString = @{"Your Pay As You Earn Income Tax"}
 
@@ -61,8 +58,7 @@ messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, par
     authedUser = Some(user),
     pageHeader = Some(header),
     gaCustomTitle = None
-)
-    {
+) {
 
 <div class="grid-row">
 

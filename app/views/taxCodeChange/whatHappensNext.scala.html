@@ -16,12 +16,10 @@
 
 @import includes.ptaHeader
 @import uk.gov.hmrc.urls.Link
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-
-@()(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@()(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 
 @gaEventActionString = @{"What happens next"}
 
@@ -40,8 +38,7 @@
     pageHeader = Some(header),
     authedUser = Some(user),
     gaCustomTitle = None
-)
-    {
+) {
 
 <div class="grid-row">
     <div class="grid grid-2-3">

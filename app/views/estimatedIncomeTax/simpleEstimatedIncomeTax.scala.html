@@ -23,12 +23,11 @@
 @import uk.gov.hmrc.tai.viewModels.estimatedIncomeTax.{ComplexTaxView,SimpleTaxView, ZeroTaxView,TaxViewType}
 @import uk.gov.hmrc.tai.util.ViewModelHelper._
 @import uk.gov.hmrc.tai.util.constants.TaxRegionConstants._
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(viewModel: uk.gov.hmrc.tai.viewModels.estimatedIncomeTax.SimpleEstimatedIncomeTaxViewModel, iFormLinks: Html)(implicit
-request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{Messages("tai.estimatedIncome.title")}
 
@@ -52,9 +51,7 @@ request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, temp
     articleClasses = Some("full-width"),
     authedUser = Some(user),
     webChat = true,
-    gaCustomTitle = None)
-    {
-
+    gaCustomTitle = None) {
 
     <div class="grid-row">
         <div class="grid grid-2-3">

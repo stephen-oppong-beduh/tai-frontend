@@ -21,9 +21,8 @@
 @import uk.gov.hmrc.play.views.html.helpers._
 @import includes.cancelLink
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(income: Form[uk.gov.hmrc.tai.forms.EditIncomeForm],
     hasMultipleIncomes: Boolean,
@@ -61,8 +60,7 @@
     articleClasses = Some(""),
     employerName = income("name").value,
     webChat = webChat
-)
-    {
+) {
 
     <div>
         <p>@messages("tai.incomes.edit.average.hours", TaxYearRangeUtil.currentTaxYearRange)</p>

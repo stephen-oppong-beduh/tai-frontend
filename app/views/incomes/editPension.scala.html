@@ -24,7 +24,7 @@
 @import uk.gov.hmrc.tai.util.ViewModelHelper.currentTaxYearRangeHtmlNonBreak
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(income: Form[uk.gov.hmrc.tai.forms.EditIncomeForm], hasMultipleIncomes: Boolean, employmentId: Int, pensionToDate: String = "0", webChat: Boolean = false)(implicit request: Request[_],
 messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
@@ -47,9 +47,7 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
     pageHeader = Some(header),
     articleClasses = None,
     employerName = income("name").value,
-    webChat = webChat
-)
-    {
+    webChat = webChat) {
 <div>
     <h2 class="heading-medium">@messages("tai.incomes.edit.incomeTax.update.heading", income("name").value.getOrElse(""))</h2>
     <p>@messages("tai.incomes.monetaryAmount.format.valid")</p>

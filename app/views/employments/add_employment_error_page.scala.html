@@ -20,11 +20,10 @@
 @import uk.gov.hmrc.play.views.html.helpers.{form, errorSummary, input}
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 @import uk.gov.hmrc.urls.Link
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(employerName: String)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(employerName: String)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{"We can’t add this employer yet"}
 
@@ -41,8 +40,7 @@
   authedUser = Some(user),
   pageHeader = Some(header),
   articleClasses = None,
-  gaCustomTitle = None)
-    {
+  gaCustomTitle = None) {
 
     <div class="subsection">
         <p>@Messages("tai.addEmployment.employmentErrorPage.para1", employerName)</p>

@@ -26,9 +26,8 @@
 @import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.EstimatedPayViewModel
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil
 @import uk.gov.hmrc.tai.util.MonetaryUtil
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(viewModel: EstimatedPayViewModel)(implicit request: Request[_],messages: Messages, user: controllers.auth.AuthedUser,
 templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
@@ -52,8 +51,7 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
     authedUser = Some(user),
     pageHeader = Some(header),
     employerName = Some(viewModel.employer.name)
-)
-    {
+) {
     <div>
         <p>@messages("tai.estimatedPay.weHaveCalculated")</p>
         <h2 class="flush--top">@messages("tai.estimatedPay.yourPay")</h2>

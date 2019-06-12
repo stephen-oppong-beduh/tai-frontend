@@ -22,9 +22,8 @@
 @import uk.gov.hmrc.tai.viewModels.CanWeContactByPhoneViewModel
 @import play.api.mvc.Call
 @import includes.forms.inputRadioGroupStyling
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
 @(      incomingAuthedUser: Option[controllers.auth.AuthedUser],
         viewModel: CanWeContactByPhoneViewModel,
@@ -48,8 +47,7 @@
     authedUser = incomingAuthedUser,
     pageHeader = Some(header),
     articleClasses = None,
-    gaCustomTitle = None)
-    {
+    gaCustomTitle = None) {
 
     @form(action = Call("POST", viewModel.continueUrl), Symbol("data-dynamic-form") -> "true", Symbol("data-journey-dynamic-radios") -> "") {
 

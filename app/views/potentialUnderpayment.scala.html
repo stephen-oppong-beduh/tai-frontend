@@ -25,11 +25,10 @@
 @import uk.gov.hmrc.tai.model.TaxYear
 @import uk.gov.hmrc.tai.viewModels.GoogleAnalyticsSettings
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil
-@import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main)
 
-@(viewModel:uk.gov.hmrc.tai.viewModels.PotentialUnderpaymentViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(viewModel:uk.gov.hmrc.tai.viewModels.PotentialUnderpaymentViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaCallsAdditionalJs = {
     @if(viewModel.iyaCYAmount > 0 && viewModel.iyaCYPlusOneAmount <= 0){
@@ -64,8 +63,7 @@
     gaCallsAdditionalJs = Some(gaCallsAdditionalJs),
     gaSettings = GoogleAnalyticsSettings(dimensions = viewModel.gaDimensions),
     gaCustomTitle = None
-)
-    {
+) {
     <div class="grid-row">
         <div class="grid grid-2-3">
             <div class="inner-block">
