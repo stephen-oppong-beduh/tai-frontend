@@ -24,7 +24,7 @@
 @import includes.forms.submit
 @import uk.gov.hmrc.tai.viewModels.income.BbsiUpdateAccountViewModel
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
-@this(main: views.html.main)
+@this(main: views.html.main, form: FormWithCSRF, input: views.html.includes.forms.input)
 
 @(viewModel: BbsiUpdateAccountViewModel, updateInterestForm: Form[String])(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
@@ -53,7 +53,7 @@
 
         @form(action = controllers.income.bbsi.routes.BbsiUpdateAccountController.submitInterest(viewModel.id), args=(Symbol("class"), "subsection")) {
             <div class="section">
-                @includes.forms.input(
+                @input(
                     field = updateInterestForm("untaxedInterest"),
                     labelText = Messages("tai.bbsi.update.captureInterest.textBox.title"),
                     bold = true,

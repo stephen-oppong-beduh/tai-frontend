@@ -49,6 +49,7 @@ object TaxFreeAmountViewModel extends ViewModelHelper {
     val taxFreeAmountTotal: BigDecimal = taxAccountCalculator.taxFreeAmount(codingComponents)
 
     val taxFreeAmountSummary = TaxFreeAmountSummaryViewModel(
+      applicationConfig,
       codingComponents,
       taxFreeAmountDetails,
       taxFreeAmountTotal)

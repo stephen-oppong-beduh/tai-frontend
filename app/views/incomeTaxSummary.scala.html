@@ -19,6 +19,7 @@
 @import uk.gov.hmrc.urls.Link
 @import includes.ptaHeader
 @import uk.gov.hmrc.tai.config.ApplicationConfig
+@import uk.gov.hmrc.tai.viewModels.IFormInProgressBannerViewModel
 
 @this(iFormInProgressBanner: views.html.includes.iFormInProgressBanner, main: views.html.main, applicationConfig: ApplicationConfig)
 
@@ -34,9 +35,9 @@
         @Link.toInternalPage(
             id=Some("returnToChooseTaxYearLink"),
             url=routes.WhatDoYouWantToDoController.whatDoYouWantToDoPage.url,
-            value=Some(Messages("tai.returnToChooseTaxYear")),
+            value=Some(messages("tai.returnToChooseTaxYear")),
             cssClasses=Some("link-back"),
-            dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("tai.returnToChooseTaxYear")}"))
+            dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${messages("tai.returnToChooseTaxYear")}"))
         ).toHtml
     </p>
 }
@@ -59,11 +60,11 @@
         <div class="inner-block">
             @if(viewModel.displayIyaBanner){
             <p id="inYearAdjustmentBanner" class="panel-indent panel-indent--info flush--top">
-                <span class="display-block">@Messages("tai.notifications.iya.banner.text")</span>
+                <span class="display-block">@messages("tai.notifications.iya.banner.text")</span>
                 @Link.toInternalPage(
                     url=routes.PotentialUnderpaymentController.potentialUnderpaymentPage().url,
-                    value=Some(Messages("tai.notifications.iya.linkText")),
-                    dataAttributes=Some(Map("journey-click" -> s"link - click:${gaEventActionString}:${Messages("tai.notifications.iya.linkText")}."))
+                    value=Some(messages("tai.notifications.iya.linkText")),
+                    dataAttributes=Some(Map("journey-click" -> s"link - click:${gaEventActionString}:${messages("tai.notifications.iya.linkText")}."))
                 ).toHtml
             </p>
             }
@@ -71,9 +72,9 @@
             @if(viewModel.employments.nonEmpty){
             <section id="incomeFromEmploymentSection" class="section flush--bottom" aria-labelledby="incomeFromEmploymentHeading">
 
-                <h2 id="incomeFromEmploymentHeading" class="heading-section">@Messages("tai.incomeTaxSummary.employment.section.heading")</h2>
+                <h2 id="incomeFromEmploymentHeading" class="heading-section">@messages("tai.incomeTaxSummary.employment.section.heading")</h2>
 
-                @incomeTaxSummary_incomeSourceDetail(viewModel.employments, "employment", Messages("tai.incomeTaxSummary.incomeAmount.prefix"), gaEventActionString)
+                @incomeTaxSummary_incomeSourceDetail(viewModel.employments, "employment", messages("tai.incomeTaxSummary.incomeAmount.prefix"), gaEventActionString)
 
             </section>
             }
@@ -81,9 +82,9 @@
             @if(viewModel.pensions.nonEmpty){
             <section id="incomeFromPensionSection" class="section flush--bottom" aria-labelledby="incomeFromPensionHeading">
 
-                <h2 id="incomeFromPensionHeading" class="heading-section">@Messages("tai.incomeTaxSummary.pension.section.heading")</h2>
+                <h2 id="incomeFromPensionHeading" class="heading-section">@messages("tai.incomeTaxSummary.pension.section.heading")</h2>
 
-                @incomeTaxSummary_incomeSourceDetail(viewModel.pensions, "pension", Messages("tai.incomeTaxSummary.incomeAmount.prefix"), gaEventActionString)
+                @incomeTaxSummary_incomeSourceDetail(viewModel.pensions, "pension", messages("tai.incomeTaxSummary.incomeAmount.prefix"), gaEventActionString)
 
             </section>
             }
@@ -91,9 +92,9 @@
             @if(viewModel.otherIncomeSources.nonEmpty){
             <section id="otherIncomeSources" class="section flush--bottom" aria-labelledby="otherIncomeSourcesHeading">
 
-                <h2 id="otherIncomeSourcesHeading" class="heading-section">@Messages("tai.incomeTaxSummary.otherIncomeSources.heading")</h2>
+                <h2 id="otherIncomeSourcesHeading" class="heading-section">@messages("tai.incomeTaxSummary.otherIncomeSources.heading")</h2>
 
-                @incomeTaxSummary_incomeSourceDetail(viewModel.otherIncomeSources, "otherIncomeSources", Messages("tai.incomeTaxSummary.incomeAmount.prefix"), gaEventActionString)
+                @incomeTaxSummary_incomeSourceDetail(viewModel.otherIncomeSources, "otherIncomeSources", messages("tai.incomeTaxSummary.incomeAmount.prefix"), gaEventActionString)
 
             </section>
             }
@@ -101,9 +102,9 @@
             @if(viewModel.ceasedEmployments.nonEmpty){
             <section id="endedIncomeSection" class="section" aria-labelledby="endedIncomeHeading">
 
-                <h2 id="endedIncomeHeading" class="heading-section">@Messages("tai.incomeTaxSummary.ceased.section.heading", viewModel.lastTaxYearEnd)</h2>
+                <h2 id="endedIncomeHeading" class="heading-section">@messages("tai.incomeTaxSummary.ceased.section.heading", viewModel.lastTaxYearEnd)</h2>
 
-                @incomeTaxSummary_incomeSourceDetail(viewModel.ceasedEmployments, "income", Messages("tai.incomeTaxSummary.ceasedIncomeAmount.prefix"), gaEventActionString)
+                @incomeTaxSummary_incomeSourceDetail(viewModel.ceasedEmployments, "income", messages("tai.incomeTaxSummary.ceasedIncomeAmount.prefix"), gaEventActionString)
 
             </section>
             }
@@ -117,41 +118,41 @@
 
             <section id="annualAmountsSummarySection" class="section section__box--shaded flush--bottom" aria-labelledby="annualAmountsSummaryHeading">
 
-                <h2 id="annualAmountsSummaryHeading" class="heading-section">@Messages("tai.incomeTaxSummary.annualAmounts.section.heading")</h2>
+                <h2 id="annualAmountsSummaryHeading" class="heading-section">@messages("tai.incomeTaxSummary.annualAmounts.section.heading")</h2>
 
-                <h3>@Messages("tai.incomeTaxSummary.annualAmounts.section.taxFreeHeading")</h3>
-                <p class="flush--bottom">@Messages("tai.incomeTaxSummary.annualAmounts.section.taxFreePara")</p>
+                <h3>@messages("tai.incomeTaxSummary.annualAmounts.section.taxFreeHeading")</h3>
+                <p class="flush--bottom">@messages("tai.incomeTaxSummary.annualAmounts.section.taxFreePara")</p>
                 <p class="flush">
-                    <span class="visually-hidden">@Messages("tai.incomeTaxSummary.generalAmount.prefix") </span>
+                    <span class="visually-hidden">@messages("tai.incomeTaxSummary.generalAmount.prefix") </span>
                     <span class="display-block heading-36 faded-text-dark section--narrow flush">@viewModel.taxFreeAmount</span>
                 </p>
                 <p class="flush--top">
                     @Link.toInternalPage(
                         id=Some("taxFreeAmountLink"),
                         url=routes.TaxFreeAmountController.taxFreeAmount.toString,
-                        value=Some(Messages("tai.incomeTaxSummary.annualAmounts.section.taxFreeLink")),
+                        value=Some(messages("tai.incomeTaxSummary.annualAmounts.section.taxFreeLink")),
                         cssClasses=Some(""),
-                        dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("tai.incomeTaxSummary.annualAmounts.section.taxFreeLink")}"))).toHtml
+                        dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${messages("tai.incomeTaxSummary.annualAmounts.section.taxFreeLink")}"))).toHtml
                 </p>
-                <h3>@Messages("tai.incomeTaxSummary.annualAmounts.section.incomeTaxHeading")</h3>
-                <p class="flush--bottom">@Messages("tai.incomeTaxSummary.annualAmounts.section.incomeTaxPara")</p>
+                <h3>@messages("tai.incomeTaxSummary.annualAmounts.section.incomeTaxHeading")</h3>
+                <p class="flush--bottom">@messages("tai.incomeTaxSummary.annualAmounts.section.incomeTaxPara")</p>
                 <p class="flush">
-                    <span class="visually-hidden">@Messages("tai.incomeTaxSummary.generalAmount.prefix") </span>
+                    <span class="visually-hidden">@messages("tai.incomeTaxSummary.generalAmount.prefix") </span>
                     <span class="display-block heading-36 faded-text-dark section--narrow flush">@viewModel.estimatedIncomeTaxAmount</span>
                 </p>
                 <p class="flush--top">
                     @Link.toInternalPage(
                         id=Some("estimatedIncomeTaxLink"),
                         url=routes.EstimatedIncomeTaxController.estimatedIncomeTax.toString,
-                        value=Some(Messages("tai.incomeTaxSummary.annualAmounts.section.incomeTaxLink")),
+                        value=Some(messages("tai.incomeTaxSummary.annualAmounts.section.incomeTaxLink")),
                         cssClasses=Some(""),
-                        dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("tai.incomeTaxSummary.annualAmounts.section.incomeTaxLink")}"))).toHtml
+                        dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${messages("tai.incomeTaxSummary.annualAmounts.section.incomeTaxLink")}"))).toHtml
                 </p>
             </section>
 
             <section id="addMissingIncomeSourceSection" class="section section__box--shaded" aria-labelledby="addMissingIncomeSourceHeading">
 
-                <h2 id="addMissingIncomeSourceHeading" class="heading-section">@Messages("tai.incomeTaxSummary.addMissingIncome.section.heading")</h2>
+                <h2 id="addMissingIncomeSourceHeading" class="heading-section">@messages("tai.incomeTaxSummary.addMissingIncome.section.heading")</h2>
 
                 <ul>
                     <li>
@@ -159,9 +160,9 @@
                             @Link.toInternalPage(
                                 id=Some("addEmploymentLink"),
                                 url=controllers.employments.routes.AddEmploymentController.addEmploymentName.toString,
-                                value=Some(Messages("tai.incomeTaxSummary.addMissingIncome.section.employerLink")),
+                                value=Some(messages("tai.incomeTaxSummary.addMissingIncome.section.employerLink")),
                                 cssClasses=Some(""),
-                                dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("tai.incomeTaxSummary.addMissingIncome.section.employerLink")}"))).toHtml
+                                dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${messages("tai.incomeTaxSummary.addMissingIncome.section.employerLink")}"))).toHtml
                         </p>
                     </li>
                     <li>
@@ -169,9 +170,9 @@
                             @Link.toInternalPage(
                                 id=Some("addPensionLink"),
                                 url=controllers.pensions.routes.AddPensionProviderController.addPensionProviderName.toString,
-                                value=Some(Messages("add.missing.pension")),
+                                value=Some(messages("add.missing.pension")),
                                 cssClasses=Some(""),
-                                dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("add.missing.pension")}"))).toHtml
+                                dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${messages("add.missing.pension")}"))).toHtml
                         </p>
                     </li>
                     <li>
@@ -179,9 +180,9 @@
                             @Link.toInternalPage(
                                 id=Some("addOtherIncomeSourceLink"),
                                 url=applicationConfig.otherIncomeLinkUrl,
-                                value=Some(Messages("tai.incomeTaxSummary.addMissingIncome.section.otherLink")),
+                                value=Some(messages("tai.incomeTaxSummary.addMissingIncome.section.otherLink")),
                                 cssClasses=Some(""),
-                                dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("tai.incomeTaxSummary.addMissingIncome.section.otherLink")}"))).toHtml
+                                dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${messages("tai.incomeTaxSummary.addMissingIncome.section.otherLink")}"))).toHtml
                         </p>
                     </li>
                 </ul>

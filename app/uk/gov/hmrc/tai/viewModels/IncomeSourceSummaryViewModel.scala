@@ -44,8 +44,14 @@ case class IncomeSourceSummaryViewModel(empId: Int,
 }
 
 object IncomeSourceSummaryViewModel {
-  def apply(empId: Int, displayName: String, taxCodeIncomeSources: Seq[TaxCodeIncome], employment: Employment, benefits: Benefits,
-            estimatedPayJourneyCompleted: Boolean)(implicit messages: Messages): IncomeSourceSummaryViewModel = {
+  def apply(applicationConfig: ApplicationConfig,
+             empId: Int,
+            displayName: String,
+            taxCodeIncomeSources: Seq[TaxCodeIncome],
+            employment: Employment,
+            benefits: Benefits,
+            estimatedPayJourneyCompleted: Boolean)
+           (implicit messages: Messages): IncomeSourceSummaryViewModel = {
     val amountYearToDate = for {
       latestAnnualAccount <- employment.latestAnnualAccount
       latestPayment <- latestAnnualAccount.latestPayment
@@ -54,7 +60,7 @@ object IncomeSourceSummaryViewModel {
     val taxCodeIncomeSource = taxCodeIncomeSources.find(_.employmentId.contains(empId)).
       getOrElse(throw new RuntimeException(s"Income details not found for employment id $empId"))
 
-    val benefitVMs = companyBenefitViewModels(empId, benefits)
+    val benefitVMs = companyBenefitViewModels(applicationConfig, empId, benefits)
     val displayAddCompanyCar = !benefitVMs.map(_.name).contains(Messages("tai.taxFreeAmount.table.taxComponent.CarBenefit"))
 
     IncomeSourceSummaryViewModel(empId,
@@ -71,7 +77,7 @@ object IncomeSourceSummaryViewModel {
     )
   }
 
-  private def companyBenefitViewModels(empId: Int, benefits: Benefits)(implicit messages: Messages): Seq[CompanyBenefitViewModel] = {
+  private def companyBenefitViewModels(applicationConfig: ApplicationConfig, empId: Int, benefits: Benefits)(implicit messages: Messages): Seq[CompanyBenefitViewModel] = {
     val ccBenVMs = benefits.companyCarBenefits collect {
       case CompanyCarBenefit(`empId`, grossAmount, _, _) =>
         val changeUrl = controllers.routes.CompanyCarController.redirectCompanyCarSelection(empId).url
@@ -86,7 +92,7 @@ object IncomeSourceSummaryViewModel {
 
       case GenericBenefit(CarFuelBenefit, Some(`empId`), amount) =>
         val benefitName = Messages("tai.taxFreeAmount.table.taxComponent.CarFuelBenefit")
-        val changeUrl = ApplicationConfig.companyCarFuelBenefitUrl
+        val changeUrl = applicationConfig.companyCarFuelBenefitUrl
         CompanyBenefitViewModel(benefitName, amount, changeUrl)
 
       case GenericBenefit(benefitType, Some(`empId`), amount) if benefitType != MedicalInsurance && benefitType != CarFuelBenefit =>

@@ -17,7 +17,6 @@
 package uk.gov.hmrc.tai.binders
 
 import play.api.Play
-import play.api.Play.current
 import play.api.mvc.PathBindable
 import uk.gov.hmrc.tai.model.TaxYear
 
@@ -30,7 +29,9 @@ object TaxYearObjectBinder {
       val taxYearRequired: TaxYear = TaxYear(value)
 
       val currentYear: Int = TaxYear().year
-      val earliestSupportedYear: Int = Play.configuration.getInt("tai.numberOfPreviousYearsToShow").getOrElse(3)
+
+      //noinspection ScalaDeprecation can't inject in anything in to an PathBindable
+      val earliestSupportedYear: Int = Play.current.configuration.getInt("tai.numberOfPreviousYearsToShow").getOrElse(3)
 
       val latestSupportedTaxYear = TaxYear().next
       val earliestSupportedTaxYear = TaxYear(currentYear - earliestSupportedYear)

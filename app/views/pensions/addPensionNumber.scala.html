@@ -15,9 +15,9 @@
  *@
 
 @import includes.backLink
-@import includes.forms.{submit, input}
+@import includes.forms.submit
 @import includes.{cancelLink, ptaHeader}
-@import uk.gov.hmrc.play.views.html.helpers.{errorSummary, form}
+@import uk.gov.hmrc.play.views.html.helpers.errorSummary
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 @import uk.gov.hmrc.tai.forms.pensions.AddPensionProviderNumberForm
 @import uk.gov.hmrc.tai.viewModels.pensions.PensionNumberViewModel
@@ -25,8 +25,10 @@
 @import uk.gov.hmrc.tai.config.ApplicationConfig
 @import uk.gov.hmrc.tai.config.FeatureTogglesConfig
 @import uk.gov.hmrc.play.views.html.layouts.Article
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
-@this(main: views.html.main)
+@this(main: views.html.main, input: views.html.includes.forms.input, form: FormWithCSRF)
+
 
 @(payrollNumberForm: Form[AddPensionProviderNumberForm], pensionNumberViewModel: PensionNumberViewModel)(implicit request: Request[_],
         messages: Messages, user: controllers.auth.AuthedUser)

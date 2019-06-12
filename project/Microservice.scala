@@ -1,3 +1,4 @@
+import play.sbt.routes.RoutesKeys._
 import sbt.Keys._
 import sbt.Tests.{Group, SubProcess}
 import sbt._
@@ -75,7 +76,8 @@ trait MicroService {
     .settings(scalaVersion := "2.11.11")
     .settings(
       libraryDependencies ++= appDependencies,
-      retrieveManaged := true)
+      retrieveManaged := true,
+      routesGenerator := InjectedRoutesGenerator)
     .settings(inConfig(ITTestPhases.TemplateTest)(Defaults.testSettings): _*)
     .configs(IntegrationTest)
     .settings(inConfig(ITTestPhases.TemplateItTest)(Defaults.itSettings): _*)

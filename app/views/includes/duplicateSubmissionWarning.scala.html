@@ -20,7 +20,9 @@
 @import includes.forms.inputRadioGroupStyling
 @import play.api.mvc.Call
 
-@(duplicateSubmissionWarningForm: Form[YesNoForm], yesChoiceText: String, noChoiceText: String, actionRoute: Call, gaEventActionString: String )(implicit request: Request[_], messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@this(submit: views.html.includes.forms.submit)
+
+@(duplicateSubmissionWarningForm: Form[YesNoForm], yesChoiceText: String, noChoiceText: String, actionRoute: Call, gaEventActionString: String )(implicit request: Request[_], messages: Messages)
 
     @form(action = actionRoute, Symbol("data-journey-dynamic-radios") -> "" ) {
         <div class="form-group">

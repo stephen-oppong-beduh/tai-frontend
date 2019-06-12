@@ -21,13 +21,13 @@ import javax.inject.Inject
 import play.api.Configuration
 import play.api.libs.ws.{DefaultWSProxyServer, WSClient, WSProxyServer}
 import uk.gov.hmrc.crypto.PlainText
-import uk.gov.hmrc.http.hooks.HttpHook
 import uk.gov.hmrc.http._
+import uk.gov.hmrc.http.hooks.HttpHook
 import uk.gov.hmrc.play.audit.http.HttpAuditing
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector => Auditing}
-import uk.gov.hmrc.play.bootstrap.config.AppName
 import uk.gov.hmrc.play.bootstrap.filters.frontend.crypto.SessionCookieCrypto
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
+import uk.gov.hmrc.play.config.AppName
 import uk.gov.hmrc.play.http.ws._
 import uk.gov.hmrc.play.partials._
 
@@ -47,7 +47,7 @@ class ProxyHttpClient @Inject()(config: Configuration,
   override lazy val configuration = Option(config.underlying)
 
   override val appName: String = new AppName {
-    override def configuration: Configuration = config
+    override protected def appNameConfiguration: Configuration = config
   }.appName
 
   override val hooks: Seq[HttpHook] = Seq(AuditingHook)

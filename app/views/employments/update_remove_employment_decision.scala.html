@@ -20,7 +20,7 @@
 @import uk.gov.hmrc.play.views.html.helpers.{errorSummary, form}
 @import includes.forms.inputRadioGroupStyling
 
-@this(main: views.html.main)
+@this(main: views.html.main, form: FormWithCSRF, submit: views.html.includes.forms.submit)
 
 @(updateRemoveForm: Form[Option[String]], employmentName: String, empId: Int)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 

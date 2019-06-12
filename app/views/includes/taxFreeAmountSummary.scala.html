@@ -16,6 +16,8 @@
 
 @import uk.gov.hmrc.urls.Link
 
+@this()
+
 @(items: Seq[uk.gov.hmrc.tai.viewModels.TaxFreeAmountSummaryCategoryViewModel], gaEventActionString: String, taxCodeChange: Boolean = false)(implicit m: Messages)
 
 @oneOrMoreLinksPresent = @{

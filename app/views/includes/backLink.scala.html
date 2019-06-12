@@ -14,9 +14,11 @@
  * limitations under the License.
  *@
 
-@(gaEventAction: Option[String] = None)(implicit m: Messages)
-
 @import uk.gov.hmrc.urls.Link
+
+@this()
+
+@(gaEventAction: Option[String] = None)(implicit m: Messages)
 
 @stagePromptAttributes = @{
     gaEventAction match {

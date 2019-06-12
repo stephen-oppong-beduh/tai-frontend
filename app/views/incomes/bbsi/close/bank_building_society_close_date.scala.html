@@ -16,11 +16,14 @@
 
 @import includes.{cancelLink, ptaHeader}
 @import org.joda.time.LocalDate
-@import includes.forms._
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 
-@this(main: views.html.main)
+@this(main: views.html.main,
+        form: FormWithCSRF,
+        input: views.html.includes.forms.input,
+        date: views.html.includes.forms.date,
+        submit: views.html.includes.forms.submit)
 
 @(dateForm: Form[LocalDate], bankName: String, id:Int)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 

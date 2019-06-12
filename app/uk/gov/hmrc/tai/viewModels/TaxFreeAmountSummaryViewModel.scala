@@ -43,14 +43,15 @@ case class TaxFreeAmountSummaryViewModel(summaryItems: Seq[TaxFreeAmountSummaryC
 
 object TaxFreeAmountSummaryViewModel extends ViewModelHelper {
 
-  def apply(codingComponents: Seq[CodingComponent],
+  def apply(applicationConfig: ApplicationConfig,
+            codingComponents: Seq[CodingComponent],
             taxFreeAmountDetails: TaxFreeAmountDetails,
             taxFreeAmountTotal: BigDecimal
            )(implicit messages: Messages): TaxFreeAmountSummaryViewModel = {
 
     val personalAllowance = personalAllowanceVM(codingComponents)
-    val additions = additionsVM(codingComponents, taxFreeAmountDetails: TaxFreeAmountDetails)
-    val deductions = deductionsVM(codingComponents, taxFreeAmountDetails: TaxFreeAmountDetails)
+    val additions = additionsVM(applicationConfig, codingComponents, taxFreeAmountDetails: TaxFreeAmountDetails)
+    val deductions = deductionsVM(applicationConfig, codingComponents, taxFreeAmountDetails: TaxFreeAmountDetails)
     val total = totalRow(taxFreeAmountTotal)
 
     TaxFreeAmountSummaryViewModel(Seq(personalAllowance, additions, deductions, total))
@@ -80,16 +81,21 @@ object TaxFreeAmountSummaryViewModel extends ViewModelHelper {
     )
   }
 
-  private def additionsVM(codingComponents: Seq[CodingComponent], taxFreeAmountDetails: TaxFreeAmountDetails)(implicit messages: Messages) = TaxFreeAmountSummaryCategoryViewModel(
+  private def additionsVM(applicationConfig: ApplicationConfig,
+                          codingComponents: Seq[CodingComponent],
+                          taxFreeAmountDetails: TaxFreeAmountDetails)(implicit messages: Messages) = TaxFreeAmountSummaryCategoryViewModel(
     Messages("tai.taxFreeAmount.table.columnOneHeader"),
     Messages("tai.taxFreeAmount.table.columnTwoHeader"),
     hideHeaders = true,
     hideCaption = false,
     Messages("tai.taxFreeAmount.table.additions.caption"),
-    additionRows(codingComponents, taxFreeAmountDetails: TaxFreeAmountDetails)
+    additionRows(applicationConfig, codingComponents, taxFreeAmountDetails: TaxFreeAmountDetails)
   )
 
-  private def additionRows(codingComponents: Seq[CodingComponent], taxFreeAmountDetails: TaxFreeAmountDetails)(implicit messages: Messages): Seq[TaxFreeAmountSummaryRowViewModel] = {
+  private def additionRows(applicationConfig: ApplicationConfig,
+                           codingComponents: Seq[CodingComponent],
+                           taxFreeAmountDetails: TaxFreeAmountDetails)
+                          (implicit messages: Messages): Seq[TaxFreeAmountSummaryRowViewModel] = {
 
     val additionComponents: Seq[CodingComponent] = codingComponents.collect {
       case cc@CodingComponent(_: AllowanceComponentType, _, _, _, _) if !isPersonalAllowanceComponent(cc) => cc
@@ -108,21 +114,23 @@ object TaxFreeAmountSummaryViewModel extends ViewModelHelper {
         totalAmountFormatted,
         ChangeLinkViewModel(false, "", "")
       ))
-      (additionComponents map (TaxFreeAmountSummaryRowViewModel(_, taxFreeAmountDetails: TaxFreeAmountDetails))) ++ totalsRow
+      (additionComponents map (TaxFreeAmountSummaryRowViewModel(applicationConfig, _, taxFreeAmountDetails: TaxFreeAmountDetails))) ++ totalsRow
     }
   }
 
-  private def deductionsVM(codingComponents: Seq[CodingComponent], taxFreeAmountDetails: TaxFreeAmountDetails
+  private def deductionsVM(applicationConfig: ApplicationConfig,
+                           codingComponents: Seq[CodingComponent],
+                           taxFreeAmountDetails: TaxFreeAmountDetails
                           )(implicit messages: Messages) = TaxFreeAmountSummaryCategoryViewModel(
     Messages("tai.taxFreeAmount.table.columnOneHeader"),
     Messages("tai.taxFreeAmount.table.columnTwoHeader"),
     hideHeaders = true,
     hideCaption = false,
     Messages("tai.taxFreeAmount.table.deductions.caption"),
-    deductionRows(codingComponents, taxFreeAmountDetails: TaxFreeAmountDetails)
+    deductionRows(applicationConfig, codingComponents, taxFreeAmountDetails: TaxFreeAmountDetails)
   )
 
-  private def deductionRows(codingComponents: Seq[CodingComponent], taxFreeAmountDetails: TaxFreeAmountDetails
+  private def deductionRows(applicationConfig: ApplicationConfig, codingComponents: Seq[CodingComponent], taxFreeAmountDetails: TaxFreeAmountDetails
                            )(implicit messages: Messages): Seq[TaxFreeAmountSummaryRowViewModel] = {
     val deductionComponents: Seq[CodingComponent] = codingComponents.filter({
       _.componentType match {
@@ -144,7 +152,7 @@ object TaxFreeAmountSummaryViewModel extends ViewModelHelper {
         totalAmountFormatted,
         ChangeLinkViewModel(false, "", "")
       ))
-      (deductionComponents map (TaxFreeAmountSummaryRowViewModel(_, taxFreeAmountDetails))) ++ totalsRow
+      (deductionComponents map (TaxFreeAmountSummaryRowViewModel(applicationConfig, _, taxFreeAmountDetails))) ++ totalsRow
     }
   }
 
