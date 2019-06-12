@@ -42,7 +42,8 @@
     authedUser = Some(user),
     pageHeader = Some(header),
     articleClasses = None,
-    gaCustomTitle = Some(Messages("tai.addPensionProvider.startDateForm.customGaTitle")))  {
+    gaCustomTitle = Some(Messages("tai.addPensionProvider.startDateForm.customGaTitle")))
+    {
 
     @form(action = controllers.pensions.routes.AddPensionProviderController.submitPensionProviderStartDate(), args=(Symbol("class"), "subsection")) {
         @date(

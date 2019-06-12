@@ -36,7 +36,8 @@ import uk.gov.hmrc.tai.viewModels.benefit.CompanyBenefitDecisionViewModel
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class CompanyBenefitController @Inject()(employmentService: EmploymentService,
+class CompanyBenefitController @Inject()(updateOrRemoveCompanyBenefitDecision: views.html.benefits.updateOrRemoveCompanyBenefitDecision,
+                                         employmentService: EmploymentService,
                                          @Named("End Company Benefit") journeyCacheService: JourneyCacheService,
                                          authenticate: AuthAction,
                                          validatePerson: ValidatePerson,
@@ -92,7 +93,7 @@ class CompanyBenefitController @Inject()(employmentService: EmploymentService,
               EndCompanyBenefit_RefererKey -> referer)
 
             journeyCacheService.cache(cache).map { _ =>
-              Ok(views.html.benefits.updateOrRemoveCompanyBenefitDecision(viewModel))
+              Ok(updateOrRemoveCompanyBenefitDecision(viewModel))
             }
           case None => throw new RuntimeException("No employment found")
         }
@@ -114,7 +115,7 @@ class CompanyBenefitController @Inject()(employmentService: EmploymentService,
               currentCache(EndCompanyBenefit_BenefitTypeKey),
               currentCache(EndCompanyBenefit_EmploymentNameKey),
               formWithErrors)
-            BadRequest(views.html.benefits.updateOrRemoveCompanyBenefitDecision(viewModel))
+            BadRequest(updateOrRemoveCompanyBenefitDecision(viewModel))
           }
         },
         success => {

@@ -44,7 +44,8 @@
     authedUser = Some(user),
     pageHeader = Some(header),
     employerName = Some(employerName)
-){
+)
+    {
     <div class="section flush--bottom soft--top">
         @form(action=controllers.income.estimatedPay.update.routes.IncomeUpdateCalculatorController.handleWorkingHours){
                 @{inputRadioGroupStyling(

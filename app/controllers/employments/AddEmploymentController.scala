@@ -49,7 +49,8 @@ class AddEmploymentController @Inject()(add_employment_error_page: views.html.em
                                         add_employment_first_pay_form: views.html.employments.add_employment_first_pay_form,
                                         add_employment_payroll_number_form: views.html.employments.add_employment_payroll_number_form,
                                         can_we_contact_by_phone: views.html.can_we_contact_by_phone,
-                                        confirmation: views.html.employments.confirmation,
+                                        confirmationView: views.html.employments.confirmation,
+                                        addIncomeCheckYourAnswers: views.html.incomes.addIncomeCheckYourAnswers,
                                         auditService: AuditService,
                                         employmentService: EmploymentService,
                                         authenticate: AuthAction,
@@ -277,7 +278,7 @@ class AddEmploymentController @Inject()(add_employment_error_page: views.html.em
             controllers.employments.routes.AddEmploymentController.submitYourAnswers().url,
             controllers.employments.routes.AddEmploymentController.cancel().url)
         implicit val user = request.taiUser
-        Ok(views.html.incomes.addIncomeCheckYourAnswers(model))
+        Ok(addIncomeCheckYourAnswers(model))
       }
   }
 
@@ -298,7 +299,7 @@ class AddEmploymentController @Inject()(add_employment_error_page: views.html.em
   def confirmation: Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       implicit val authedUser = request.taiUser
-      Future.successful(Ok(confirmation()))
+      Future.successful(Ok(confirmationView()))
 
   }
 

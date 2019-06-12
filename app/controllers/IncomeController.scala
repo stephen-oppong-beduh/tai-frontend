@@ -43,7 +43,13 @@ import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
-class IncomeController @Inject()(@Named("Update Income") journeyCacheService: JourneyCacheService,
+class IncomeController @Inject()(editIncome: views.html.incomes.editIncome,
+                                 sameEstimatedPay: views.html.incomes.sameEstimatedPay,
+                                 confirm_save_Income: views.html.incomes.confirm_save_Income,
+                                 editPensionSuccess: views.html.incomes.editPensionSuccess,
+                                 editSuccess: views.html.incomes.editSuccess,
+                                 editPension: views.html.incomes.editPension,
+                                 @Named("Update Income") journeyCacheService: JourneyCacheService,
                                  taxAccountService: TaxAccountService,
                                  employmentService: EmploymentService,
                                  incomeService: IncomeService,
@@ -56,8 +62,8 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
                                  override implicit val templateRenderer: TemplateRenderer)
                                 (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with JourneyCacheConstants
-  with FormValuesConstants {
+    with JourneyCacheConstants
+    with FormValuesConstants {
 
   def cancel(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -67,36 +73,36 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
   }
 
   def regularIncome(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        implicit val user = request.taiUser
-        val nino = user.nino
+    implicit request =>
+      implicit val user = request.taiUser
+      val nino = user.nino
 
-        (for {
-          id <- journeyCacheService.mandatoryValueAsInt(UpdateIncome_IdKey)
-          employmentAmount <- incomeService.employmentAmount(nino, id)
-          latestPayment <- incomeService.latestPayment(nino, id)
-          cacheData = incomeService.cachePaymentForRegularIncome(latestPayment)
-          _ <- journeyCacheService.cache(cacheData)
-        } yield {
-          val amountYearToDate: BigDecimal = latestPayment.map(_.amountYearToDate).getOrElse(0)
+      (for {
+        id <- journeyCacheService.mandatoryValueAsInt(UpdateIncome_IdKey)
+        employmentAmount <- incomeService.employmentAmount(nino, id)
+        latestPayment <- incomeService.latestPayment(nino, id)
+        cacheData = incomeService.cachePaymentForRegularIncome(latestPayment)
+        _ <- journeyCacheService.cache(cacheData)
+      } yield {
+        val amountYearToDate: BigDecimal = latestPayment.map(_.amountYearToDate).getOrElse(0)
 
-          Ok(views.html.incomes.editIncome(EditIncomeForm.create(employmentAmount), false,
-            employmentAmount.employmentId, amountYearToDate.toString))
-        }).recover {
-          case NonFatal(e) => internalServerError(e.getMessage)
-        }
+        Ok(editIncome(EditIncomeForm.create(employmentAmount), false,
+          employmentAmount.employmentId, amountYearToDate.toString))
+      }).recover {
+        case NonFatal(e) => internalServerError(e.getMessage)
+      }
   }
 
   def sameEstimatedPayInCache(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        (for {
-          cachedData <- journeyCacheService.mandatoryValues(UpdateIncome_NameKey, UpdateIncome_IdKey, UpdateIncome_ConfirmedNewAmountKey)
-        } yield {
-          val model = SameEstimatedPayViewModel(cachedData(0), cachedData(1).toInt, cachedData(2).toInt, false)
-          Ok(views.html.incomes.sameEstimatedPay(model))
-        }).recover {
-          case NonFatal(e) => internalServerError(e.getMessage)
-        }
+    implicit request =>
+      (for {
+        cachedData <- journeyCacheService.mandatoryValues(UpdateIncome_NameKey, UpdateIncome_IdKey, UpdateIncome_ConfirmedNewAmountKey)
+      } yield {
+        val model = SameEstimatedPayViewModel(cachedData(0), cachedData(1).toInt, cachedData(2).toInt, false)
+        Ok(sameEstimatedPay(model))
+      }).recover {
+        case NonFatal(e) => internalServerError(e.getMessage)
+      }
   }
 
   def sameAnnualEstimatedPay(): Action[AnyContent] = (authenticate andThen validatePerson).async {
@@ -111,7 +117,7 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
         income <- incomeService.employmentAmount(nino, id)
       } yield {
         val model = SameEstimatedPayViewModel(cachedData(0), id, income.oldAmount, income.isOccupationalPension)
-        Ok(views.html.incomes.sameEstimatedPay(model))
+        Ok(sameEstimatedPay(model))
       }).recover {
         case NonFatal(e) => internalServerError(e.getMessage)
       }
@@ -119,26 +125,26 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
 
 
   def editRegularIncome(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        implicit val user = request.taiUser
-          journeyCacheService.collectedValues(Seq(UpdateIncome_PayToDateKey, UpdateIncome_IdKey, UpdateIncome_NameKey), Seq(UpdateIncome_DateKey)) flatMap tupled {
-            (mandatorySeq, optionalSeq) => {
-              val date = optionalSeq.head.map(date => LocalDate.parse(date))
-              val employerName = mandatorySeq(2)
-              val payToDate = BigDecimal(mandatorySeq.head)
+    implicit request =>
+      implicit val user = request.taiUser
+      journeyCacheService.collectedValues(Seq(UpdateIncome_PayToDateKey, UpdateIncome_IdKey, UpdateIncome_NameKey), Seq(UpdateIncome_DateKey)) flatMap tupled {
+        (mandatorySeq, optionalSeq) => {
+          val date = optionalSeq.head.map(date => LocalDate.parse(date))
+          val employerName = mandatorySeq(2)
+          val payToDate = BigDecimal(mandatorySeq.head)
 
-              EditIncomeForm.bind(employerName, payToDate, date).fold(
-                (formWithErrors: Form[EditIncomeForm]) => {
-                  val webChat = true
-                  Future.successful(BadRequest(views.html.incomes.editIncome(formWithErrors,
-                    false,
-                    mandatorySeq(1).toInt,
-                    mandatorySeq.head, webChat = webChat)))
-                },
-                (income: EditIncomeForm) => determineEditRedirect(income, routes.IncomeController.confirmRegularIncome)
-              )
-            }
+          EditIncomeForm.bind(employerName, payToDate, date).fold(
+            (formWithErrors: Form[EditIncomeForm]) => {
+              val webChat = true
+              Future.successful(BadRequest(editIncome(formWithErrors,
+                false,
+                mandatorySeq(1).toInt,
+                mandatorySeq.head, webChat = webChat)))
+            },
+            (income: EditIncomeForm) => determineEditRedirect(income, routes.IncomeController.confirmRegularIncome)
+          )
         }
+      }
   }
 
   private def isCachedIncomeTheSame(currentCache: Map[String, String], newAmount: Option[String]): Boolean = {
@@ -169,7 +175,7 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
                 val form = EditIncomeForm(employmentAmount, cachedData(1), date.map(_.toString()))
 
                 val gaSetting = gaSettings(GoogleAnalyticsConstants.taiCYEstimatedIncome, form.oldAmount, form.newAmount)
-                Ok(views.html.incomes.confirm_save_Income(form, gaSetting))
+                Ok(confirm_save_Income(form, gaSetting))
 
               case _ => throw new RuntimeException(s"Not able to found employment with id $id")
             }
@@ -199,8 +205,8 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
                             (implicit user: AuthedUser, request: Request[AnyContent]): Result = {
         journeyCacheService.cache(UpdateIncome_ConfirmedNewAmountKey, newAmount)
         incomeType match {
-          case TaiConstants.IncomeTypePension => Ok(views.html.incomes.editPensionSuccess(employerName, employerId))
-          case _ => Ok(views.html.incomes.editSuccess(employerName, employerId))
+          case TaiConstants.IncomeTypePension => Ok(editPensionSuccess(employerName, employerId))
+          case _ => Ok(editSuccess(employerName, employerId))
         }
       }
 
@@ -240,7 +246,7 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
         _ <- journeyCacheService.cache(cacheData)
       } yield {
         val amountYearToDate: BigDecimal = latestPayment.map(_.amountYearToDate).getOrElse(0)
-        Ok(views.html.incomes.editPension(EditIncomeForm.create(employmentAmount), false,
+        Ok(editPension(EditIncomeForm.create(employmentAmount), false,
           employmentAmount.employmentId, amountYearToDate.toString()))
       }).recover {
         case NonFatal(e) => internalServerError(e.getMessage)
@@ -274,7 +280,7 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
           EditIncomeForm.bind(mandatorySeq(2), BigDecimal(mandatorySeq.head), date).fold(
             formWithErrors => {
               val webChat = true
-              Future.successful(BadRequest(views.html.incomes.editPension(formWithErrors,
+              Future.successful(BadRequest(editPension(formWithErrors,
                 false,
                 mandatorySeq(1).toInt,
                 mandatorySeq.head, webChat = webChat)))
@@ -309,7 +315,7 @@ class IncomeController @Inject()(@Named("Update Income") journeyCacheService: Jo
 
                 val gaSetting = gaSettings(GoogleAnalyticsConstants.taiCYEstimatedIncome, form.oldAmount, form.newAmount)
 
-                Ok(views.html.incomes.confirm_save_Income(form, gaSetting))
+                Ok(confirm_save_Income(form, gaSetting))
               case _ => throw new RuntimeException(s"Not able to found employment with id $id")
             }
           case _ => throw new RuntimeException("Exception while reading employment and tax code details")

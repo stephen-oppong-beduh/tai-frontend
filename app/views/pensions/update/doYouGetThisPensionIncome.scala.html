@@ -43,7 +43,8 @@
     authedUser = Some(user),
     pageHeader = Some(header),
     articleClasses = None,
-    gaCustomTitle = Some(Messages("tai.updatePension.decision.customGaTitle"))) {
+    gaCustomTitle = Some(Messages("tai.updatePension.decision.customGaTitle")))
+    {
 
     @form(action = controllers.pensions.routes.UpdatePensionProviderController.handleDoYouGetThisPension, Symbol("data-journey-dynamic-radios") -> "" ) {
         <div class="form-group">

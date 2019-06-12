@@ -28,7 +28,9 @@ import uk.gov.hmrc.tai.util.constants.TaiConstants
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ServiceController @Inject()(applicationConfig: ApplicationConfig,
+class ServiceController @Inject()(timeout: views.html.timeout,
+                                  manualCorrespondence: views.html.manualCorrespondence,
+                                  applicationConfig: ApplicationConfig,
                                   authenticate: AuthAction,
                                   validatePerson: ValidatePerson,
                                   mcc: MessagesControllerComponents,
@@ -38,7 +40,7 @@ class ServiceController @Inject()(applicationConfig: ApplicationConfig,
   extends TaiBaseController(mcc) {
 
   def timeoutPage() = Action.async {
-    implicit request => Future.successful(Ok(views.html.timeout()))
+    implicit request => Future.successful(Ok(timeout()))
   }
 
   def serviceSignout = (authenticate andThen validatePerson).async {
@@ -58,7 +60,7 @@ class ServiceController @Inject()(applicationConfig: ApplicationConfig,
   }
 
   def getGateKeeper(nino: Nino)(implicit request: Request[AnyContent]): Future[Result] = {
-    Future.successful(Ok(views.html.manualCorrespondence()))
+    Future.successful(Ok(manualCorrespondence()))
   } recoverWith handleErrorResponse("getServiceUnavailable", nino)
 
 }

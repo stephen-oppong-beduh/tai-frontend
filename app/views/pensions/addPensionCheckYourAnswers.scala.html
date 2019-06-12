@@ -14,8 +14,6 @@
  * limitations under the License.
  *@
 
-@(viewModel: uk.gov.hmrc.tai.viewModels.pensions.CheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
-
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.urls.Link
 @import includes.ptaHeader
@@ -26,6 +24,8 @@
 @import uk.gov.hmrc.tai.config.ApplicationConfig
 
 @this(main: views.html.main, applicationConfig: ApplicationConfig)
+
+@(viewModel: uk.gov.hmrc.tai.viewModels.pensions.CheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 
 @gaEventActionString = @{"Check your add missing pension answers"}
 
@@ -41,7 +41,8 @@
     authedUser = Some(user),
     pageHeader = Some(header),
     articleClasses = None,
-    gaCustomTitle = None) {
+    gaCustomTitle = None)
+    {
 
     @form(action=Call("POST", viewModel.submissionUrl), args=(Symbol("class"), "subsection")) {
 

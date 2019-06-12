@@ -34,7 +34,9 @@ import uk.gov.hmrc.tai.viewModels.{TaxCodeViewModel, TaxCodeViewModelPreviousYea
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class YourTaxCodeController @Inject()(taxAccountService: TaxAccountService,
+class YourTaxCodeController @Inject()(taxCodeDetails: views.html.taxCodeDetails,
+                                      taxCodeDetailsPreviousYears: views.html.taxCodeDetailsPreviousYears,
+                                      taxAccountService: TaxAccountService,
                                       taxCodeChangeService: TaxCodeChangeService,
                                       authenticate: AuthAction,
                                       validatePerson: ValidatePerson,
@@ -55,7 +57,7 @@ class YourTaxCodeController @Inject()(taxAccountService: TaxAccountService,
       } yield {
         val taxCodeViewModel = TaxCodeViewModel.apply(taxCodeIncomes, scottishTaxRateBands)
         implicit val user = request.taiUser
-        Ok(views.html.taxCodeDetails(taxCodeViewModel))
+        Ok(taxCodeDetails(taxCodeViewModel))
       }) recover {
         case NonFatal(e) => {
           internalServerError(s"Exception: ${e.getClass()}")
@@ -73,7 +75,7 @@ class YourTaxCodeController @Inject()(taxAccountService: TaxAccountService,
       } yield {
         val taxCodeViewModel = TaxCodeViewModelPreviousYears(taxCodeRecords, scottishTaxRateBands, year)
         implicit val user = request.taiUser
-        Ok(views.html.taxCodeDetailsPreviousYears(taxCodeViewModel))
+        Ok(taxCodeDetailsPreviousYears(taxCodeViewModel))
       }) recover {
         case NonFatal(e) => {
           internalServerError(s"Exception: ${e.getClass()}")

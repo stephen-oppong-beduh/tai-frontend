@@ -20,6 +20,9 @@
 @import includes.forms.inputRadioGroupStyling
 @import includes.forms.submit
 @import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.DuplicateSubmissionEstimatedPay
+@import uk.gov.hmrc.tai.config.ApplicationConfig
+
+@this(main: views.html.main, applicationConfig: ApplicationConfig)
 
 @(duplicateSubmissionWarningForm: Form[YesNoForm], viewModel: DuplicateSubmissionEstimatedPay, empId: Int)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 
@@ -40,7 +43,8 @@
     authedUser = Some(user),
     pageHeader = Some(header),
     articleClasses = None,
-    gaCustomTitle = Some(messages("tai.incomes.warning.customGaTitle"))) {
+    gaCustomTitle = Some(messages("tai.incomes.warning.customGaTitle")))
+    {
 
     @form(action = controllers.income.estimatedPay.update.routes.IncomeUpdateCalculatorController.submitDuplicateSubmissionWarning, Symbol("data-journey-dynamic-radios") -> "" ) {
     <div class="form-group">

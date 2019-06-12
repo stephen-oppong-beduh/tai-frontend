@@ -36,7 +36,10 @@ import uk.gov.hmrc.tai.viewModels.taxCodeChange.TaxCodeChangeViewModel
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class TaxCodeChangeController @Inject()(taxCodeChangeService: TaxCodeChangeService,
+class TaxCodeChangeController @Inject()(taxCodeComparison: views.html.taxCodeChange.taxCodeComparison,
+                                        yourTaxFreeAmount: views.html.taxCodeChange.yourTaxFreeAmount,
+                                        whatHappensNextView: views.html.taxCodeChange.whatHappensNext,
+                                        taxCodeChangeService: TaxCodeChangeService,
                                         taxAccountService: TaxAccountService,
                                         describedYourTaxFreeAmountService: DescribedYourTaxFreeAmountService,
                                         authenticate: AuthAction,
@@ -48,7 +51,7 @@ class TaxCodeChangeController @Inject()(taxCodeChangeService: TaxCodeChangeServi
                                         override implicit val templateRenderer: TemplateRenderer)
                                        (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with YourTaxFreeAmount {
+    with YourTaxFreeAmount {
 
   def taxCodeComparison: Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -75,7 +78,7 @@ class TaxCodeChangeController @Inject()(taxCodeChangeService: TaxCodeChangeServi
             val viewModel = TaxCodeChangeViewModel(taxCodeChange, scottishTaxRateBands, taxCodeChangeReasons, isAGenericReason)
 
             implicit val user = request.taiUser
-            Ok(views.html.taxCodeChange.taxCodeComparison(viewModel))
+            Ok(taxCodeComparison(viewModel))
           case _ => throw new RuntimeException("Failed to fetch total tax details for tax code comparison")
         }
       }
@@ -89,13 +92,13 @@ class TaxCodeChangeController @Inject()(taxCodeChangeService: TaxCodeChangeServi
       implicit val user = request.taiUser
 
       taxFreeAmountViewModel.map(viewModel => {
-        Ok(views.html.taxCodeChange.yourTaxFreeAmount(viewModel))
+        Ok(yourTaxFreeAmount(viewModel))
       })
   }
 
   def whatHappensNext: Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       implicit val user = request.taiUser
-      Future.successful(Ok(views.html.taxCodeChange.whatHappensNext()))
+      Future.successful(Ok(whatHappensNextView()))
   }
 }

@@ -16,12 +16,10 @@
 
 package controllers
 
-import javax.inject.Inject
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
+import javax.inject.Inject
 import play.api.Logger
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
@@ -30,7 +28,8 @@ import uk.gov.hmrc.tai.config.{ApplicationConfig, ProxyHttpClient}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class HelpController @Inject()(val config: ApplicationConfig,
+class HelpController @Inject()(getHelp: views.html.help.getHelp,
+                               val config: ApplicationConfig,
                                val httpGet: ProxyHttpClient,
                                authenticate: AuthAction,
                                validatePerson: ValidatePerson,
@@ -49,13 +48,13 @@ class HelpController @Inject()(val config: ApplicationConfig,
 
       try {
         getEligibilityStatus map { status =>
-          Ok(views.html.help.getHelp(status))
+          Ok(getHelp(status))
         } recover {
           case _ => internalServerError("Could not get eligibility status")
         }
       } catch {
         case _: Exception => {
-          Future.successful(Ok(views.html.help.getHelp(None)))
+          Future.successful(Ok(getHelp(None)))
         }
       }
   }

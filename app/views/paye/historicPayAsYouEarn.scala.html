@@ -61,7 +61,8 @@ messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, par
     authedUser = Some(user),
     pageHeader = Some(header),
     gaCustomTitle = None
-){
+)
+    {
 
 <div class="grid-row">
 
@@ -107,7 +108,7 @@ messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, par
                 <p>
                     @messages("tai.paye.lastTaxYear.checkIncomeTax.text")
                     @Link.toInternalPage(
-                        url=ApplicationConfig.taxYouPaidStatus.toString,
+                        url=applicationConfig.taxYouPaidStatus.toString,
                         value=Some(messages("tai.paye.lastTaxYear.checkIncomeTax.link")),
                         id=Some("p800Link")
                     ).toHtml

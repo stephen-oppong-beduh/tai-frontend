@@ -37,7 +37,8 @@ import uk.gov.hmrc.tai.viewModels.estimatedIncomeTax.DetailedIncomeTaxEstimateVi
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class DetailedIncomeTaxEstimateController @Inject()(taxAccountService: TaxAccountService,
+class DetailedIncomeTaxEstimateController @Inject()(detailedIncomeTaxEstimate: views.html.estimatedIncomeTax.detailedIncomeTaxEstimate,
+                                                    taxAccountService: TaxAccountService,
                                                     codingComponentService: CodingComponentService,
                                                     authenticate: AuthAction,
                                                     validatePerson: ValidatePerson,
@@ -73,7 +74,7 @@ class DetailedIncomeTaxEstimateController @Inject()(taxAccountService: TaxAccoun
             ) =>
             implicit val user = request.taiUser
             val model = DetailedIncomeTaxEstimateViewModel(totalTax, taxCodeIncomes, taxAccountSummary, codingComponents, nonTaxCodeIncome)
-            Ok(views.html.estimatedIncomeTax.detailedIncomeTaxEstimate(model))
+            Ok(detailedIncomeTaxEstimate(model))
           case _ => {
             internalServerError("Failed to fetch total tax details")
           }

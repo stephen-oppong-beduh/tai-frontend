@@ -29,7 +29,8 @@ import uk.gov.hmrc.tai.viewModels.HistoricPayAsYouEarnViewModel
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class PayeControllerHistoric @Inject()(val config: ApplicationConfig,
+class PayeControllerHistoric @Inject()(historicPayAsYouEarn: views.html.paye.historicPayAsYouEarn,
+                                       val config: ApplicationConfig,
                                        taxCodeChangeService: TaxCodeChangeService,
                                        employmentService: EmploymentService,
                                        authenticate: AuthAction,
@@ -63,7 +64,7 @@ class PayeControllerHistoric @Inject()(val config: ApplicationConfig,
         hasTaxCodeRecordsInYearPerEmployment <- hasTaxCodeRecordsFuture
       } yield {
         implicit val user = request.taiUser
-        Ok(views.html.paye.historicPayAsYouEarn(HistoricPayAsYouEarnViewModel(
+        Ok(historicPayAsYouEarn(HistoricPayAsYouEarnViewModel(
           taxYear, employments, hasTaxCodeRecordsInYearPerEmployment), applicationConfig.numberOfPreviousYearsToShow))
       }
     }

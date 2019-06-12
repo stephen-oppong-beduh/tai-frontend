@@ -32,7 +32,8 @@ import uk.gov.hmrc.tai.viewModels.PotentialUnderpaymentViewModel
 
 import scala.concurrent.ExecutionContext
 
-class PotentialUnderpaymentController @Inject()(taxAccountService: TaxAccountService,
+class PotentialUnderpaymentController @Inject()(potentialUnderpayment: views.html.potentialUnderpayment,
+                                                taxAccountService: TaxAccountService,
                                                 codingComponentService: CodingComponentService,
                                                 auditService: AuditService,
                                                 authenticate: AuthAction,
@@ -41,8 +42,8 @@ class PotentialUnderpaymentController @Inject()(taxAccountService: TaxAccountSer
                                                 override implicit val partialRetriever: FormPartialRetriever,
                                                 override implicit val templateRenderer: TemplateRenderer)(implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with AuditConstants
-  with Referral {
+    with AuditConstants
+    with Referral {
 
   def potentialUnderpaymentPage(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request => {
@@ -59,7 +60,7 @@ class PotentialUnderpaymentController @Inject()(taxAccountService: TaxAccountSer
       } yield {
         auditService.createAndSendAuditEvent(PotentialUnderpayment_InYearAdjustment, Map("nino" -> nino.toString()))
         val vm = PotentialUnderpaymentViewModel(tas, ccs, referer, resourceName)
-        Ok(views.html.potentialUnderpayment(vm))
+        Ok(potentialUnderpayment(vm))
       }
     } recoverWith handleErrorResponse("getPotentialUnderpaymentPage", request.taiUser.nino)
   }

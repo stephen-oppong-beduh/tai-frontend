@@ -37,7 +37,8 @@ import uk.gov.hmrc.tai.viewModels.incomeTaxComparison.{EstimatedIncomeTaxCompari
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class IncomeTaxComparisonController @Inject()(val auditConnector: AuditConnector,
+class IncomeTaxComparisonController @Inject()(mainView: views.html.incomeTaxComparison.Main,
+                                              val auditConnector: AuditConnector,
                                               taxAccountService: TaxAccountService,
                                               employmentService: EmploymentService,
                                               codingComponentService: CodingComponentService,
@@ -110,7 +111,7 @@ class IncomeTaxComparisonController @Inject()(val auditConnector: AuditConnector
               taxCodeComparisonModel, taxFreeAmountComparisonModel, employmentViewModel, isEstimatedPayJourneyComplete)
 
             implicit val user = request.taiUser
-            Ok(views.html.incomeTaxComparison.Main(model, featureTogglesConfig.cyPlus1EstimatedPayEnabled))
+            Ok(mainView(model, featureTogglesConfig.cyPlus1EstimatedPayEnabled))
           }
           case _ => throw new RuntimeException("Not able to fetch income tax comparision details")
         }

@@ -48,7 +48,8 @@
     authedUser = incomingAuthedUser,
     pageHeader = Some(header),
     articleClasses = None,
-    gaCustomTitle = None) {
+    gaCustomTitle = None)
+    {
 
     @form(action = Call("POST", viewModel.continueUrl), Symbol("data-dynamic-form") -> "true", Symbol("data-journey-dynamic-radios") -> "") {
 

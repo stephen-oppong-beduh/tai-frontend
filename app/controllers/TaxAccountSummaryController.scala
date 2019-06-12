@@ -39,7 +39,8 @@ import uk.gov.hmrc.tai.viewModels.TaxAccountSummaryViewModel
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
-class TaxAccountSummaryController @Inject()(trackingService: TrackingService,
+class TaxAccountSummaryController @Inject()(incomeTaxSummary: views.html.incomeTaxSummary,
+                                            trackingService: TrackingService,
                                             employmentService: EmploymentService,
                                             taxAccountService: TaxAccountService,
                                             auditService: AuditService,
@@ -65,7 +66,7 @@ class TaxAccountSummaryController @Inject()(trackingService: TrackingService,
           Future.successful(Redirect(routes.NoCYIncomeTaxErrorController.noCYIncomeTaxErrorPage()))
         case TaiSuccessResponseWithPayload(taxAccountSummary: TaxAccountSummary) =>
           taxAccountSummaryViewModel(nino, taxAccountSummary) map { vm =>
-            Ok(views.html.incomeTaxSummary(vm))
+            Ok(incomeTaxSummary(vm))
           }
         case _ => throw new RuntimeException("Failed to fetch tax account summary details")
       }).recover {

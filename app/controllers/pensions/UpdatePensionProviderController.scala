@@ -141,7 +141,7 @@ class UpdatePensionProviderController @Inject()(whatDoYouWantToTellUsView: views
         formWithErrors => {
           journeyCacheService.mandatoryValues(UpdatePensionProvider_NameKey, UpdatePensionProvider_IdKey) map { mandatoryValues =>
             implicit val user = request.taiUser
-            BadRequest(whatDoYouWantToTellUs(mandatoryValues.head, mandatoryValues(1).toInt, formWithErrors))
+            BadRequest(whatDoYouWantToTellUsView(mandatoryValues.head, mandatoryValues(1).toInt, formWithErrors))
           }
         },
         pensionDetails => {

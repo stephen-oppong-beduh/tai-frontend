@@ -16,11 +16,9 @@
 
 package controllers
 
-import javax.inject.Inject
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -31,9 +29,11 @@ import uk.gov.hmrc.tai.service.benefits.CompanyCarService
 import uk.gov.hmrc.tai.service.{CodingComponentService, EmploymentService, TaxAccountService}
 import uk.gov.hmrc.tai.viewModels.TaxFreeAmountViewModel
 
+import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class TaxFreeAmountController @Inject()(codingComponentService: CodingComponentService,
+class TaxFreeAmountController @Inject()(taxFreeAmountView: views.html.taxFreeAmount,
+                                        codingComponentService: CodingComponentService,
                                         employmentService: EmploymentService,
                                         taxAccountService: TaxAccountService,
                                         companyCarService: CompanyCarService,
@@ -42,7 +42,8 @@ class TaxFreeAmountController @Inject()(codingComponentService: CodingComponentS
                                         mcc: MessagesControllerComponents,
                                         override implicit val partialRetriever: FormPartialRetriever,
                                         override implicit val templateRenderer: TemplateRenderer
-                                       ) extends TaiBaseController(mcc) {
+                                       )(implicit ec: ExecutionContext)
+  extends TaiBaseController(mcc) {
 
   def taxFreeAmount: Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -58,9 +59,10 @@ class TaxFreeAmountController @Inject()(codingComponentService: CodingComponentS
           case TaiSuccessResponseWithPayload(totalTax: TotalTax) =>
             val viewModel = TaxFreeAmountViewModel(codingComponents, TaxFreeAmountDetails(employmentNames, companyCarBenefits, totalTax))
             implicit val user = request.taiUser
-            Ok(views.html.taxFreeAmount(viewModel))
+            Ok(taxFreeAmountView(viewModel))
           case _ => throw new RuntimeException("Failed to fetch total tax details")
-          }}) recover {
+        }
+      }) recover {
         case NonFatal(e) => internalServerError(s"Could not get tax free amount", Some(e))
       }
 

@@ -56,7 +56,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
                                                  editSuccess: views.html.incomes.editSuccess,
                                                  payslipAmount: views.html.incomes.payslipAmount,
                                                  workingHours: views.html.incomes.workingHours,
-                                                 estimatedPayLandingPage: views.html.incomes.estimatedPayLandingPage,
+                                                 estimatedPayLandingPageView: views.html.incomes.estimatedPayLandingPage,
                                                  taxablePayslipAmount: views.html.incomes.taxablePayslipAmount,
                                                  confirm_save_Income: views.html.incomes.confirm_save_Income,
                                                  incorrectTaxableIncome: views.html.incomes.incorrectTaxableIncome,
@@ -64,6 +64,9 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
                                                  checkYourAnswers: views.html.incomes.estimatedPayment.update.checkYourAnswers,
                                                  estimatedPay: views.html.incomes.estimatedPay,
                                                  bonusPayments: views.html.incomes.bonusPayments,
+                                                 payslipDeductionsView: views.html.incomes.payslipDeductions,
+                                                 payPeriodView: views.html.incomes.payPeriod,
+                                                 duplicateSubmissionWarningView: views.html.incomes.duplicateSubmissionWarning,
                                                  incomeService: IncomeService,
                                                  employmentService: EmploymentService,
                                                  taxAccountService: TaxAccountService,
@@ -130,7 +133,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
           DuplicateSubmissionEmploymentViewModel(incomeName, previouslyUpdatedAmount.toInt)
         }
 
-        Ok(views.html.incomes.duplicateSubmissionWarning(
+        Ok(duplicateSubmissionWarningView(
           DuplicateSubmissionWarningForm.createForm, vm, incomeId.toInt)
         )
       }
@@ -153,8 +156,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
               DuplicateSubmissionEmploymentViewModel(incomeName, newAmount.toInt)
             }
 
-            Future.successful(BadRequest(views.html.incomes.
-              duplicateSubmissionWarning(formWithErrors, vm, incomeId.toInt)))
+            Future.successful(BadRequest(duplicateSubmissionWarningView(formWithErrors, vm, incomeId.toInt)))
           },
           success => {
             success.yesNoChoice match {
@@ -174,7 +176,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
 
       journeyCacheService.mandatoryValues(UpdateIncome_NameKey, UpdateIncome_IdKey, UpdateIncome_IncomeTypeKey) map { mandatoryValues =>
         val incomeName :: incomeId :: incomeType :: Nil = mandatoryValues.toList
-        Ok(estimatedPayLandingPage(
+        Ok(estimatedPayLandingPageView(
           incomeName,
           incomeId.toInt,
           incomeType == TaiConstants.IncomeTypePension
@@ -416,7 +418,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
         payPeriodInDays <- journeyCacheService.currentValue(UpdateIncome_OtherInDaysKey)
       } yield {
         val form: Form[PayPeriodForm] = PayPeriodForm.createForm(None).fill(PayPeriodForm(payPeriod, payPeriodInDays))
-        Ok(views.html.incomes.payPeriod(form, employer.id, employer.name))
+        Ok(payPeriodView(form, employer.id, employer.name))
       }
   }
 
@@ -433,7 +435,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
             employer <- employerFuture
           } yield {
             val isDaysError = formWithErrors.errors.exists { error => error.key == PayPeriodForm.OTHER_IN_DAYS_KEY }
-            BadRequest(views.html.incomes.payPeriod(formWithErrors, employer.id, employer.name, !isDaysError))
+            BadRequest(payPeriodView(formWithErrors, employer.id, employer.name, !isDaysError))
           }
         },
         formData => {
@@ -579,7 +581,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
         payslipDeductions <- journeyCacheService.currentValue(UpdateIncome_PayslipDeductionsKey)
       } yield {
         val form = PayslipDeductionsForm.createForm().fill(PayslipDeductionsForm(payslipDeductions))
-        Ok(views.html.incomes.payslipDeductions(form, employer))
+        Ok(payslipDeductionsView(form, employer))
       }
   }
 
@@ -595,7 +597,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
           for {
             employer <- employerFuture
           } yield {
-            BadRequest(views.html.incomes.payslipDeductions(formWithErrors, employer))
+            BadRequest(payslipDeductionsView(formWithErrors, employer))
           }
         },
         formData => {

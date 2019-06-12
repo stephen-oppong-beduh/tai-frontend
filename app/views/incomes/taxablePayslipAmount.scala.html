@@ -46,7 +46,8 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
     authedUser = Some(user),
     pageHeader = Some(header),
     employerName = Some(viewModel.employer.name)
-){
+)
+    {
     <div>
         <p>@messages("tai.taxablePayslip.taxablePay.explanation")</p>
         <p>@messages("tai.taxablePayslip.shownOnPayslip")</p>

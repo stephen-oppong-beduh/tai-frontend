@@ -46,7 +46,8 @@
     pageHeader = Some(header),
     articleClasses = None,
     gaCustomTitle = Some(Messages("tai.bbsi.update.captureInterest.customGaTitle"))
-) {
+)
+    {
 
         <p><span class="lede">@Html(messages("tai.bbsi.update.captureInterest.para1", Dates.formatDate(TaxYear().start),
             Dates.formatDate(TaxYear().end),

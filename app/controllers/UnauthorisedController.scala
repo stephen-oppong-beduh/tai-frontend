@@ -32,14 +32,18 @@ import uk.gov.hmrc.tai.util.constants.TaiConstants._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class UnauthorisedController @Inject()(applicationConfig: ApplicationConfig, mcc: MessagesControllerComponents)
+class UnauthorisedController @Inject()(error_template_noauth: views.html.error_template_noauth,
+                                       applicationConfig: ApplicationConfig,
+                                       mcc: MessagesControllerComponents)
                                       (override implicit val partialRetriever: FormPartialRetriever,
                                        override implicit val templateRenderer: TemplateRenderer)
                                       (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
   def upliftUrl: String = applicationConfig.sa16UpliftUrl
+
   def failureUrl: String = applicationConfig.pertaxServiceUpliftFailedUrl
+
   def completionUrl: String = applicationConfig.taiFrontendServiceUrl
 
   def onPageLoad: Action[AnyContent] = Action {
@@ -95,7 +99,7 @@ class UnauthorisedController @Inject()(applicationConfig: ApplicationConfig, mcc
   }
 
   private def unauthorisedView()(implicit request: Request[_])
-  = views.html.error_template_noauth(
+  = error_template_noauth(
     Messages("global.error.InternalServerError500.title"),
     Messages("tai.technical.error.heading"),
     Messages("tai.technical.error.message"))

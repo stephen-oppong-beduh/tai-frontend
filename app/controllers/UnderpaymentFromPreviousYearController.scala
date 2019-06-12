@@ -16,11 +16,9 @@
 
 package controllers
 
-import javax.inject.Inject
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import javax.inject.Inject
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -30,12 +28,12 @@ import uk.gov.hmrc.tai.model.domain.tax.TotalTax
 import uk.gov.hmrc.tai.service._
 import uk.gov.hmrc.tai.service.benefits.CompanyCarService
 import uk.gov.hmrc.tai.viewModels.PreviousYearUnderpaymentViewModel
-import views.html.previousYearUnderpayment
 
 import scala.concurrent.ExecutionContext
 
 
-class UnderpaymentFromPreviousYearController @Inject()(codingComponentService: CodingComponentService,
+class UnderpaymentFromPreviousYearController @Inject()(previousYearUnderpayment: views.html.previousYearUnderpayment,
+                                                       codingComponentService: CodingComponentService,
                                                        employmentService: EmploymentService,
                                                        companyCarService: CompanyCarService,
                                                        taxAccountService: TaxAccountService,

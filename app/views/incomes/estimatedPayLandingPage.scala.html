@@ -41,14 +41,15 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
     authedUser = Some(user),
     pageHeader = Some(header),
     articleClasses = None
-){
+)
+    {
     <div>
         <p>@messages("tai.incomes.landing.intro")</p>
         <p>
             @if(isPension) {
                 @messages("tai.incomes.landing.pension.ended", incomeName)
                 @includes.link(
-                        url=ApplicationConfig.incomeFromEmploymentPensionLinkUrl,
+                        url=applicationConfig.incomeFromEmploymentPensionLinkUrl,
                         copy=messages("tai.incomes.landing.pension.ended.link"),
                         attributes = Seq(("data-journey-click", s"link - click:${gaEventActionString}:${messages("tai.incomes.landing.pension.ended.link")}")),
                         id=Some("updatePension")

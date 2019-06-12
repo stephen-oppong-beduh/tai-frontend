@@ -42,7 +42,8 @@
     pageHeader = Some(header),
     articleClasses = None,
     gaCustomTitle = Some(Messages("tai.addPensionProvider.firstPay.customGaTitle"))
-) {
+)
+    {
 
     @form(action = controllers.pensions.routes.AddPensionProviderController.submitFirstPay(), Symbol("data-dynamic-form") -> "true", Symbol("data-journey-dynamic-radios") -> "") {
 

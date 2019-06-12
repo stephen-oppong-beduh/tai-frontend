@@ -38,7 +38,11 @@ import uk.gov.hmrc.tai.viewModels.estimatedIncomeTax._
 
 import scala.concurrent.ExecutionContext
 
-class EstimatedIncomeTaxController @Inject()(codingComponentService: CodingComponentService,
+class EstimatedIncomeTaxController @Inject()(zeroTaxEstimatedIncomeTax: views.html.estimatedIncomeTax.zeroTaxEstimatedIncomeTax,
+                                             noCurrentIncome: views.html.estimatedIncomeTax.noCurrentIncome,
+                                             complexEstimatedIncomeTax: views.html.estimatedIncomeTax.complexEstimatedIncomeTax,
+                                             simpleEstimatedIncomeTax: views.html.estimatedIncomeTax.simpleEstimatedIncomeTax,
+                                             codingComponentService: CodingComponentService,
                                              partialService: HasFormPartialService,
                                              taxAccountService: TaxAccountService,
                                              authenticate: AuthAction,
@@ -74,18 +78,18 @@ class EstimatedIncomeTaxController @Inject()(codingComponentService: CodingCompo
               taxAccountSummary.totalEstimatedIncome, taxAccountSummary.taxFreeAllowance, taxAccountSummary.totalEstimatedTax,
               taxCodeIncomes.nonEmpty)
             taxViewType match {
-              case NoIncomeTaxView => Ok(views.html.estimatedIncomeTax.noCurrentIncome())
+              case NoIncomeTaxView => Ok(noCurrentIncome())
               case ComplexTaxView => {
                 val model = ComplexEstimatedIncomeTaxViewModel(codingComponents, taxAccountSummary, taxCodeIncomes, taxBands)
-                Ok(views.html.estimatedIncomeTax.complexEstimatedIncomeTax(model, iFormLinks successfulContentOrElse Html("")))
+                Ok(complexEstimatedIncomeTax(model, iFormLinks successfulContentOrElse Html("")))
               }
               case SimpleTaxView => {
                 val model = SimpleEstimatedIncomeTaxViewModel(codingComponents, taxAccountSummary, taxCodeIncomes, taxBands)
-                Ok(views.html.estimatedIncomeTax.simpleEstimatedIncomeTax(model, iFormLinks successfulContentOrElse Html("")))
+                Ok(simpleEstimatedIncomeTax(model, iFormLinks successfulContentOrElse Html("")))
               }
               case ZeroTaxView => {
                 val model = ZeroTaxEstimatedIncomeTaxViewModel(codingComponents, taxAccountSummary, taxCodeIncomes, taxBands)
-                Ok(views.html.estimatedIncomeTax.zeroTaxEstimatedIncomeTax(model, iFormLinks successfulContentOrElse Html("")))
+                Ok(zeroTaxEstimatedIncomeTax(model, iFormLinks successfulContentOrElse Html("")))
               }
             }
           case _ => {

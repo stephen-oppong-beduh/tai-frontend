@@ -51,6 +51,7 @@ class AddPensionProviderController @Inject()(addPensionName: views.html.pensions
                                              addPensionNumberView: views.html.pensions.addPensionNumber,
                                              addPensionConfirmation: views.html.pensions.addPensionConfirmation,
                                              can_we_contact_by_phone: views.html.can_we_contact_by_phone,
+                                             addPensionCheckYourAnswers: views.html.pensions.addPensionCheckYourAnswers,
                                              pensionProviderService: PensionProviderService,
                                              auditService: AuditService,
                                              val auditConnector: AuditConnector,
@@ -216,7 +217,7 @@ class AddPensionProviderController @Inject()(addPensionName: views.html.pensions
         formWithErrors => {
           journeyCacheService.currentCache map { cache =>
             val viewModel = PensionNumberViewModel(cache)
-            BadRequest(addPensionNumber(formWithErrors, viewModel))
+            BadRequest(addPensionNumberView(formWithErrors, viewModel))
           }
         },
         form => {
@@ -286,7 +287,7 @@ class AddPensionProviderController @Inject()(addPensionName: views.html.pensions
             mandatoryVals(3),
             optionalVals.head
           )
-          Ok(views.html.pensions.addPensionCheckYourAnswers(model))
+          Ok(addPensionCheckYourAnswers(model))
         }
       } catch {
         case NonFatal(e) => Future.successful(internalServerError(e.getMessage))

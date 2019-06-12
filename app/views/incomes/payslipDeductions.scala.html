@@ -15,9 +15,6 @@
  *@
 
 @import uk.gov.hmrc.tai.model.domain.income.IncomeSource
-@(payslipDeductionsForm: Form[uk.gov.hmrc.tai.forms.PayslipDeductionsForm], employer: IncomeSource)(implicit request: Request[_],
-messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
-
 @import includes.ptaHeader
 @import includes.cancelLink
 @import uk.gov.hmrc.play.views.html.helpers._
@@ -26,6 +23,7 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
 
 @this(main: views.html.main, applicationConfig: ApplicationConfig)
 
+@(payslipDeductionsForm: Form[uk.gov.hmrc.tai.forms.PayslipDeductionsForm], employer: IncomeSource)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 
 @gaEventActionString = @{"Payslip deductions"}
 
@@ -45,7 +43,8 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
     authedUser = Some(user),
     pageHeader = Some(header),
     employerName = Some(employer.name)
-){
+)
+    {
 
     <div>
         <p>@messages("tai.payslipDeductions.tellUs")</p>

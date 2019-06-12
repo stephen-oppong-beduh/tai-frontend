@@ -51,6 +51,7 @@ class EndEmploymentController @Inject()(duplicateSubmissionWarningView: views.ht
                                         endEmploymentIrregularPaymentError: views.html.employments.EndEmploymentIrregularPaymentError,
                                         endEmployment: views.html.employments.endEmployment,
                                         can_we_contact_by_phone: views.html.can_we_contact_by_phone,
+                                        addIncomeCheckYourAnswers: views.html.incomes.addIncomeCheckYourAnswers,
                                         confirmation: views.html.employments.confirmation,
                                         auditService: AuditService,
                                         employmentService: EmploymentService,
@@ -303,7 +304,7 @@ class EndEmploymentController @Inject()(duplicateSubmissionWarningView: views.ht
           controllers.employments.routes.EndEmploymentController.addTelephoneNumber().url,
           controllers.employments.routes.EndEmploymentController.confirmAndSendEndEmployment().url,
           controllers.employments.routes.EndEmploymentController.cancel(mandatorySeq.head.toInt).url)
-        Ok(views.html.incomes.addIncomeCheckYourAnswers(model))
+        Ok(addIncomeCheckYourAnswers(model))
       }
   }
 

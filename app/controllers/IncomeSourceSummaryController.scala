@@ -37,7 +37,8 @@ import uk.gov.hmrc.tai.viewModels.IncomeSourceSummaryViewModel
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class IncomeSourceSummaryController @Inject()(val auditConnector: AuditConnector,
+class IncomeSourceSummaryController @Inject()(incomeSourceSummary: views.html.IncomeSourceSummary,
+                                              val auditConnector: AuditConnector,
                                               taxAccountService: TaxAccountService,
                                               employmentService: EmploymentService,
                                               benefitsService: BenefitsService,
@@ -67,7 +68,7 @@ class IncomeSourceSummaryController @Inject()(val auditConnector: AuditConnector
               employment, benefitsDetails, estimatedPayCompletion)
 
             implicit val user = request.taiUser
-            Ok(views.html.IncomeSourceSummary(incomeDetailsViewModel))
+            Ok(incomeSourceSummary(incomeDetailsViewModel))
           case _ => throw new RuntimeException("Error while fetching income summary details")
         }
       }) recover {
