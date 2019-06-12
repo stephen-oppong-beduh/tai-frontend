@@ -21,6 +21,9 @@
 @import uk.gov.hmrc.tai.forms.employments.IrregularPayFormData
 @import uk.gov.hmrc.tai.viewModels.employments.EmploymentViewModel
 @import includes.forms.inputRadioGroupStyling
+@import uk.gov.hmrc.tai.config.ApplicationConfig
+
+@this(main: views.html.main, applicationConfig: ApplicationConfig)
 
 @(irregularPayForm: Form[IrregularPayFormData], model: EmploymentViewModel)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 

@@ -23,6 +23,9 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
 @import uk.gov.hmrc.play.views.html.helpers._
 @import includes.forms.inputRadioGroupStyling
 @import uk.gov.hmrc.tai.forms.PayPeriodForm
+@import uk.gov.hmrc.tai.config.ApplicationConfig
+
+@this(main: views.html.main, applicationConfig: ApplicationConfig)
 
 @gaEventActionString = @{"How often do you get paid?"}
 

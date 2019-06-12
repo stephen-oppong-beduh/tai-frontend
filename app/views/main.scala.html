@@ -14,8 +14,6 @@
  * limitations under the License.
  *@
 
-@import play.api.Play
-@import play.api.Play.current
 @import uk.gov.hmrc.http.SessionKeys
 @import uk.gov.hmrc.play.views.helpers.AttorneyRegime.standAlone
 @import uk.gov.hmrc.play.views.html.layouts
@@ -23,6 +21,8 @@
 @import uk.gov.hmrc.tai.config.{ApplicationConfig, FeatureTogglesConfig}
 @import uk.gov.hmrc.play.language.LanguageUtils
 @import uk.gov.hmrc.tai.viewModels.GoogleAnalyticsSettings
+
+@this(applicationConfig: ApplicationConfig)
 
 @(title: String,
   sidebarLinks: Option[Html] = None,
@@ -39,9 +39,8 @@
   optimizelyAudience: Option[String] = None,
   pageHeader: Option[Html] = None,
   script: Option[Html] = None,
-  includeWebchatScript: Boolean = true,
-  applicationConfig: Option[ApplicationConfig] = None
-)(mainContent: Html
+  includeWebchatScript: Boolean = true)
+(mainContent: Html
 )(implicit request: Request[_],
   messages: Messages,
   templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer,
@@ -93,7 +92,7 @@
     }
 }
 
-@helpForm = @{applicationConfig.map(x => partialRetriever.getPartialContent(x.reportAProblemPartialUrl)) }
+@helpForm = @{partialRetriever.getPartialContent(applicationConfig.reportAProblemPartialUrl)}
 
 
 @googleAnalytics = @{
@@ -103,8 +102,8 @@
     }
 
     Map[String, Any](
-        "trackingId" -> applicationConfig.map(_.analyticsToken),
-        "cookieDomain" -> applicationConfig.map(_.analyticsHost),
+        "trackingId" -> applicationConfig.analyticsToken,
+        "cookieDomain" -> applicationConfig.analyticsHost,
         "confidenceLevel" -> confidenceLevel,
         "authProvider" -> authProvider
 
@@ -152,7 +151,7 @@
 
     @if(webChat){
         <script type="text/javascript">
-            var EG_ACT_ID = "@Play.configuration.getString("webchat.id")";
+            var EG_ACT_ID = "@applicationConfig.webchatId";
             (function(e, f) {
                 var d, c, b, a = e.createElement("iframe");
                 a.src = "about:blank";
@@ -181,7 +180,7 @@
     }
 
     @if(clickWebChat){
-        @uk.gov.hmrc.csp.WebchatClient.webchatClickToChatScriptPartial(ApplicationConfig.webchatEntryPoint, ApplicationConfig.webchatTemplate)
+        @uk.gov.hmrc.csp.WebchatClient.webchatClickToChatScriptPartial(applicationConfig.webchatEntryPoint, applicationConfig.webchatTemplate)
     }
 
     @if(gaCallsAdditionalJs.isDefined && gaCallsAdditionalJs.get.toString.trim != ""){
@@ -253,7 +252,7 @@
 }
 
 @templateArguments = @{
-    if(!isUserResearchBannerHidden && ApplicationConfig.urBannerEnabled) {
+    if(!isUserResearchBannerHidden && applicationConfig.urBannerEnabled) {
         mustacheMap ++ Map[String, Any](
             "fullWidthBannerTitle" -> Messages("tai.urbanner.title"),
             "fullWidthBannerText" -> Messages("tai.urbanner.text"),
@@ -264,5 +263,5 @@
     } else mustacheMap
 }
 @{
-    templateRenderer.renderDefaultTemplate(ApplicationConfig.frontendTemplatePath, layouts.article(content = mainContent, includeGridWrapper = includeGridWrapper, articleClasses), templateArguments)
+    templateRenderer.renderDefaultTemplate(applicationConfig.frontendTemplatePath, layouts.article(content = mainContent, includeGridWrapper = includeGridWrapper, articleClasses), templateArguments)
 }

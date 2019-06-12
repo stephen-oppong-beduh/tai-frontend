@@ -22,6 +22,9 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
 @import includes.ptaHeader
 @import includes.cancelLink
 @import uk.gov.hmrc.tai.config.ApplicationConfig
+@import uk.gov.hmrc.tai.config.ApplicationConfig
+
+@this(main: views.html.main, applicationConfig: ApplicationConfig)
 
 @gaEventActionString = @{"Update your estimated income"}
 

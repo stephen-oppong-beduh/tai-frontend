@@ -22,6 +22,9 @@
 @import uk.gov.hmrc.play.views.formatting.Money._
 @import uk.gov.hmrc.tai.model.TaxYear
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import uk.gov.hmrc.tai.config.ApplicationConfig
+
+@this(main: views.html.main, applicationConfig: ApplicationConfig)
 
 
 @(interest: BigDecimal)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)

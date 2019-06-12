@@ -20,8 +20,10 @@
 @import uk.gov.hmrc.tai.forms.benefits.RemoveCompanyBenefitStopDateForm
 @import includes.forms.{inputRadioGroupStyling, submit}
 @import uk.gov.hmrc.tai.model.TaxYear
-
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import uk.gov.hmrc.tai.config.ApplicationConfig
+
+@this(main: views.html.main, applicationConfig: ApplicationConfig)
 
 @(stopDateForm: Form[Option[String]],benefitType:String, empName:String)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 

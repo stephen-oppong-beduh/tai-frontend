@@ -23,6 +23,9 @@
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 @import includes.ptaHeader
+@import uk.gov.hmrc.tai.config.ApplicationConfig
+
+@this(main: views.html.main, applicationConfig: ApplicationConfig)
 
 @(model: YourIncomeCalculationViewModel)(implicit request: Request[_],
 user: controllers.auth.AuthedUser,

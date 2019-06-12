@@ -17,6 +17,9 @@
 @import includes.ptaHeader
 @import includes.cancelLink
 @import uk.gov.hmrc.tai.viewModels.GoogleAnalyticsSettings
+@import uk.gov.hmrc.tai.config.ApplicationConfig
+
+@this(main: views.html.main, applicationConfig: ApplicationConfig)
 
 @(employerName: String,
   form: Option[Form[_]],

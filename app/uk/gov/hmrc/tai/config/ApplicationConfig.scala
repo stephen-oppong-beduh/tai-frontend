@@ -83,6 +83,7 @@ class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultS
   lazy val webchatIconUrl = configuration.getString("tai.webchat.iconUrl").getOrElse("not found")
   lazy val webchatJsUrl = configuration.getString("tai.webchat.jsUrl").getOrElse("not found")
   lazy val numberOfPreviousYearsToShow = configuration.getOptional[Int]("tai.numberOfPreviousYearsToShow").getOrElse(3)
+  lazy val webchatId = configuration.get[String]("webchat.id")
 
 
 
