@@ -43,7 +43,14 @@ import uk.gov.hmrc.tai.viewModels.income.IncomeCheckYourAnswersViewModel
 import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 
-class AddEmploymentController @Inject()(auditService: AuditService,
+class AddEmploymentController @Inject()(add_employment_error_page: views.html.employments.add_employment_error_page,
+                                        add_employment_name_form: views.html.employments.add_employment_name_form,
+                                        add_employment_start_date_form: views.html.employments.add_employment_start_date_form,
+                                        add_employment_first_pay_form: views.html.employments.add_employment_first_pay_form,
+                                        add_employment_payroll_number_form: views.html.employments.add_employment_payroll_number_form,
+                                        can_we_contact_by_phone: views.html.can_we_contact_by_phone,
+                                        confirmation: views.html.employments.confirmation,
+                                        auditService: AuditService,
                                         employmentService: EmploymentService,
                                         authenticate: AuthAction,
                                         validatePerson: ValidatePerson,
@@ -55,9 +62,9 @@ class AddEmploymentController @Inject()(auditService: AuditService,
                                         override implicit val templateRenderer: TemplateRenderer)
                                        (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with JourneyCacheConstants
-  with AuditConstants
-  with FormValuesConstants {
+    with JourneyCacheConstants
+    with AuditConstants
+    with FormValuesConstants {
 
 
   def cancel(): Action[AnyContent] = (authenticate andThen validatePerson).async {
@@ -82,216 +89,216 @@ class AddEmploymentController @Inject()(auditService: AuditService,
     })
 
   def addEmploymentName(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        journeyCacheService.currentValue(AddEmployment_NameKey) map { providedName =>
-          implicit val user = request.taiUser
-          Ok(views.html.employments.add_employment_name_form(EmploymentNameForm.form.fill(providedName.getOrElse(""))))
-        }
+    implicit request =>
+      journeyCacheService.currentValue(AddEmployment_NameKey) map { providedName =>
+        implicit val user = request.taiUser
+        Ok(add_employment_name_form(EmploymentNameForm.form.fill(providedName.getOrElse(""))))
+      }
   }
 
   def submitEmploymentName(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        EmploymentNameForm.form.bindFromRequest.fold(
-          formWithErrors => {
-            implicit val user = request.taiUser
-            Future.successful(BadRequest(views.html.employments.add_employment_name_form(formWithErrors)))
-          },
-          employmentName => {
-            journeyCacheService.cache(Map(AddEmployment_NameKey -> employmentName))
-              .map(_ => Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentStartDate()))
-          }
-        )
+    implicit request =>
+      EmploymentNameForm.form.bindFromRequest.fold(
+        formWithErrors => {
+          implicit val user = request.taiUser
+          Future.successful(BadRequest(add_employment_name_form(formWithErrors)))
+        },
+        employmentName => {
+          journeyCacheService.cache(Map(AddEmployment_NameKey -> employmentName))
+            .map(_ => Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentStartDate()))
+        }
+      )
   }
 
   def addEmploymentStartDate(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        journeyCacheService.collectedValues(Seq(AddEmployment_NameKey), Seq(AddEmployment_StartDateKey)) map tupled { (mandSeq, optSeq) =>
+    implicit request =>
+      journeyCacheService.collectedValues(Seq(AddEmployment_NameKey), Seq(AddEmployment_StartDateKey)) map tupled { (mandSeq, optSeq) =>
 
-          val form = optSeq.head match {
-            case Some(dateString) => EmploymentAddDateForm(mandSeq.head).form.fill(new LocalDate(dateString))
-            case _ => EmploymentAddDateForm(mandSeq.head).form
-          }
-          implicit val user = request.taiUser
-          Ok(views.html.employments.add_employment_start_date_form(form, mandSeq.head))
+        val form = optSeq.head match {
+          case Some(dateString) => EmploymentAddDateForm(mandSeq.head).form.fill(new LocalDate(dateString))
+          case _ => EmploymentAddDateForm(mandSeq.head).form
         }
+        implicit val user = request.taiUser
+        Ok(add_employment_start_date_form(form, mandSeq.head))
+      }
   }
 
   def submitEmploymentStartDate(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        journeyCacheService.currentCache map {
-          currentCache =>
-            EmploymentAddDateForm(currentCache(AddEmployment_NameKey)).form.bindFromRequest().fold(
-              formWithErrors => {
-                implicit val user = request.taiUser
-                BadRequest(views.html.employments.add_employment_start_date_form(formWithErrors, currentCache(AddEmployment_NameKey)))
-              },
-              date => {
-                val startDateBoundary = new LocalDate().minusWeeks(6)
-                val data = currentCache + (AddEmployment_StartDateKey -> date.toString)
-                if (date.isAfter(startDateBoundary)) {
-                  val firstPayChoiceCacheData = data + (AddEmployment_StartDateWithinSixWeeks -> YesValue)
-                  journeyCacheService.cache(firstPayChoiceCacheData)
-                  Redirect(controllers.employments.routes.AddEmploymentController.receivedFirstPay())
-                } else {
-                  val firstPayChoiceCacheData = data + (AddEmployment_StartDateWithinSixWeeks -> NoValue)
-                  journeyCacheService.cache(firstPayChoiceCacheData)
-                  Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentPayrollNumber())
-                }
+    implicit request =>
+      journeyCacheService.currentCache map {
+        currentCache =>
+          EmploymentAddDateForm(currentCache(AddEmployment_NameKey)).form.bindFromRequest().fold(
+            formWithErrors => {
+              implicit val user = request.taiUser
+              BadRequest(add_employment_start_date_form(formWithErrors, currentCache(AddEmployment_NameKey)))
+            },
+            date => {
+              val startDateBoundary = new LocalDate().minusWeeks(6)
+              val data = currentCache + (AddEmployment_StartDateKey -> date.toString)
+              if (date.isAfter(startDateBoundary)) {
+                val firstPayChoiceCacheData = data + (AddEmployment_StartDateWithinSixWeeks -> YesValue)
+                journeyCacheService.cache(firstPayChoiceCacheData)
+                Redirect(controllers.employments.routes.AddEmploymentController.receivedFirstPay())
+              } else {
+                val firstPayChoiceCacheData = data + (AddEmployment_StartDateWithinSixWeeks -> NoValue)
+                journeyCacheService.cache(firstPayChoiceCacheData)
+                Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentPayrollNumber())
               }
-            )
-        }
+            }
+          )
+      }
   }
 
   def receivedFirstPay(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        journeyCacheService.collectedValues(Seq(AddEmployment_NameKey), Seq(AddEmployment_RecewivedFirstPayKey)) map tupled { (mandSeq, optSeq)  =>
-          implicit val user = request.taiUser
-          Ok(views.html.employments.add_employment_first_pay_form(AddEmploymentFirstPayForm.form.fill(optSeq.head), mandSeq.head))
-        }
+    implicit request =>
+      journeyCacheService.collectedValues(Seq(AddEmployment_NameKey), Seq(AddEmployment_RecewivedFirstPayKey)) map tupled { (mandSeq, optSeq) =>
+        implicit val user = request.taiUser
+        Ok(add_employment_first_pay_form(AddEmploymentFirstPayForm.form.fill(optSeq.head), mandSeq.head))
+      }
   }
 
   def submitFirstPay(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        AddEmploymentFirstPayForm.form.bindFromRequest().fold(
-          formWithErrors => {
-            journeyCacheService.mandatoryValue(AddEmployment_NameKey).map { employmentName =>
-              implicit val user = request.taiUser
-              BadRequest(views.html.employments.add_employment_first_pay_form(formWithErrors, employmentName))
-            }
-          },
-          firstPayYesNo => {
-            journeyCacheService.cache(AddEmployment_RecewivedFirstPayKey, firstPayYesNo.getOrElse("")) map { _ =>
-              firstPayYesNo match {
-                case Some(YesValue) => Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentPayrollNumber())
-                case _ => Redirect(controllers.employments.routes.AddEmploymentController.sixWeeksError())
-              }
+    implicit request =>
+      AddEmploymentFirstPayForm.form.bindFromRequest().fold(
+        formWithErrors => {
+          journeyCacheService.mandatoryValue(AddEmployment_NameKey).map { employmentName =>
+            implicit val user = request.taiUser
+            BadRequest(add_employment_first_pay_form(formWithErrors, employmentName))
+          }
+        },
+        firstPayYesNo => {
+          journeyCacheService.cache(AddEmployment_RecewivedFirstPayKey, firstPayYesNo.getOrElse("")) map { _ =>
+            firstPayYesNo match {
+              case Some(YesValue) => Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentPayrollNumber())
+              case _ => Redirect(controllers.employments.routes.AddEmploymentController.sixWeeksError())
             }
           }
-        )
+        }
+      )
   }
 
   def sixWeeksError(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        journeyCacheService.mandatoryValue(AddEmployment_NameKey) map { employmentName =>
-          implicit val user = request.taiUser
-          auditService.createAndSendAuditEvent(AddEmployment_CantAddEmployer, Map("nino" -> user.getNino))
-          Ok(views.html.employments.add_employment_error_page(employmentName))
-        }
+    implicit request =>
+      journeyCacheService.mandatoryValue(AddEmployment_NameKey) map { employmentName =>
+        implicit val user = request.taiUser
+        auditService.createAndSendAuditEvent(AddEmployment_CantAddEmployer, Map("nino" -> user.getNino))
+        Ok(add_employment_error_page(employmentName))
+      }
   }
 
   def addEmploymentPayrollNumber(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        journeyCacheService.currentCache map { cache =>
+    implicit request =>
+      journeyCacheService.currentCache map { cache =>
 
-          val viewModel = PayrollNumberViewModel(cache)
-          val payrollChoice = cache.get(AddEmployment_PayrollNumberQuestionKey)
-          val payroll = payrollChoice match {
-            case Some(YesValue) => cache.get(AddEmployment_PayrollNumberKey)
-            case _ => None
-          }
-          implicit val user = request.taiUser
-          Ok(views.html.employments.add_employment_payroll_number_form(
-            AddEmploymentPayrollNumberForm.form.fill(AddEmploymentPayrollNumberForm(payrollChoice, payroll)),
-            viewModel))
+        val viewModel = PayrollNumberViewModel(cache)
+        val payrollChoice = cache.get(AddEmployment_PayrollNumberQuestionKey)
+        val payroll = payrollChoice match {
+          case Some(YesValue) => cache.get(AddEmployment_PayrollNumberKey)
+          case _ => None
         }
+        implicit val user = request.taiUser
+        Ok(add_employment_payroll_number_form(
+          AddEmploymentPayrollNumberForm.form.fill(AddEmploymentPayrollNumberForm(payrollChoice, payroll)),
+          viewModel))
+      }
   }
 
   def submitEmploymentPayrollNumber(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        AddEmploymentPayrollNumberForm.form.bindFromRequest().fold(
-          formWithErrors => {
-            journeyCacheService.currentCache map { cache =>
-              val viewModel = PayrollNumberViewModel(cache)
-              implicit val user = request.taiUser
-              BadRequest(views.html.employments.add_employment_payroll_number_form(formWithErrors, viewModel))
-            }
-          },
-          form => {
-            val payrollNumberToCache = Map(
-              AddEmployment_PayrollNumberQuestionKey -> form.payrollNumberChoice.getOrElse(""),
-              AddEmployment_PayrollNumberKey -> form.payrollNumberEntry.getOrElse(Messages("tai.addEmployment.employmentPayrollNumber.notKnown"))
-            )
-            journeyCacheService.cache(payrollNumberToCache).map(_ =>
-              Redirect(controllers.employments.routes.AddEmploymentController.addTelephoneNumber())
-            )
+    implicit request =>
+      AddEmploymentPayrollNumberForm.form.bindFromRequest().fold(
+        formWithErrors => {
+          journeyCacheService.currentCache map { cache =>
+            val viewModel = PayrollNumberViewModel(cache)
+            implicit val user = request.taiUser
+            BadRequest(add_employment_payroll_number_form(formWithErrors, viewModel))
           }
-        )
+        },
+        form => {
+          val payrollNumberToCache = Map(
+            AddEmployment_PayrollNumberQuestionKey -> form.payrollNumberChoice.getOrElse(""),
+            AddEmployment_PayrollNumberKey -> form.payrollNumberEntry.getOrElse(Messages("tai.addEmployment.employmentPayrollNumber.notKnown"))
+          )
+          journeyCacheService.cache(payrollNumberToCache).map(_ =>
+            Redirect(controllers.employments.routes.AddEmploymentController.addTelephoneNumber())
+          )
+        }
+      )
   }
 
   def addTelephoneNumber(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-          journeyCacheService.optionalValues(AddEmployment_TelephoneQuestionKey, AddEmployment_TelephoneNumberKey) map { optSeq =>
+    implicit request =>
+      journeyCacheService.optionalValues(AddEmployment_TelephoneQuestionKey, AddEmployment_TelephoneNumberKey) map { optSeq =>
 
-            val telNoToDisplay = optSeq.head match {
-              case Some(YesValue) => optSeq(1)
-              case _ => None
-            }
-            implicit val user = request.taiUser
-            Ok(views.html.can_we_contact_by_phone(Some(user),
-              telephoneNumberViewModel,
-              YesNoTextEntryForm.form().fill(YesNoTextEntryForm(optSeq.head, telNoToDisplay))
-            ))
-          }
+        val telNoToDisplay = optSeq.head match {
+          case Some(YesValue) => optSeq(1)
+          case _ => None
+        }
+        implicit val user = request.taiUser
+        Ok(can_we_contact_by_phone(Some(user),
+          telephoneNumberViewModel,
+          YesNoTextEntryForm.form().fill(YesNoTextEntryForm(optSeq.head, telNoToDisplay))
+        ))
+      }
   }
 
   def submitTelephoneNumber(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        YesNoTextEntryForm.form(
-          Messages("tai.canWeContactByPhone.YesNoChoice.empty"),
-          Messages("tai.canWeContactByPhone.telephone.empty"),
-          Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
-          formWithErrors => {
-              implicit val user = request.taiUser
-              Future.successful(BadRequest(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel, formWithErrors)))
-          },
-          form => {
-            val mandatoryData = Map(AddEmployment_TelephoneQuestionKey -> Messages(s"tai.label.${form.yesNoChoice.getOrElse(NoValue).toLowerCase}"))
-            val dataForCache = form.yesNoChoice match {
-              case Some(yn) if yn==YesValue => mandatoryData ++ Map(AddEmployment_TelephoneNumberKey -> form.yesNoTextEntry.getOrElse(""))
-              case _ => mandatoryData ++ Map(AddEmployment_TelephoneNumberKey -> "")
-            }
-            journeyCacheService.cache(dataForCache) map { _ =>
-              Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentCheckYourAnswers())
-            }
+    implicit request =>
+      YesNoTextEntryForm.form(
+        Messages("tai.canWeContactByPhone.YesNoChoice.empty"),
+        Messages("tai.canWeContactByPhone.telephone.empty"),
+        Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
+        formWithErrors => {
+          implicit val user = request.taiUser
+          Future.successful(BadRequest(can_we_contact_by_phone(Some(user), telephoneNumberViewModel, formWithErrors)))
+        },
+        form => {
+          val mandatoryData = Map(AddEmployment_TelephoneQuestionKey -> Messages(s"tai.label.${form.yesNoChoice.getOrElse(NoValue).toLowerCase}"))
+          val dataForCache = form.yesNoChoice match {
+            case Some(yn) if yn == YesValue => mandatoryData ++ Map(AddEmployment_TelephoneNumberKey -> form.yesNoTextEntry.getOrElse(""))
+            case _ => mandatoryData ++ Map(AddEmployment_TelephoneNumberKey -> "")
           }
-        )
+          journeyCacheService.cache(dataForCache) map { _ =>
+            Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentCheckYourAnswers())
+          }
+        }
+      )
   }
 
 
   def addEmploymentCheckYourAnswers: Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        journeyCacheService.collectedValues(
-          Seq(AddEmployment_NameKey,AddEmployment_StartDateKey,AddEmployment_PayrollNumberKey, AddEmployment_TelephoneQuestionKey),
-          Seq(AddEmployment_TelephoneNumberKey)
-        ) map tupled { (mandatoryVals, optionalVals) =>
-          val model =
-            IncomeCheckYourAnswersViewModel(Messages("add.missing.employment"), mandatoryVals.head, mandatoryVals(1), mandatoryVals(2), mandatoryVals(3), optionalVals.head,
-              controllers.employments.routes.AddEmploymentController.addTelephoneNumber().url,
-              controllers.employments.routes.AddEmploymentController.submitYourAnswers().url,
-              controllers.employments.routes.AddEmploymentController.cancel().url)
-          implicit val user = request.taiUser
-          Ok(views.html.incomes.addIncomeCheckYourAnswers(model))
-        }
+    implicit request =>
+      journeyCacheService.collectedValues(
+        Seq(AddEmployment_NameKey, AddEmployment_StartDateKey, AddEmployment_PayrollNumberKey, AddEmployment_TelephoneQuestionKey),
+        Seq(AddEmployment_TelephoneNumberKey)
+      ) map tupled { (mandatoryVals, optionalVals) =>
+        val model =
+          IncomeCheckYourAnswersViewModel(Messages("add.missing.employment"), mandatoryVals.head, mandatoryVals(1), mandatoryVals(2), mandatoryVals(3), optionalVals.head,
+            controllers.employments.routes.AddEmploymentController.addTelephoneNumber().url,
+            controllers.employments.routes.AddEmploymentController.submitYourAnswers().url,
+            controllers.employments.routes.AddEmploymentController.cancel().url)
+        implicit val user = request.taiUser
+        Ok(views.html.incomes.addIncomeCheckYourAnswers(model))
+      }
   }
 
   def submitYourAnswers: Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        implicit val user = request.taiUser
-          for {
-            (mandatoryVals, optionalVals) <- journeyCacheService.collectedValues(Seq(AddEmployment_NameKey, AddEmployment_StartDateKey, AddEmployment_PayrollNumberKey, AddEmployment_TelephoneQuestionKey), Seq(AddEmployment_TelephoneNumberKey))
-            model = AddEmployment(mandatoryVals.head, LocalDate.parse(mandatoryVals(1)), mandatoryVals(2), mandatoryVals(3), optionalVals.head)
-            _ <- employmentService.addEmployment(Nino(user.getNino), model)
-            _ <- successfulJourneyCacheService.cache(TrackSuccessfulJourney_AddEmploymentKey, "true")
-            _ <- journeyCacheService.flush()
-          } yield {
-            Redirect(controllers.employments.routes.AddEmploymentController.confirmation())
-          }
+    implicit request =>
+      implicit val user = request.taiUser
+      for {
+        (mandatoryVals, optionalVals) <- journeyCacheService.collectedValues(Seq(AddEmployment_NameKey, AddEmployment_StartDateKey, AddEmployment_PayrollNumberKey, AddEmployment_TelephoneQuestionKey), Seq(AddEmployment_TelephoneNumberKey))
+        model = AddEmployment(mandatoryVals.head, LocalDate.parse(mandatoryVals(1)), mandatoryVals(2), mandatoryVals(3), optionalVals.head)
+        _ <- employmentService.addEmployment(Nino(user.getNino), model)
+        _ <- successfulJourneyCacheService.cache(TrackSuccessfulJourney_AddEmploymentKey, "true")
+        _ <- journeyCacheService.flush()
+      } yield {
+        Redirect(controllers.employments.routes.AddEmploymentController.confirmation())
+      }
   }
 
   def confirmation: Action[AnyContent] = (authenticate andThen validatePerson).async {
-      implicit request =>
-        implicit val authedUser = request.taiUser
-        Future.successful(Ok(views.html.employments.confirmation()))
+    implicit request =>
+      implicit val authedUser = request.taiUser
+      Future.successful(Ok(confirmation()))
 
   }
 

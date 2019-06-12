@@ -39,7 +39,8 @@ import uk.gov.hmrc.tai.viewModels.WhatDoYouWantToDoViewModel
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService,
+class WhatDoYouWantToDoController @Inject()(whatDoYouWantToDoTileView: views.html.whatDoYouWantToDoTileView,
+                                            employmentService: EmploymentService,
                                             taxCodeChangeService: TaxCodeChangeService,
                                             taxAccountService: TaxAccountService,
                                             trackingService: TrackingService,
@@ -114,14 +115,14 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
 
               Logger.debug(s"wdywtdViewModelCYEnabledAndGood $model")
 
-              Ok(views.html.whatDoYouWantToDoTileView(WhatDoYouWantToDoForm.createForm, model))
+              Ok(whatDoYouWantToDoTileView(WhatDoYouWantToDoForm.createForm, model))
             }
             case _ => {
               val model = WhatDoYouWantToDoViewModel(trackingResponse, isCyPlusOneEnabled = false)
 
               Logger.debug(s"wdywtdViewModelCYEnabledButBad $model")
 
-              Ok(views.html.whatDoYouWantToDoTileView(WhatDoYouWantToDoForm.createForm, model))
+              Ok(whatDoYouWantToDoTileView(WhatDoYouWantToDoForm.createForm, model))
 
             }
           }
@@ -133,7 +134,7 @@ class WhatDoYouWantToDoController @Inject()(employmentService: EmploymentService
 
           Logger.debug(s"wdywtdViewModelCYDisabled $model")
 
-          Ok(views.html.whatDoYouWantToDoTileView(WhatDoYouWantToDoForm.createForm, model))
+          Ok(whatDoYouWantToDoTileView(WhatDoYouWantToDoForm.createForm, model))
         }
         )
       }

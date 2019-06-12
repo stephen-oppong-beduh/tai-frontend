@@ -22,7 +22,7 @@
 @import uk.gov.hmrc.tai.viewModels.IFormInProgressBannerViewModel
 @import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(iFormInProgressBanner: views.html.includes.iFormInProgressBanner, main: views.html.main, applicationConfig: ApplicationConfig)
 
 @(viewModel: TaxAccountSummaryViewModel
 )(implicit request: Request[_],
@@ -55,14 +55,9 @@
         customBackLinkContent = Some(backLinkToChooseTaxYear))
 }
 
-@main(
-    title = viewModel.title,
-    authedUser = Some(user),
-    pageHeader = Some(header),
-    articleClasses = Some("full-width"),
-    includeWebchatScript = false){
-
-@includes.iFormInProgressBanner(IFormInProgressBannerViewModel(viewModel.isAnyFormInProgress))
+@main(title = viewModel.title,authedUser = Some(user),pageHeader = Some(header),articleClasses = Some("full-width"),includeWebchatScript = false)
+    {
+    @iFormInProgressBanner(IFormInProgressBannerViewModel(viewModel.isAnyFormInProgress))
 
 <div class="grid-row">
     <div class="grid grid-2-3">
@@ -188,7 +183,7 @@
                         <p class="icon icon-plus">
                             @Link.toInternalPage(
                                 id=Some("addOtherIncomeSourceLink"),
-                                url=ApplicationConfig.otherIncomeLinkUrl,
+                                url=applicationConfig.otherIncomeLinkUrl,
                                 value=Some(Messages("tai.incomeTaxSummary.addMissingIncome.section.otherLink")),
                                 cssClasses=Some(""),
                                 dataAttributes=Some(Map("journey-click"->s"link - click:${gaEventActionString}:${Messages("tai.incomeTaxSummary.addMissingIncome.section.otherLink")}"))).toHtml

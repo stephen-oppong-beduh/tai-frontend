@@ -30,7 +30,8 @@
     articleClasses = Some("full-width"),
     authedUser = Some(user),
     gaCustomTitle = None
-){
+)
+    {
     <header class="page-header">
         <h1 id="gatekeeper-title" class="flush--bottom">@Messages("tai.gatekeeper.heading")</h1>
     </header>
@@ -52,7 +53,7 @@
                         <li>@Messages("tai.gatekeeper.outsideUk")</li>
                     </ul>
                 </section>
-                @Link.toInternalPage(id=Some("backLink"), url=ApplicationConfig.pertaxServiceUrl.toString,value=Some(Messages("tai.backToHome-link.upper")), dataAttributes = Some(Map("journey-click"->"check-income-tax:Service Link:personal-tax-account-footer-link"))).toHtml
+                @Link.toInternalPage(id=Some("backLink"), url=applicationConfig.pertaxServiceUrl.toString,value=Some(Messages("tai.backToHome-link.upper")), dataAttributes = Some(Map("journey-click"->"check-income-tax:Service Link:personal-tax-account-footer-link"))).toHtml
             </div>
         </div>
     </div>

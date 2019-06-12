@@ -40,7 +40,8 @@
     pageHeader = Some(header),
     articleClasses = None,
     gaCustomTitle = Some(Messages("tai.closeBankAccount.closeDateForm.customGaTitle"))
-    ) {
+    )
+    {
 
         @form(action = controllers.income.bbsi.routes.BbsiCloseAccountController.submitCloseDate(id)) {
         @date(

@@ -30,6 +30,7 @@
 @import uk.gov.hmrc.tai.model.domain.{TemporarilyUnavailable, Unavailable, Available}
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
+@this(printWrapper: views.html.print.printWrapper)
 
 @(historicIncomeCalculationViewModel: HistoricIncomeCalculationViewModel
 )(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)

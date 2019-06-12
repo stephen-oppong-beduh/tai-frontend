@@ -30,7 +30,8 @@ import uk.gov.hmrc.tai.service.BbsiService
 import scala.concurrent.ExecutionContext
 
 
-class BbsiRemoveAccountController @Inject()(bbsiService: BbsiService,
+class BbsiRemoveAccountController @Inject()(bank_building_society_check_your_answers: views.html.incomes.bbsi.remove.bank_building_society_check_your_answers,
+                                            bbsiService: BbsiService,
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,
                                             mcc: MessagesControllerComponents,
@@ -44,7 +45,7 @@ class BbsiRemoveAccountController @Inject()(bbsiService: BbsiService,
       implicit val user = request.taiUser
       bbsiService.bankAccount(Nino(user.getNino), id) map {
         case Some(bankAccount) =>
-          Ok(views.html.incomes.bbsi.remove.bank_building_society_check_your_answers(id, bankAccount.bankName.getOrElse("")))
+          Ok(bank_building_society_check_your_answers(id, bankAccount.bankName.getOrElse("")))
         case None => NotFound
       }
   }

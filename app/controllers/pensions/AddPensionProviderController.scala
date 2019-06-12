@@ -44,7 +44,14 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.language.postfixOps
 import scala.util.control.NonFatal
 
-class AddPensionProviderController @Inject()(pensionProviderService: PensionProviderService,
+class AddPensionProviderController @Inject()(addPensionName: views.html.pensions.addPensionName,
+                                             addPensionReceivedFirstPay: views.html.pensions.addPensionReceivedFirstPay,
+                                             addPensionErrorPage: views.html.pensions.addPensionErrorPage,
+                                             addPensionStartDate: views.html.pensions.addPensionStartDate,
+                                             addPensionNumberView: views.html.pensions.addPensionNumber,
+                                             addPensionConfirmation: views.html.pensions.addPensionConfirmation,
+                                             can_we_contact_by_phone: views.html.can_we_contact_by_phone,
+                                             pensionProviderService: PensionProviderService,
                                              auditService: AuditService,
                                              val auditConnector: AuditConnector,
                                              authenticate: AuthAction,
@@ -56,9 +63,9 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
                                              override implicit val templateRenderer: TemplateRenderer)
                                             (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with JourneyCacheConstants
-  with AuditConstants
-  with FormValuesConstants {
+    with JourneyCacheConstants
+    with AuditConstants
+    with FormValuesConstants {
 
   private def contactPhonePensionProvider(implicit messages: Messages): CanWeContactByPhoneViewModel = {
     CanWeContactByPhoneViewModel(
@@ -73,7 +80,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
   def cancel(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       journeyCacheService.flush() map { _ =>
-          Redirect(controllers.routes.TaxAccountSummaryController.onPageLoad())
+        Redirect(controllers.routes.TaxAccountSummaryController.onPageLoad())
       }
   }
 
@@ -83,7 +90,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
         pensionName =>
           implicit val user = request.taiUser
 
-          Ok(views.html.pensions.addPensionName(PensionProviderNameForm.form.fill(pensionName.getOrElse(""))))
+          Ok(addPensionName(PensionProviderNameForm.form.fill(pensionName.getOrElse(""))))
       }
   }
 
@@ -93,7 +100,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
 
       PensionProviderNameForm.form.bindFromRequest.fold(
         formWithErrors => {
-          Future.successful(BadRequest(views.html.pensions.addPensionName(formWithErrors)))
+          Future.successful(BadRequest(addPensionName(formWithErrors)))
         },
         pensionProviderName => {
           journeyCacheService.cache(Map(AddPensionProvider_NameKey -> pensionProviderName))
@@ -107,7 +114,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
       implicit val user = request.taiUser
 
       journeyCacheService.collectedValues(Seq(AddPensionProvider_NameKey), Seq(AddPensionProvider_FirstPaymentKey)) map tupled { (mandatoryVals, optionalVals) =>
-        Ok(views.html.pensions.addPensionReceivedFirstPay(AddPensionProviderFirstPayForm.form.fill(optionalVals(0)), mandatoryVals(0)))
+        Ok(addPensionReceivedFirstPay(AddPensionProviderFirstPayForm.form.fill(optionalVals(0)), mandatoryVals(0)))
       }
   }
 
@@ -119,7 +126,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
       AddPensionProviderFirstPayForm.form.bindFromRequest().fold(
         formWithErrors => {
           journeyCacheService.mandatoryValue(AddPensionProvider_NameKey).map { pensionProviderName =>
-            BadRequest(views.html.pensions.addPensionReceivedFirstPay(formWithErrors, pensionProviderName))
+            BadRequest(addPensionReceivedFirstPay(formWithErrors, pensionProviderName))
           }
         },
         yesNo => {
@@ -142,7 +149,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
         auditService.createAndSendAuditEvent(AddPension_CantAddPensionProvider, Map("nino" -> request.taiUser.getNino))
         implicit val user = request.taiUser
 
-        Ok(views.html.pensions.addPensionErrorPage(pensionProviderName))
+        Ok(addPensionErrorPage(pensionProviderName))
       }
   }
 
@@ -157,7 +164,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
           case _ => PensionAddDateForm(mandatoryVals(0)).form
         }
 
-        Ok(views.html.pensions.addPensionStartDate(form, mandatoryVals(0)))
+        Ok(addPensionStartDate(form, mandatoryVals(0)))
       }).recover {
         case NonFatal(e) => internalServerError(e.getMessage)
       }
@@ -171,7 +178,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
         currentCache =>
           PensionAddDateForm(currentCache(AddPensionProvider_NameKey)).form.bindFromRequest().fold(
             formWithErrors => {
-              Future.successful(BadRequest(views.html.pensions.addPensionStartDate(formWithErrors, currentCache(AddPensionProvider_NameKey))))
+              Future.successful(BadRequest(addPensionStartDate(formWithErrors, currentCache(AddPensionProvider_NameKey))))
             },
             date => {
               journeyCacheService.cache(AddPensionProvider_StartDateKey, date.toString) map { _ =>
@@ -194,7 +201,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
           case _ => None
         }
 
-        Ok(views.html.pensions.addPensionNumber(AddPensionProviderNumberForm.form.fill(
+        Ok(addPensionNumberView(AddPensionProviderNumberForm.form.fill(
           AddPensionProviderNumberForm(cache.get(AddPensionProvider_PayrollNumberChoice), payrollNo)),
           viewModel)
         )
@@ -209,7 +216,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
         formWithErrors => {
           journeyCacheService.currentCache map { cache =>
             val viewModel = PensionNumberViewModel(cache)
-            BadRequest(views.html.pensions.addPensionNumber(formWithErrors, viewModel))
+            BadRequest(addPensionNumber(formWithErrors, viewModel))
           }
         },
         form => {
@@ -234,7 +241,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
 
         val user = Some(request.taiUser)
 
-        Ok(views.html.can_we_contact_by_phone(user, contactPhonePensionProvider, YesNoTextEntryForm.form().fill(YesNoTextEntryForm(seq(0), telephoneNo))))
+        Ok(can_we_contact_by_phone(user, contactPhonePensionProvider, YesNoTextEntryForm.form().fill(YesNoTextEntryForm(seq(0), telephoneNo))))
       }
   }
 
@@ -247,7 +254,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
         Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
         formWithErrors => {
           val user = Some(request.taiUser)
-          Future.successful(BadRequest(views.html.can_we_contact_by_phone(user, contactPhonePensionProvider, formWithErrors)))
+          Future.successful(BadRequest(can_we_contact_by_phone(user, contactPhonePensionProvider, formWithErrors)))
         },
         form => {
           val mandatoryData = Map(AddPensionProvider_TelephoneQuestionKey -> Messages(s"tai.label.${form.yesNoChoice.getOrElse(NoValue).toLowerCase}"))
@@ -308,7 +315,7 @@ class AddPensionProviderController @Inject()(pensionProviderService: PensionProv
     implicit request =>
       implicit val user = request.taiUser
 
-      Future.successful(Ok(views.html.pensions.addPensionConfirmation()))
+      Future.successful(Ok(addPensionConfirmation()))
   }
 
 }

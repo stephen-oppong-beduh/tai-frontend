@@ -47,7 +47,8 @@
     pageHeader = Some(header),
     articleClasses = None,
     gaCustomTitle = Some(Messages("tai.bbsi.decision.customGaTitle"))
-) {
+)
+    {
 
     @form(action=controllers.income.bbsi.routes.BbsiController.handleDecisionPage(viewModel.id), args = Symbol("data-journey-dynamic-radios") -> "") {
 

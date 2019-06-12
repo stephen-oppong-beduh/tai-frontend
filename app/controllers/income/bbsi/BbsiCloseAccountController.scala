@@ -40,7 +40,10 @@ import uk.gov.hmrc.tai.viewModels.income.BbsiClosedCheckYourAnswersViewModel
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class BbsiCloseAccountController @Inject()(bbsiService: BbsiService,
+class BbsiCloseAccountController @Inject()(bank_building_society_closing_interest: views.html.incomes.bbsi.close.bank_building_society_closing_interest,
+                                           bank_building_society_close_date: views.html.incomes.bbsi.close.bank_building_society_close_date,
+                                           bank_building_society_check_your_answers: views.html.incomes.bbsi.close.bank_building_society_check_your_answers,
+                                           bbsiService: BbsiService,
                                            authenticate: AuthAction,
                                            validatePerson: ValidatePerson,
                                            @Named("Close Bank Account") journeyCacheService: JourneyCacheService,
@@ -49,7 +52,7 @@ class BbsiCloseAccountController @Inject()(bbsiService: BbsiService,
                                            override implicit val templateRenderer: TemplateRenderer)
                                           (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with JourneyCacheConstants {
+    with JourneyCacheConstants {
 
   def futureDateValidation: (LocalDate => Boolean, String) = ((date: LocalDate) => !date.isAfter(LocalDate.now()), messagesApi("tai.date.error.future"))
 
@@ -69,7 +72,7 @@ class BbsiCloseAccountController @Inject()(bbsiService: BbsiService,
         }
         bankAccount match {
           case Some(BankAccount(_, Some(_), Some(_), Some(bankName), _, _)) =>
-            Ok(views.html.incomes.bbsi.close.bank_building_society_close_date(updatedForm, bankName, id))
+            Ok(bank_building_society_close_date(updatedForm, bankName, id))
           case Some(_) => throw new RuntimeException(s"Bank account does not contain name, number or sortcode for nino: [${user.getNino}] and id: [$id]")
           case None => throw new RuntimeException(s"Bank account not found for nino: [${user.getNino}] and id: [$id]")
         }
@@ -89,7 +92,7 @@ class BbsiCloseAccountController @Inject()(bbsiService: BbsiService,
             .fold(
               formWithErrors => {
                 Future.successful(
-                  BadRequest(views.html.incomes.bbsi.close.bank_building_society_close_date(formWithErrors, bankName, id)))
+                  BadRequest(bank_building_society_close_date(formWithErrors, bankName, id)))
               },
               date => {
                 journeyCacheService.cache(Map(CloseBankAccountDateKey -> date.toString, CloseBankAccountNameKey -> bankName)).map(_ =>
@@ -114,7 +117,7 @@ class BbsiCloseAccountController @Inject()(bbsiService: BbsiService,
         bankAccount <- bbsiService.bankAccount(Nino(user.getNino), id)
       } yield bankAccount match {
         case Some(BankAccount(_, Some(_), Some(_), Some(bankName), _, _)) =>
-          Ok(views.html.incomes.bbsi.close.bank_building_society_closing_interest(id, BankAccountClosingInterestForm.form.fill
+          Ok(bank_building_society_closing_interest(id, BankAccountClosingInterestForm.form.fill
           (BankAccountClosingInterestForm(interestCache(0), interestCache(1)))))
         case Some(_) => throw new RuntimeException(s"Bank account does not contain name, number or sortcode for nino: [${user.getNino}] and id: [$id]")
         case None => throw new RuntimeException(s"Bank account not found for nino: [${user.getNino}] and id: [$id]")
@@ -129,7 +132,7 @@ class BbsiCloseAccountController @Inject()(bbsiService: BbsiService,
 
       BankAccountClosingInterestForm.form.bindFromRequest().fold(
         formWithErrors => {
-          Future.successful(BadRequest(views.html.incomes.bbsi.close.bank_building_society_closing_interest(id, formWithErrors)))
+          Future.successful(BadRequest(bank_building_society_closing_interest(id, formWithErrors)))
         },
         form => {
           journeyCacheService.cache(Map(CloseBankAccountInterestKey -> FormHelper.stripNumber(form.closingInterestEntry.getOrElse("")),
@@ -162,7 +165,7 @@ class BbsiCloseAccountController @Inject()(bbsiService: BbsiService,
 
       journeyCacheService.collectedValues(Seq(CloseBankAccountDateKey), Seq(CloseBankAccountNameKey, CloseBankAccountInterestKey)) map { seq =>
         val model = BbsiClosedCheckYourAnswersViewModel(id, seq._1.head, seq._2.head, seq._2.tail.head)
-        Ok(views.html.incomes.bbsi.close.bank_building_society_check_your_answers(model))
+        Ok(bank_building_society_check_your_answers(model))
       }
   }
 }

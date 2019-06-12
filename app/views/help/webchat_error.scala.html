@@ -14,10 +14,11 @@
  * limitations under the License.
  *@
 
-@()(implicit request: Request[_],m:Messages)
-
 @import uk.gov.hmrc.urls.Link
 @import uk.gov.hmrc.tai.config.ApplicationConfig
+
+@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@()(implicit request: Request[_],m:Messages)
 
 <p  data-journey='link - view:@Messages("tai.getHelp.webchat.h2"):@Messages("tai.getHelp.webchat.error.p2")'>@Messages("tai.getHelp.webchat.error.p2")</p>
 
@@ -32,5 +33,5 @@
 
 <p>@Html(Messages("tai.getHelp.form.p1",
     Link.toInternalPage(id=Some("get-help-iform-link"),
-    url=ApplicationConfig.hardshipHelpUrl,
+    url=applicationConfig.hardshipHelpUrl,
     value=Some(Messages("tai.getHelp.form.link.title"))).toHtml))</p>

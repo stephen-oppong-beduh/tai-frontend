@@ -36,7 +36,10 @@ import uk.gov.hmrc.tai.viewModels.{HistoricIncomeCalculationViewModel, YourIncom
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class YourIncomeCalculationController @Inject()(personService: PersonService,
+class YourIncomeCalculationController @Inject()(yourIncomeCalculation: views.html.incomes.yourIncomeCalculation,
+                                                printHistoricIncomeCalculation: views.html.print.historicIncomeCalculation,
+                                                incomeHistoricIncomeCalculation: views.html.incomes.historicIncomeCalculation,
+                                                personService: PersonService,
                                                 taxAccountService: TaxAccountService,
                                                 employmentService: EmploymentService,
                                                 authenticate: AuthAction,
@@ -75,7 +78,7 @@ class YourIncomeCalculationController @Inject()(personService: PersonService,
           if (printPage) {
             Ok(views.html.print.yourIncomeCalculation(model))
           } else {
-            Ok(views.html.incomes.yourIncomeCalculation(model))
+            Ok(yourIncomeCalculation(model))
           }
         case _ => internalServerError("Error while fetching RTI details")
       }
@@ -114,9 +117,9 @@ class YourIncomeCalculationController @Inject()(personService: PersonService,
     } yield {
       val historicIncomeCalculationViewModel = HistoricIncomeCalculationViewModel(employment, empId, year)
       if (printPage) {
-        Ok(views.html.print.historicIncomeCalculation(historicIncomeCalculationViewModel))
+        Ok(printHistoricIncomeCalculation(historicIncomeCalculationViewModel))
       } else {
-        Ok(views.html.incomes.historicIncomeCalculation(historicIncomeCalculationViewModel))
+        Ok(incomeHistoricIncomeCalculation(historicIncomeCalculationViewModel))
       }
     }
   }

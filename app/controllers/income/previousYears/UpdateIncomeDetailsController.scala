@@ -16,13 +16,11 @@
 
 package controllers.income.previousYears
 
-import javax.inject.{Inject, Named}
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
-import play.api.Play.current
+import javax.inject.{Inject, Named}
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
@@ -36,12 +34,16 @@ import uk.gov.hmrc.tai.service.journeyCache.JourneyCacheService
 import uk.gov.hmrc.tai.util.constants.{FormValuesConstants, JourneyCacheConstants}
 import uk.gov.hmrc.tai.viewModels.CanWeContactByPhoneViewModel
 import uk.gov.hmrc.tai.viewModels.income.previousYears.{UpdateHistoricIncomeDetailsViewModel, UpdateIncomeDetailsCheckYourAnswersViewModel}
-import views.html.incomes.previousYears.CheckYourAnswers
 
 import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 
-class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: PreviousYearsIncomeService,
+class UpdateIncomeDetailsController @Inject()(can_we_contact_by_phone: views.html.can_we_contact_by_phone,
+                                              UpdateIncomeDetailsDecision: views.html.incomes.previousYears.UpdateIncomeDetailsDecision,
+                                              updateIncomeDetails: views.html.incomes.previousYears.UpdateIncomeDetails,
+                                              updateIncomeDetailsConfirmation: views.html.incomes.previousYears.UpdateIncomeDetailsConfirmation,
+                                              previousYearsIncomeService: PreviousYearsIncomeService,
+                                              checkYourAnswersView: views.html.incomes.previousYears.CheckYourAnswers,
                                               authenticate: AuthAction,
                                               validatePerson: ValidatePerson,
                                               @Named("Track Successful Journey") trackingJourneyCacheService: JourneyCacheService,
@@ -51,8 +53,8 @@ class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: Previo
                                               override implicit val templateRenderer: TemplateRenderer)
                                              (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with JourneyCacheConstants
-  with FormValuesConstants {
+    with JourneyCacheConstants
+    with FormValuesConstants {
 
   def telephoneNumberViewModel(taxYear: Int)(implicit messages: Messages): CanWeContactByPhoneViewModel = CanWeContactByPhoneViewModel(
     messages("tai.income.previousYears.journey.preHeader"),
@@ -66,7 +68,7 @@ class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: Previo
     implicit request =>
       journeyCacheService.cache(Map(UpdatePreviousYearsIncome_TaxYearKey -> taxYear.year.toString)) map { _ =>
         implicit val user = request.taiUser
-        Ok(views.html.incomes.previousYears.UpdateIncomeDetailsDecision(UpdateIncomeDetailsDecisionForm.form, taxYear))
+        Ok(UpdateIncomeDetailsDecision(UpdateIncomeDetailsDecisionForm.form, taxYear))
       }
   }
 
@@ -76,7 +78,7 @@ class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: Previo
 
       UpdateIncomeDetailsDecisionForm.form.bindFromRequest.fold(
         formWithErrors => {
-          Future.successful(BadRequest(views.html.incomes.previousYears.UpdateIncomeDetailsDecision(formWithErrors, TaxYear().prev)))
+          Future.successful(BadRequest(UpdateIncomeDetailsDecision(formWithErrors, TaxYear().prev)))
         },
         decision => {
           decision match {
@@ -93,7 +95,7 @@ class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: Previo
 
       journeyCacheService.currentCache map {
         currentCache =>
-          Ok(views.html.incomes.previousYears.UpdateIncomeDetails(UpdateHistoricIncomeDetailsViewModel(currentCache(UpdatePreviousYearsIncome_TaxYearKey).toInt),
+          Ok(updateIncomeDetails(UpdateHistoricIncomeDetailsViewModel(currentCache(UpdatePreviousYearsIncome_TaxYearKey).toInt),
             UpdateIncomeDetailsForm.form))
       }
   }
@@ -106,7 +108,7 @@ class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: Previo
         formWithErrors => {
           journeyCacheService.currentCache map {
             currentCache =>
-              BadRequest(views.html.incomes.previousYears.UpdateIncomeDetails(
+              BadRequest(updateIncomeDetails(
                 UpdateHistoricIncomeDetailsViewModel(currentCache(UpdatePreviousYearsIncome_TaxYearKey).toInt), formWithErrors))
           }
         },
@@ -122,7 +124,7 @@ class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: Previo
       implicit val user = request.taiUser
 
       journeyCacheService.currentCache map { currentCache =>
-        Ok(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel(currentCache(UpdatePreviousYearsIncome_TaxYearKey).toInt), YesNoTextEntryForm.form()))
+        Ok(can_we_contact_by_phone(Some(user), telephoneNumberViewModel(currentCache(UpdatePreviousYearsIncome_TaxYearKey).toInt), YesNoTextEntryForm.form()))
       }
   }
 
@@ -136,7 +138,7 @@ class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: Previo
         Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
         formWithErrors => {
           journeyCacheService.currentCache map { currentCache =>
-            BadRequest(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel(currentCache(UpdatePreviousYearsIncome_TaxYearKey).toInt), formWithErrors))
+            BadRequest(can_we_contact_by_phone(Some(user), telephoneNumberViewModel(currentCache(UpdatePreviousYearsIncome_TaxYearKey).toInt), formWithErrors))
           }
         },
         form => {
@@ -164,7 +166,7 @@ class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: Previo
         Seq(
           UpdatePreviousYearsIncome_TelephoneNumberKey
         )) map tupled { (mandatorySeq, optionalSeq) => {
-        Ok(CheckYourAnswers(UpdateIncomeDetailsCheckYourAnswersViewModel(
+        Ok(checkYourAnswersView(UpdateIncomeDetailsCheckYourAnswersViewModel(
           TaxYear(mandatorySeq.head.toInt),
           mandatorySeq(1),
           mandatorySeq(2),
@@ -193,7 +195,7 @@ class UpdateIncomeDetailsController @Inject()(previousYearsIncomeService: Previo
     implicit request =>
       implicit val user = request.taiUser
 
-      Future.successful(Ok(views.html.incomes.previousYears.UpdateIncomeDetailsConfirmation()))
+      Future.successful(Ok(updateIncomeDetailsConfirmation()))
   }
 
 }

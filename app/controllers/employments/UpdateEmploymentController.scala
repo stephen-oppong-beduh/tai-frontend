@@ -42,7 +42,11 @@ import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
-class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
+class UpdateEmploymentController @Inject()(can_we_contact_by_phone: views.html.can_we_contact_by_phone,
+                                           whatDoYouWantToTellUs: views.html.employments.update.whatDoYouWantToTellUs,
+                                           updateEmploymentCheckYourAnswersView: views.html.employments.update.UpdateEmploymentCheckYourAnswers,
+                                           confirmationView: views.html.employments.confirmation,
+                                           employmentService: EmploymentService,
                                            val auditConnector: AuditConnector,
                                            authenticate: AuthAction,
                                            validatePerson: ValidatePerson,
@@ -53,9 +57,9 @@ class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
                                            override implicit val templateRenderer: TemplateRenderer)
                                           (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with JourneyCacheConstants
-  with AuditConstants
-  with FormValuesConstants {
+    with JourneyCacheConstants
+    with AuditConstants
+    with FormValuesConstants {
 
   def cancel(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -85,17 +89,17 @@ class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
         userSuppliedDetails <- journeyCacheService.currentValue(UpdateEmployment_EmploymentDetailsKey)
         employment <- employmentService.employment(Nino(user.getNino), empId)
         futureResult <-
-          employment match {
-            case Some(emp) => {
-              val cache = Map(UpdateEmployment_EmploymentIdKey -> empId.toString, UpdateEmployment_NameKey -> emp.name)
-              journeyCacheService.cache(cache).map(_ =>
-                Ok(views.html.employments.update.whatDoYouWantToTellUs(EmploymentViewModel(emp.name, empId),
-                  UpdateEmploymentDetailsForm.form.fill(userSuppliedDetails.getOrElse(""))))
-              )
-            }
-            case _ => throw new RuntimeException("Error during employment details retrieval")
+        employment match {
+          case Some(emp) => {
+            val cache = Map(UpdateEmployment_EmploymentIdKey -> empId.toString, UpdateEmployment_NameKey -> emp.name)
+            journeyCacheService.cache(cache).map(_ =>
+              Ok(whatDoYouWantToTellUs(EmploymentViewModel(emp.name, empId),
+                UpdateEmploymentDetailsForm.form.fill(userSuppliedDetails.getOrElse(""))))
+            )
           }
-      } yield futureResult ).recover {
+          case _ => throw new RuntimeException("Error during employment details retrieval")
+        }
+      } yield futureResult).recover {
         case NonFatal(exception) => internalServerError(exception.getMessage)
       }
 
@@ -107,7 +111,7 @@ class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
         formWithErrors => {
           journeyCacheService.currentCache map { currentCache =>
             implicit val user = request.taiUser
-            BadRequest(views.html.employments.update.whatDoYouWantToTellUs(
+            BadRequest(whatDoYouWantToTellUs(
               EmploymentViewModel(currentCache(UpdateEmployment_NameKey), empId), formWithErrors))
           }
         },
@@ -125,7 +129,7 @@ class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
         telephoneCache <- journeyCacheService.optionalValues(UpdateEmployment_TelephoneQuestionKey, UpdateEmployment_TelephoneNumberKey)
       } yield {
         implicit val user = request.taiUser
-        Ok(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel(employmentId),
+        Ok(can_we_contact_by_phone(Some(user), telephoneNumberViewModel(employmentId),
           YesNoTextEntryForm.form().fill(YesNoTextEntryForm(telephoneCache.head, telephoneCache(1)))))
       }
 
@@ -140,7 +144,7 @@ class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
         formWithErrors => {
           journeyCacheService.currentCache map { currentCache =>
             implicit val user = request.taiUser
-            BadRequest(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel(currentCache(UpdateEmployment_EmploymentIdKey).toInt), formWithErrors))
+            BadRequest(can_we_contact_by_phone(Some(user), telephoneNumberViewModel(currentCache(UpdateEmployment_EmploymentIdKey).toInt), formWithErrors))
           }
         },
         form => {
@@ -162,7 +166,7 @@ class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
       journeyCacheService.collectedValues(Seq(UpdateEmployment_EmploymentIdKey, UpdateEmployment_NameKey,
         UpdateEmployment_EmploymentDetailsKey, UpdateEmployment_TelephoneQuestionKey),
         Seq(UpdateEmployment_TelephoneNumberKey)) map tupled { (mandatorySeq, optionalSeq) => {
-        Ok(views.html.employments.update.UpdateEmploymentCheckYourAnswers(UpdateEmploymentCheckYourAnswersViewModel(
+        Ok(updateEmploymentCheckYourAnswersView(UpdateEmploymentCheckYourAnswersViewModel(
           mandatorySeq.head.toInt,
           mandatorySeq(1),
           mandatorySeq(2),
@@ -190,6 +194,6 @@ class UpdateEmploymentController @Inject()(employmentService: EmploymentService,
   def confirmation: Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       implicit val user = request.taiUser
-      Future.successful(Ok(views.html.employments.confirmation()))
+      Future.successful(Ok(confirmationView()))
   }
 }

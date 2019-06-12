@@ -37,7 +37,11 @@ import uk.gov.hmrc.tai.viewModels.income.BbsiAccountsDecisionViewModel
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class BbsiController @Inject()(bbsiService: BbsiService,
+class BbsiController @Inject()(bank_building_society_accounts_decision: views.html.incomes.bbsi.bank_building_society_accounts_decision,
+                               bank_building_society_accounts: views.html.incomes.bbsi.bank_building_society_accounts,
+                               bank_building_society_confirmation: views.html.incomes.bbsi.bank_building_society_confirmation,
+                               bank_building_society_overview: views.html.incomes.bbsi.bank_building_society_overview,
+                               bbsiService: BbsiService,
                                authenticate: AuthAction,
                                validatePerson: ValidatePerson,
                                @Named("Update Bank Account Choice") journeyCacheService: JourneyCacheService,
@@ -46,8 +50,8 @@ class BbsiController @Inject()(bbsiService: BbsiService,
                                override implicit val templateRenderer: TemplateRenderer)
                               (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with BankAccountDecisionConstants
-  with JourneyCacheConstants {
+    with BankAccountDecisionConstants
+    with JourneyCacheConstants {
 
   def accounts(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -56,33 +60,33 @@ class BbsiController @Inject()(bbsiService: BbsiService,
       for {
         untaxedInterest <- bbsiService.untaxedInterest(Nino(user.getNino))
       } yield {
-        Ok(views.html.incomes.bbsi.bank_building_society_accounts(untaxedInterest))
+        Ok(bank_building_society_accounts(untaxedInterest))
       }
   }
 
   def endConfirmation(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       implicit val user = request.taiUser
-      Future.successful(Ok(views.html.incomes.bbsi.bank_building_society_confirmation()))
+      Future.successful(Ok(bank_building_society_confirmation()))
   }
 
   def updateConfirmation(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       implicit val user = request.taiUser
-      Future.successful(Ok(views.html.incomes.bbsi.bank_building_society_confirmation()))
+      Future.successful(Ok(bank_building_society_confirmation()))
   }
 
   def removeConfirmation(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       implicit val user = request.taiUser
-      Future.successful(Ok(views.html.incomes.bbsi.bank_building_society_confirmation()))
+      Future.successful(Ok(bank_building_society_confirmation()))
   }
 
   def untaxedInterestDetails(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       implicit val user = request.taiUser
       (bbsiService.untaxedInterest(Nino(user.getNino)) map { untaxedInterest =>
-        Ok(views.html.incomes.bbsi.bank_building_society_overview(untaxedInterest.amount))
+        Ok(bank_building_society_overview(untaxedInterest.amount))
       }).recover {
         case e: Exception => internalServerError(e.getMessage)
       }
@@ -97,7 +101,7 @@ class BbsiController @Inject()(bbsiService: BbsiService,
       } yield bankAccount match {
         case Some(BankAccount(_, Some(_), Some(_), Some(bankName), _, _)) =>
           val viewModel = BbsiAccountsDecisionViewModel(id, bankName)
-          Ok(views.html.incomes.bbsi.bank_building_society_accounts_decision(viewModel, BankAccountsDecisionForm.createForm.fill(BankAccountsDecisionFormData(cacheDetails))))
+          Ok(bank_building_society_accounts_decision(viewModel, BankAccountsDecisionForm.createForm.fill(BankAccountsDecisionFormData(cacheDetails))))
         case Some(_) => throw new RuntimeException(s"Bank account does not contain name, number or sortcode for nino: [${user.getNino}] and id: [$id]")
         case None => NotFound
       }).recover {
@@ -114,7 +118,7 @@ class BbsiController @Inject()(bbsiService: BbsiService,
           bbsiService.bankAccount(Nino(user.getNino), id) flatMap {
             case Some(BankAccount(_, Some(_), Some(_), Some(bankName), _, _)) =>
               val viewModel = BbsiAccountsDecisionViewModel(id, bankName)
-              Future.successful(BadRequest(views.html.incomes.bbsi.bank_building_society_accounts_decision(viewModel, formWithErrors)))
+              Future.successful(BadRequest(bank_building_society_accounts_decision(viewModel, formWithErrors)))
             case Some(_) => throw new RuntimeException(s"Bank account does not contain name, number or sortcode for nino: [${user.getNino}] and id: [$id]")
             case None => Future.successful(NotFound)
           }

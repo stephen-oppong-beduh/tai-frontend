@@ -45,7 +45,14 @@ import uk.gov.hmrc.tai.viewModels.income.IncomeCheckYourAnswersViewModel
 import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 
-class EndEmploymentController @Inject()(auditService: AuditService,
+class EndEmploymentController @Inject()(duplicateSubmissionWarningView: views.html.employments.duplicateSubmissionWarning,
+                                        update_remove_employment_decision: views.html.employments.update_remove_employment_decision,
+                                        endEmploymentWithinSixWeeksError: views.html.employments.endEmploymentWithinSixWeeksError,
+                                        endEmploymentIrregularPaymentError: views.html.employments.EndEmploymentIrregularPaymentError,
+                                        endEmployment: views.html.employments.endEmployment,
+                                        can_we_contact_by_phone: views.html.can_we_contact_by_phone,
+                                        confirmation: views.html.employments.confirmation,
+                                        auditService: AuditService,
                                         employmentService: EmploymentService,
                                         authenticate: AuthAction,
                                         validatePerson: ValidatePerson,
@@ -55,12 +62,12 @@ class EndEmploymentController @Inject()(auditService: AuditService,
                                         mcc: MessagesControllerComponents,
                                         implicit val templateRenderer: TemplateRenderer,
                                         implicit val partialRetriever: FormPartialRetriever
-                                       ) (implicit ec: ExecutionContext)
+                                       )(implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with JourneyCacheConstants
-  with FormValuesConstants
-  with IrregularPayConstants
-  with AuditConstants {
+    with JourneyCacheConstants
+    with FormValuesConstants
+    with IrregularPayConstants
+    with AuditConstants {
 
   def cancel(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -86,7 +93,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
     implicit request =>
       implicit val user = request.taiUser
       journeyCacheService.mandatoryValues(EndEmployment_NameKey, EndEmployment_EmploymentIdKey) map { mandatoryValues =>
-        Ok(views.html.employments.update_remove_employment_decision(UpdateRemoveEmploymentForm.form, mandatoryValues(0), mandatoryValues(1).toInt))
+        Ok(update_remove_employment_decision(UpdateRemoveEmploymentForm.form, mandatoryValues(0), mandatoryValues(1).toInt))
       }
   }
 
@@ -130,7 +137,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
       journeyCacheService.mandatoryValues(EndEmployment_NameKey, EndEmployment_EmploymentIdKey) flatMap { mandatoryValues =>
         UpdateRemoveEmploymentForm.form.bindFromRequest.fold(
           formWithErrors => {
-            Future(BadRequest(views.html.employments.update_remove_employment_decision(formWithErrors, mandatoryValues(0), mandatoryValues(1).toInt)))
+            Future(BadRequest(update_remove_employment_decision(formWithErrors, mandatoryValues(0), mandatoryValues(1).toInt)))
           },
           {
             case Some(YesValue) => Future(Redirect(controllers.employments.routes.UpdateEmploymentController.
@@ -171,7 +178,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
       implicit val user = request.taiUser
       journeyCacheService.mandatoryValues(EndEmployment_LatestPaymentDateKey, EndEmployment_NameKey, EndEmployment_EmploymentIdKey) map { data =>
         val date = new LocalDate(data.head)
-        Ok(views.html.employments.endEmploymentWithinSixWeeksError(WithinSixWeeksViewModel(date.plusWeeks(6).plusDays(1), data(1), date, data(2).toInt)))
+        Ok(endEmploymentWithinSixWeeksError(WithinSixWeeksViewModel(date.plusWeeks(6).plusDays(1), data(1), date, data(2).toInt)))
       }
   }
 
@@ -179,7 +186,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
     implicit request =>
       implicit val user = request.taiUser
       journeyCacheService.mandatoryValues(EndEmployment_NameKey, EndEmployment_EmploymentIdKey) map { mandatoryValues =>
-        Ok(views.html.employments.EndEmploymentIrregularPaymentError(IrregularPayForm.createForm,
+        Ok(endEmploymentIrregularPaymentError(IrregularPayForm.createForm,
           EmploymentViewModel(mandatoryValues(0), mandatoryValues(1).toInt)))
       }
   }
@@ -191,7 +198,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
       journeyCacheService.mandatoryValues(EndEmployment_NameKey, EndEmployment_EmploymentIdKey) map { mandatoryValues =>
         IrregularPayForm.createForm.bindFromRequest.fold(
           formWithErrors => {
-            BadRequest(views.html.employments.EndEmploymentIrregularPaymentError(formWithErrors,
+            BadRequest(endEmploymentIrregularPaymentError(formWithErrors,
               EmploymentViewModel(mandatoryValues(0), mandatoryValues(1).toInt)))
           },
           formData => {
@@ -213,9 +220,9 @@ class EndEmploymentController @Inject()(auditService: AuditService,
       journeyCacheService.collectedValues(Seq(EndEmployment_NameKey, EndEmployment_EmploymentIdKey),
         Seq(EndEmployment_EndDateKey)) map tupled { (mandatorySeq, optionalSeq) => {
         optionalSeq match {
-          case Seq(Some(date)) => Ok(views.html.employments.endEmployment(EmploymentEndDateForm(mandatorySeq(0))
+          case Seq(Some(date)) => Ok(endEmployment(EmploymentEndDateForm(mandatorySeq(0))
             .form.fill(new LocalDate(date)), EmploymentViewModel(mandatorySeq(0), mandatorySeq(1).toInt)))
-          case _ => Ok(views.html.employments.endEmployment(EmploymentEndDateForm(mandatorySeq(0)).form,
+          case _ => Ok(endEmployment(EmploymentEndDateForm(mandatorySeq(0)).form,
             EmploymentViewModel(mandatorySeq(0), mandatorySeq(1).toInt)))
         }
       }
@@ -230,7 +237,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
         case Some(employment) =>
           EmploymentEndDateForm(employment.name).form.bindFromRequest.fold(
             formWithErrors => {
-              Future.successful(BadRequest(views.html.employments.endEmployment(formWithErrors, EmploymentViewModel(employment.name, employmentId))))
+              Future.successful(BadRequest(endEmployment(formWithErrors, EmploymentViewModel(employment.name, employmentId))))
             },
             date => {
               val employmentJourneyCacheData = Map(EndEmployment_EndDateKey -> date.toString)
@@ -253,7 +260,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
         employmentId <- journeyCacheService.mandatoryValueAsInt(EndEmployment_EmploymentIdKey)
         telephoneCache <- journeyCacheService.optionalValues(EndEmployment_TelephoneQuestionKey, EndEmployment_TelephoneNumberKey)
       } yield {
-        Ok(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel(employmentId),
+        Ok(can_we_contact_by_phone(Some(user), telephoneNumberViewModel(employmentId),
           YesNoTextEntryForm.form().fill(YesNoTextEntryForm(telephoneCache(0), telephoneCache(1)))))
       }
   }
@@ -268,7 +275,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
         Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
         formWithErrors => {
           journeyCacheService.mandatoryValueAsInt(EndEmployment_EmploymentIdKey) map { employmentId =>
-            BadRequest(views.html.can_we_contact_by_phone(Some(user), telephoneNumberViewModel(employmentId), formWithErrors))
+            BadRequest(can_we_contact_by_phone(Some(user), telephoneNumberViewModel(employmentId), formWithErrors))
           }
         },
         form => {
@@ -319,7 +326,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
     implicit request =>
       implicit val user = request.taiUser
       journeyCacheService.mandatoryValues(EndEmployment_NameKey, EndEmployment_EmploymentIdKey) map { mandatoryValues =>
-        Ok(views.html.employments.duplicateSubmissionWarning(DuplicateSubmissionWarningForm.createForm, mandatoryValues(0), mandatoryValues(1).toInt))
+        Ok(duplicateSubmissionWarningView(DuplicateSubmissionWarningForm.createForm, mandatoryValues(0), mandatoryValues(1).toInt))
       }
   }
 
@@ -331,8 +338,7 @@ class EndEmploymentController @Inject()(auditService: AuditService,
 
         DuplicateSubmissionWarningForm.createForm.bindFromRequest.fold(
           formWithErrors => {
-            Future.successful(BadRequest(views.html.employments.
-              duplicateSubmissionWarning(formWithErrors, mandatoryValues(0), empId)))
+            Future.successful(BadRequest(duplicateSubmissionWarningView(formWithErrors, mandatoryValues(0), empId)))
           },
           success => {
             success.yesNoChoice match {
@@ -347,6 +353,6 @@ class EndEmploymentController @Inject()(auditService: AuditService,
   }
 
   def showConfirmationPage: Action[AnyContent] = (authenticate andThen validatePerson).async {
-    implicit request => Future.successful(Ok(views.html.employments.confirmation()))
+    implicit request => Future.successful(Ok(confirmation()))
   }
 }

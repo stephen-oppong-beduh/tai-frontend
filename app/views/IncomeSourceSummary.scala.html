@@ -75,14 +75,7 @@
         preHeadingText = model.displayName)
 }
 
-@main(
-    title = title,
-    authedUser = Some(user),
-    pageHeader = Some(header),
-    articleClasses = None,
-    gaCustomTitle = Some(title)
-) {
-
+@main(title = title, authedUser = Some(user), pageHeader = Some(header), articleClasses = None, gaCustomTitle = Some(title)){
     @if(model.isPension){
         <p  aria-hidden="true">
             @Link.toInternalPage(

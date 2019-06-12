@@ -46,7 +46,13 @@ import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
-class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountService,
+class UpdatePensionProviderController @Inject()(whatDoYouWantToTellUsView: views.html.pensions.update.whatDoYouWantToTellUs,
+                                                doYouGetThisPensionIncome: views.html.pensions.update.doYouGetThisPensionIncome,
+                                                can_we_contact_by_phone: views.html.can_we_contact_by_phone,
+                                                updatePensionCheckYourAnswers: views.html.pensions.update.updatePensionCheckYourAnswers,
+                                                duplicateSubmissionWarningView: views.html.pensions.duplicateSubmissionWarning,
+                                                confirmationView: views.html.pensions.update.confirmation,
+                                                taxAccountService: TaxAccountService,
                                                 pensionProviderService: PensionProviderService,
                                                 applicationConfig: ApplicationConfig,
                                                 auditService: AuditService,
@@ -59,8 +65,8 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
                                                 override implicit val templateRenderer: TemplateRenderer)
                                                (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with JourneyCacheConstants
-  with FormValuesConstants {
+    with JourneyCacheConstants
+    with FormValuesConstants {
 
   def cancel(empId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
@@ -87,10 +93,10 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
     implicit request =>
       implicit val user = request.taiUser
 
-      journeyCacheService.collectedValues(Seq(UpdatePensionProvider_IdKey,UpdatePensionProvider_NameKey), Seq(UpdatePensionProvider_ReceivePensionQuestionKey)) map tupled { (mandatoryValues, optionalValues) =>
+      journeyCacheService.collectedValues(Seq(UpdatePensionProvider_IdKey, UpdatePensionProvider_NameKey), Seq(UpdatePensionProvider_ReceivePensionQuestionKey)) map tupled { (mandatoryValues, optionalValues) =>
         val model = PensionProviderViewModel(mandatoryValues.head.toInt, mandatoryValues(1))
         val form = UpdateRemovePensionForm.form.fill(optionalValues.head)
-        Ok(views.html.pensions.update.doYouGetThisPensionIncome(model, form))
+        Ok(doYouGetThisPensionIncome(model, form))
       }
   }
 
@@ -103,7 +109,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
             val model = PensionProviderViewModel(mandatoryVals.head.toInt, mandatoryVals.last)
             implicit val user = request.taiUser
 
-            Future(BadRequest(views.html.pensions.update.doYouGetThisPensionIncome(model, formWithErrors)))
+            Future(BadRequest(doYouGetThisPensionIncome(model, formWithErrors)))
           },
           {
             case Some(YesValue) =>
@@ -124,7 +130,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
       } yield {
         implicit val user = request.taiUser
 
-        Ok(views.html.pensions.update.whatDoYouWantToTellUs(mandatoryValues.head, mandatoryValues(1).toInt,
+        Ok(whatDoYouWantToTellUsView(mandatoryValues.head, mandatoryValues(1).toInt,
           WhatDoYouWantToTellUsForm.form.fill(optionalValues.head.getOrElse(""))))
       }
   }
@@ -135,7 +141,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
         formWithErrors => {
           journeyCacheService.mandatoryValues(UpdatePensionProvider_NameKey, UpdatePensionProvider_IdKey) map { mandatoryValues =>
             implicit val user = request.taiUser
-            BadRequest(views.html.pensions.update.whatDoYouWantToTellUs(mandatoryValues.head, mandatoryValues(1).toInt, formWithErrors))
+            BadRequest(whatDoYouWantToTellUs(mandatoryValues.head, mandatoryValues(1).toInt, formWithErrors))
           }
         },
         pensionDetails => {
@@ -153,7 +159,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
       } yield {
         val user = Some(request.taiUser)
 
-        Ok(views.html.can_we_contact_by_phone(user, telephoneNumberViewModel(pensionId),
+        Ok(can_we_contact_by_phone(user, telephoneNumberViewModel(pensionId),
           YesNoTextEntryForm.form().fill(YesNoTextEntryForm(telephoneCache(0), telephoneCache(1)))))
       }
   }
@@ -167,7 +173,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
         formWithErrors => {
           journeyCacheService.currentCache map { currentCache =>
             val user = Some(request.taiUser)
-            BadRequest(views.html.can_we_contact_by_phone(user, telephoneNumberViewModel(currentCache(UpdatePensionProvider_IdKey).toInt), formWithErrors))
+            BadRequest(can_we_contact_by_phone(user, telephoneNumberViewModel(currentCache(UpdatePensionProvider_IdKey).toInt), formWithErrors))
           }
         },
         form => {
@@ -196,7 +202,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
       ) map tupled { (mandatorySeq, optionalSeq) => {
         implicit val user = request.taiUser
 
-        Ok(views.html.pensions.update.updatePensionCheckYourAnswers(UpdatePensionCheckYourAnswersViewModel(
+        Ok(updatePensionCheckYourAnswers(UpdatePensionCheckYourAnswersViewModel(
           mandatorySeq.head.toInt,
           mandatorySeq(1),
           mandatorySeq(2),
@@ -213,11 +219,11 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
 
       for {
         (mandatoryCacheSeq, optionalCacheSeq) <-
-          journeyCacheService.collectedValues(Seq(
-            UpdatePensionProvider_IdKey,
-            UpdatePensionProvider_DetailsKey,
-            UpdatePensionProvider_TelephoneQuestionKey),
-            Seq(UpdatePensionProvider_TelephoneNumberKey))
+        journeyCacheService.collectedValues(Seq(
+          UpdatePensionProvider_IdKey,
+          UpdatePensionProvider_DetailsKey,
+          UpdatePensionProvider_TelephoneQuestionKey),
+          Seq(UpdatePensionProvider_TelephoneNumberKey))
         model = IncorrectPensionProvider(mandatoryCacheSeq(1), mandatoryCacheSeq(2), optionalCacheSeq.head)
         _ <- pensionProviderService.incorrectPensionProvider(nino, mandatoryCacheSeq.head.toInt, model)
         _ <- successfulJourneyCacheService.cache(s"$TrackSuccessfulJourney_UpdatePensionKey-${mandatoryCacheSeq.head}", true.toString)
@@ -229,7 +235,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
     implicit request =>
       implicit val user = request.taiUser
 
-      Future.successful(Ok(views.html.pensions.update.confirmation()))
+      Future.successful(Ok(confirmationView()))
   }
 
   private def redirectToWarningOrDecisionPage(journeyCacheFuture: Future[Map[String, String]],
@@ -276,7 +282,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
     implicit request =>
       implicit val user = request.taiUser
       journeyCacheService.mandatoryValues(UpdatePensionProvider_NameKey, UpdatePensionProvider_IdKey) map { mandatoryValues =>
-        Ok(views.html.pensions.duplicateSubmissionWarning(DuplicateSubmissionWarningForm.createForm, mandatoryValues(0), mandatoryValues(1).toInt))
+        Ok(duplicateSubmissionWarningView(DuplicateSubmissionWarningForm.createForm, mandatoryValues(0), mandatoryValues(1).toInt))
       }
 
   }
@@ -287,8 +293,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
       journeyCacheService.mandatoryValues(UpdatePensionProvider_NameKey, UpdatePensionProvider_IdKey) flatMap { mandatoryValues =>
         DuplicateSubmissionWarningForm.createForm.bindFromRequest.fold(
           formWithErrors => {
-            Future.successful(BadRequest(views.html.pensions.
-              duplicateSubmissionWarning(formWithErrors, mandatoryValues(0), mandatoryValues(1).toInt)))
+            Future.successful(BadRequest(duplicateSubmissionWarningView(formWithErrors, mandatoryValues(0), mandatoryValues(1).toInt)))
           },
           success => {
             success.yesNoChoice match {
@@ -296,7 +301,7 @@ class UpdatePensionProviderController @Inject()(taxAccountService: TaxAccountSer
                 doYouGetThisPension()))
               case Some(NoValue) =>
                 Future.successful(Redirect(controllers.routes.IncomeSourceSummaryController.
-                onPageLoad(mandatoryValues(1).toInt)))
+                  onPageLoad(mandatoryValues(1).toInt)))
             }
           }
         )

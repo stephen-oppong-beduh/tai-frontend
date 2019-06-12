@@ -39,6 +39,8 @@ import scala.concurrent.{ExecutionContext, Future}
 
 
 class BbsiUpdateAccountController @Inject()(bbsiService: BbsiService,
+                                            bank_building_society_check_your_answers: views.html.incomes.bbsi.update.bank_building_society_check_your_answers,
+                                            bank_building_society_update_interest: views.html.incomes.bbsi.update.bank_building_society_update_interest,
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,
                                             @Named("Update Bank Account") journeyCacheService: JourneyCacheService,
@@ -61,7 +63,7 @@ class BbsiUpdateAccountController @Inject()(bbsiService: BbsiService,
             val model = BbsiUpdateAccountViewModel(id,
               untaxedInterest.amount, bankAccount.bankName.getOrElse(""))
             val form = UpdateInterestForm.form.fill(cachedData.getOrElse(""))
-            Ok(views.html.incomes.bbsi.update.bank_building_society_update_interest(model, form))
+            Ok(bank_building_society_update_interest(model, form))
           case None => throw new RuntimeException(s"Not able to found account with id $id")
       }).recover {
         case e: Exception => internalServerError(e.getMessage)
@@ -80,7 +82,7 @@ class BbsiUpdateAccountController @Inject()(bbsiService: BbsiService,
               formWithErrors => {
                 val model = BbsiUpdateAccountViewModel(id,
                   untaxedInterest.amount, bankAccount.bankName.getOrElse(""))
-                Future.successful(BadRequest(views.html.incomes.bbsi.update.bank_building_society_update_interest(model, formWithErrors)))
+                Future.successful(BadRequest(bank_building_society_update_interest(model, formWithErrors)))
               },
               interest => {
                 journeyCacheService.cache(Map(UpdateBankAccountInterestKey -> interest, UpdateBankAccountNameKey -> bankAccount.bankName.getOrElse(""))).map(_ =>
@@ -101,7 +103,7 @@ class BbsiUpdateAccountController @Inject()(bbsiService: BbsiService,
       journeyCacheService.mandatoryValues(UpdateBankAccountInterestKey, UpdateBankAccountNameKey) map { mandatory =>
         val interest = FormHelper.stripNumber(mandatory.head)
         val bankName = mandatory.last
-        Ok(views.html.incomes.bbsi.update.bank_building_society_check_your_answers(BbsiUpdateInterestViewModel(id, interest, bankName)))
+        Ok(bank_building_society_check_your_answers(BbsiUpdateInterestViewModel(id, interest, bankName)))
       }
   }
 

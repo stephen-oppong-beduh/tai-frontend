@@ -41,6 +41,7 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
                                      authenticate: AuthAction,
                                      validatePerson: ValidatePerson,
                                      mcc: MessagesControllerComponents,
+                                     updateCompanyCar: views.html.benefits.updateCompanyCar,
                                      override implicit val partialRetriever: FormPartialRetriever,
                                      override implicit val templateRenderer: TemplateRenderer)
                                     (implicit ec: ExecutionContext)
@@ -62,7 +63,7 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
         implicit val user = request.taiUser
         response match {
           case TaiSuccessResponseWithPayload(x: Map[String, String]) =>
-            Ok(views.html.benefits.updateCompanyCar(UpdateOrRemoveCarForm.createForm, CompanyCarChoiceViewModel(x)))
+            Ok(updateCompanyCar(UpdateOrRemoveCarForm.createForm, CompanyCarChoiceViewModel(x)))
           case TaiNoCompanyCarFoundResponse(_) =>
             Redirect(applicationConfig.companyCarServiceUrl)
         }
@@ -75,7 +76,7 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
         formWithErrors => {
           journeyCacheService.mandatoryValues(CompanyCar_CarModelKey, CompanyCar_CarProviderKey) flatMap { seq =>
             implicit val user = request.taiUser
-            Future.successful(BadRequest(views.html.benefits.updateCompanyCar(formWithErrors, CompanyCarChoiceViewModel(seq(0), seq(1)))))
+            Future.successful(BadRequest(updateCompanyCar(formWithErrors, CompanyCarChoiceViewModel(seq(0), seq(1)))))
           }
         },
         formData => {

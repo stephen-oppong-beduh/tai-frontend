@@ -25,7 +25,8 @@ import uk.gov.hmrc.renderer.TemplateRenderer
 import scala.concurrent.Future
 
 
-class DeceasedController @Inject()(authenticate: AuthAction,
+class DeceasedController @Inject()(deceased_helpline: views.html.deceased_helpline,
+                                    authenticate: AuthAction,
                                    mcc: MessagesControllerComponents,
                                    override implicit val partialRetriever: FormPartialRetriever,
                                    override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController(mcc) {
@@ -33,6 +34,6 @@ class DeceasedController @Inject()(authenticate: AuthAction,
   def deceased() = authenticate.async {
     implicit request =>
       implicit val user: AuthedUser = request.taiUser
-      Future.successful(Ok(views.html.deceased_helpline()))
+      Future.successful(Ok(deceased_helpline()))
   }
 }
