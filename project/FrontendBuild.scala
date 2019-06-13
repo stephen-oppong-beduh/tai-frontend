@@ -38,8 +38,8 @@ private object AppDependencies {
     "uk.gov.hmrc"  %% "auth-client"                   % "2.20.0-play-26",
     "uk.gov.hmrc"  %% "govuk-template"                % "5.35.0-play-26",
     "uk.gov.hmrc"  %% "play-ui"                       % "7.40.0-play-26",
-    "com.typesafe.play" %% "play-json-joda"           % "2.6.10"
-
+    "com.typesafe.play" %% "play-json-joda"           % "2.6.10",
+    "com.typesafe.play" %% "play-joda-forms"           % "2.7.2"
   )
 
   trait TestDependencies {
