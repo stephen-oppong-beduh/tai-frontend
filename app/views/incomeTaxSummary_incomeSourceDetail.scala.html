@@ -18,6 +18,8 @@
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.urls.Link
 
+@this(link: views.html.includes.link)
+
 @(incomeSources: Seq[IncomeSourceViewModel],
   typeLabel: String,
   accessibleAmountPrefix: String,
@@ -58,7 +60,7 @@
 
             @if(incomeSource.displayDetailsLink){
             <p class="flush--top">
-                @includes.link(
+                @link(
                     id=Some(s"${typeLabel}${idx}DetailsLink"),
                     url=incomeSource.detailsLinkUrl,
                     copy=incomeSource.detailsLinkLabel,

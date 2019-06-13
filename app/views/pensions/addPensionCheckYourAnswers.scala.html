@@ -14,15 +14,14 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers._
-@import uk.gov.hmrc.urls.Link
-@import includes.ptaHeader
-@import includes.cancelLink
-@import includes.forms._
-@import uk.gov.hmrc.tai.viewModels.CheckYourAnswersConfirmationLine
-@import play.api.mvc.Call
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
-@this(main: views.html.main)
+@this(main: views.html.main,
+        form: FormWithCSRF,
+        submit: views.html.includes.forms.submit,
+        ptaHeader: views.html.includes.ptaHeader,
+        cancelLink: views.html.includes.cancelLink,
+        checkYourAnswers: views.html.includes.checkYourAnswers)
 
 @(viewModel: uk.gov.hmrc.tai.viewModels.pensions.CheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
@@ -44,7 +43,7 @@
 
     @form(action=Call("POST", viewModel.submissionUrl), args=(Symbol("class"), "subsection")) {
 
-        @includes.checkYourAnswers(
+        @checkYourAnswers(
             title = Some(viewModel.title),
             gaEventAction = Some(gaEventActionString),
             longQuestions = true,

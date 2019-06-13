@@ -14,20 +14,18 @@
  * limitations under the License.
  *@
 
-@import includes.backLink
-@import includes.forms.submit
-@import includes.{cancelLink, ptaHeader}
-@import uk.gov.hmrc.play.views.html.helpers.errorSummary
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 @import uk.gov.hmrc.tai.forms.pensions.AddPensionProviderNumberForm
 @import uk.gov.hmrc.tai.viewModels.pensions.PensionNumberViewModel
-@import includes.forms.inputRadioGroupStyling
-@import uk.gov.hmrc.tai.config.ApplicationConfig
-@import uk.gov.hmrc.tai.config.FeatureTogglesConfig
-@import uk.gov.hmrc.play.views.html.layouts.Article
 @import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
-@this(main: views.html.main, input: views.html.includes.forms.input, form: FormWithCSRF)
+@this(  main: views.html.main,
+        input: views.html.includes.forms.input,
+        form: FormWithCSRF,
+        ptaHeader: views.html.includes.ptaHeader,
+        cancelLink: views.html.includes.cancelLink,
+        submit: views.html.includes.forms.submit,
+        inputRadioGroupStyling: views.html.includes.forms.inputRadioGroupStyling)
 
 
 @(payrollNumberForm: Form[AddPensionProviderNumberForm], pensionNumberViewModel: PensionNumberViewModel)(implicit request: Request[_],

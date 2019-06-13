@@ -14,14 +14,14 @@
  * limitations under the License.
  *@
 
-@import includes.ptaHeader
-@import includes.details_summary
 @import controllers.routes
 @import uk.gov.hmrc.tai.model.domain.TaxCodeRecord
 @import uk.gov.hmrc.tai.viewModels.taxCodeChange.{TaxCodeChangeViewModel, TaxCodePairs}
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import uk.gov.hmrc.tai.viewModels.DescriptionListViewModel
 @import org.joda.time.LocalDate
+
+@this(details_summary: views.html.includes.details_summary)
 
 @(taxCodeRecord: TaxCodeRecord, identifier: String, scottishTaxRateBands: Map[String, BigDecimal])(implicit messages: Messages)
 
@@ -48,7 +48,7 @@
 @taxCodeRecordExplanation(taxCodeRecord: TaxCodeRecord, identifier: String) = {
     @defining(TaxCodeChangeViewModel.getTaxCodeExplanations(taxCodeRecord, scottishTaxRateBands, identifier)) { taxCodeDescription =>
         <div class="tax-code-change__explanation">
-            @includes.details_summary(
+            @details_summary(
                 taxCodeDescription.heading,
                 gaAction = Some(s"$identifier tax code"),
                 gaLabel = Some(taxCodeDescription.heading),

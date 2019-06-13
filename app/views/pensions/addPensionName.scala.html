@@ -14,14 +14,14 @@
  * limitations under the License.
  *@
 
-@import includes.{backLink}
-@import includes.forms.{submit}
-@import includes.{cancelLink, ptaHeader}
-@import uk.gov.hmrc.play.views.html.helpers.{errorSummary}
-@import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 @import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
-@this(main: views.html.main, input: views.html.includes.forms.input, form: FormWithCSRF)
+@this(main: views.html.main,
+        form: FormWithCSRF,
+        submit: views.html.includes.forms.submit,
+        ptaHeader: views.html.includes.ptaHeader,
+        cancelLink: views.html.includes.cancelLink,
+        input: views.html.includes.forms.input)
 
 @(nameForm: Form[String])(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 

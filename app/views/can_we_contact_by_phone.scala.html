@@ -14,16 +14,20 @@
  * limitations under the License.
  *@
 
-@import includes.forms.{submit, input}
-@import includes.{cancelLink, ptaHeader, backLink}
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
-@import uk.gov.hmrc.play.views.html.helpers.{form}
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 @import uk.gov.hmrc.tai.forms.YesNoTextEntryForm
 @import uk.gov.hmrc.tai.viewModels.CanWeContactByPhoneViewModel
 @import play.api.mvc.Call
-@import includes.forms.inputRadioGroupStyling
 
-@this(main: views.html.main)
+@this(main: views.html.main,
+        ptaHeader: views.html.includes.ptaHeader,
+        cancelLink: views.html.includes.cancelLink,
+        backLink: views.html.includes.backLink,
+        submit: views.html.includes.forms.submit,
+        input: views.html.includes.forms.input,
+        inputRadioGroupStyling: views.html.includes.forms.inputRadioGroupStyling,
+        form: FormWithCSRF)
 
 @(      incomingAuthedUser: Option[controllers.auth.AuthedUser],
         viewModel: CanWeContactByPhoneViewModel,

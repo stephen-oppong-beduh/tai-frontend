@@ -31,7 +31,7 @@ case class TaxCodeChangeViewModel(pairs: TaxCodePairs,
                                   isAGenericReason: Boolean,
                                   gaDimensions: Map[String, String])
 
-object TaxCodeChangeViewModel extends TaxCodeDescriptor {
+object TaxCodeChangeViewModel {
 
   def apply(taxCodeChange: TaxCodeChange, scottishTaxRateBands: Map[String, BigDecimal],
             taxCodeChangeReasons: Seq[String] = Seq.empty[String],
@@ -50,14 +50,14 @@ object TaxCodeChangeViewModel extends TaxCodeDescriptor {
     )
   }
 
-  def getTaxCodeExplanations(taxCodeRecord: TaxCodeRecord, scottishTaxRateBands: Map[String, BigDecimal], identifier: String)
+  def getTaxCodeExplanations(taxCodeDescriptor: TaxCodeDescriptor, taxCodeRecord: TaxCodeRecord, scottishTaxRateBands: Map[String, BigDecimal], identifier: String)
                             (implicit messages: Messages): DescriptionListViewModel = {
 
     val isCurrentTaxCode = identifier == "current"
 
     val taxCode = taxCodeWithEmergencySuffix(taxCodeRecord.taxCode, taxCodeRecord.basisOfOperation)
 
-    val explanation = describeTaxCode(
+    val explanation = taxCodeDescriptor.describeTaxCode(
       taxCode,
       taxCodeRecord.basisOfOperation,
       scottishTaxRateBands,

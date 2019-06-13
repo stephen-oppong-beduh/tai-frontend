@@ -26,7 +26,7 @@ object TupleFormats {
       a <- aReads.reads(arr(0))
       b <- bReads.reads(arr(1))
     } yield (a, b)
-    case _ => JsError(Seq(JsPath() -> Seq(ValidationError("Expected array of 2 elements"))))
+    case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("Expected array of 2 elements"))))
   }
 
   implicit def tuple2Writes[A, B](implicit aWrites: Writes[A], bWrites: Writes[B]): Writes[Tuple2[A, B]] = new Writes[Tuple2[A, B]] {
@@ -39,7 +39,7 @@ object TupleFormats {
       b <- bReads.reads(arr(1))
       c <- cReads.reads(arr(2))
     } yield (a, b, c)
-    case _ => JsError(Seq(JsPath() -> Seq(ValidationError("Expected array of 3 elements"))))
+    case _ => JsError(Seq(JsPath() -> Seq(JsonValidationError("Expected array of 3 elements"))))
   }
 
   implicit def tuple3Writes[A, B, C](implicit aWrites: Writes[A], bWrites: Writes[B], cWrites: Writes[C]): Writes[Tuple3[A, B, C]] = new Writes[Tuple3[A, B, C]] {

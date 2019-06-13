@@ -16,26 +16,20 @@
 
 package controllers.i18n
 
-import javax.inject.Inject
-import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
-import play.api.Play.current
-import play.api.i18n.Lang
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import javax.inject.Inject
+import play.api.Application
+import play.api.i18n.{Lang, MessagesApi}
+import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
-import uk.gov.hmrc.play.partials.FormPartialRetriever
-import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.config.FeatureTogglesConfig
 
 class TaiLanguageController @Inject()(featureTogglesConfig: FeatureTogglesConfig,
                                       authenticate: AuthAction,
                                       validatePerson: ValidatePerson,
-                                      mcc: MessagesControllerComponents,
-                                      override implicit val partialRetriever: FormPartialRetriever,
-                                      override implicit val templateRenderer: TemplateRenderer) extends LanguageController
-  with TaiBaseController(mcc) {
+                                      implicit override val messagesApi: MessagesApi,
+                                      implicit val application: Application) extends LanguageController {
 
   override protected def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),

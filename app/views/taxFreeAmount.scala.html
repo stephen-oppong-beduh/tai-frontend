@@ -17,10 +17,8 @@
 @import uk.gov.hmrc.tai.viewModels.TaxFreeAmountViewModel
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.urls.Link
-@import includes.ptaHeader
-@import includes.taxFreeAmountSummary
 
-@this(main: views.html.main)
+@this(main: views.html.main, ptaHeader: views.html.includes.ptaHeader, taxFreeAmountSummary: views.html.includes.taxFreeAmountSummary)
 
 @(viewModel: TaxFreeAmountViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 

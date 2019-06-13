@@ -27,7 +27,7 @@
 
 @import uk.gov.hmrc.tai.util.HtmlFormatter
 
-@this(main: views.html.main)
+@this(ptaHeader: views.html.includes.ptaHeader, main: views.html.main)
 
 @(taxCodeChangeViewModel: TaxCodeChangeViewModel)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 

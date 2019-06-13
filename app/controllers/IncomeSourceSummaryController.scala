@@ -25,7 +25,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
-import uk.gov.hmrc.tai.config.FeatureTogglesConfig
+import uk.gov.hmrc.tai.config.{ApplicationConfig, FeatureTogglesConfig}
 import uk.gov.hmrc.tai.connectors.responses.TaiSuccessResponseWithPayload
 import uk.gov.hmrc.tai.model.TaxYear
 import uk.gov.hmrc.tai.model.domain.income.TaxCodeIncome
@@ -43,6 +43,7 @@ class IncomeSourceSummaryController @Inject()(incomeSourceSummary: views.html.In
                                               employmentService: EmploymentService,
                                               benefitsService: BenefitsService,
                                               estimatedPayJourneyCompletionService: EstimatedPayJourneyCompletionService,
+                                              applicationConfig: ApplicationConfig,
                                               authenticate: AuthAction,
                                               validatePerson: ValidatePerson,
                                               mcc: MessagesControllerComponents,
@@ -64,8 +65,14 @@ class IncomeSourceSummaryController @Inject()(incomeSourceSummary: views.html.In
       } yield {
         (taxCodeIncomeDetails, employmentDetails) match {
           case (TaiSuccessResponseWithPayload(taxCodeIncomes: Seq[TaxCodeIncome]), Some(employment)) =>
-            val incomeDetailsViewModel = IncomeSourceSummaryViewModel(empId, taiUser.getDisplayName, taxCodeIncomes,
-              employment, benefitsDetails, estimatedPayCompletion)
+            val incomeDetailsViewModel = IncomeSourceSummaryViewModel(
+              applicationConfig,
+              empId,
+              taiUser.getDisplayName,
+              taxCodeIncomes,
+              employment,
+              benefitsDetails,
+              estimatedPayCompletion)
 
             implicit val user = request.taiUser
             Ok(incomeSourceSummary(incomeDetailsViewModel))

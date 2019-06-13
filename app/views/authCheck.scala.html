@@ -14,13 +14,12 @@
  * limitations under the License.
  *@
 
-@import includes.{cancelLink, ptaHeader, backLink}
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 @import uk.gov.hmrc.tai.config.ApplicationConfig
 @import uk.gov.hmrc.tai.config.FeatureTogglesConfig
 @import uk.gov.hmrc.play.views.html.layouts.Article
 
-@this(main: views.html.main)
+@this(main: views.html.main, ptaHeader: views.html.includes.ptaHeader)
 
 @()(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 

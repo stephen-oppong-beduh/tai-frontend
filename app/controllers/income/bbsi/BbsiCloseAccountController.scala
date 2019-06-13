@@ -16,7 +16,6 @@
 
 package controllers.income.bbsi
 
-
 import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
@@ -39,7 +38,6 @@ import uk.gov.hmrc.tai.viewModels.income.BbsiClosedCheckYourAnswersViewModel
 
 import scala.concurrent.{ExecutionContext, Future}
 
-
 class BbsiCloseAccountController @Inject()(bank_building_society_closing_interest: views.html.incomes.bbsi.close.bank_building_society_closing_interest,
                                            bank_building_society_close_date: views.html.incomes.bbsi.close.bank_building_society_close_date,
                                            bank_building_society_check_your_answers: views.html.incomes.bbsi.close.bank_building_society_check_your_answers,
@@ -54,7 +52,7 @@ class BbsiCloseAccountController @Inject()(bank_building_society_closing_interes
   extends TaiBaseController(mcc)
     with JourneyCacheConstants {
 
-  def futureDateValidation: (LocalDate => Boolean, String) = ((date: LocalDate) => !date.isAfter(LocalDate.now()), messagesApi("tai.date.error.future"))
+  def futureDateValidation(implicit messages: Messages): (LocalDate => Boolean, String) = ((date: LocalDate) => !date.isAfter(LocalDate.now()), messages("tai.date.error.future"))
 
   def captureCloseDate(id: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>

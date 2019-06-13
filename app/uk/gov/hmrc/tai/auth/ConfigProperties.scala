@@ -22,13 +22,13 @@ import uk.gov.hmrc.tai.config.DefaultRunMode
 
 class ConfigProperties @Inject()(configuration: Configuration) extends DefaultRunMode {
 
-  val postSignInRedirectUrl: Option[String] = configuration.getOptional(s"govuk-tax.$env.login-callback.url")
+  val postSignInRedirectUrl: Option[String] = configuration.getOptional[String](s"govuk-tax.$env.login-callback.url")
 
   val activatePaperless: Boolean = configuration.getOptional[Boolean](s"govuk-tax.$env.activatePaperless")
     .getOrElse(throw new IllegalStateException(s"Could not find configuration for govuk-tax.$env.activatePaperless"))
 
-  val activatePaperlessEvenIfGatekeeperFails: Boolean = configuration.getBoolean(s"govuk-tax.$env.activatePaperlessEvenIfGatekeeperFails")
+  val activatePaperlessEvenIfGatekeeperFails: Boolean = configuration.getOptional[Boolean](s"govuk-tax.$env.activatePaperlessEvenIfGatekeeperFails")
     .getOrElse(throw new IllegalStateException(s"Could not find configuration for govuk-tax.$env.activatePaperless"))
 
-  val taxPlatformTaiRootUri: String = configuration.getOptional(s"govuk-tax.$env.taxPlatformTaiRootUri").getOrElse("http://noConfigTaiRootUri")
+  val taxPlatformTaiRootUri: String = configuration.getOptional[String](s"govuk-tax.$env.taxPlatformTaiRootUri").getOrElse("http://noConfigTaiRootUri")
 }

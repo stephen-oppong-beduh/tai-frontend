@@ -21,12 +21,11 @@
 
 @import uk.gov.hmrc.tai.model.TaxYear
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil
-@import includes.forms.card
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil.dynamicDateRange
 @import uk.gov.hmrc.tai.viewModels.GoogleAnalyticsSettings
 @import uk.gov.hmrc.tai.viewModels.IFormInProgressBannerViewModel
 
-@this(main: views.html.main)
+@this(main: views.html.main, card: views.html.includes.forms.card)
 
 @(wdywtdForm: Form[uk.gov.hmrc.tai.forms.WhatDoYouWantToDoFormData],
   model: WhatDoYouWantToDoViewModel

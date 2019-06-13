@@ -25,21 +25,24 @@ import uk.gov.hmrc.tai.util.ViewModelHelper
 
 
 case class TaxCodeViewModelPreviousYears(title: String,
-                            mainHeading: String,
-                            ledeMessage: String,
-                            taxCodeDetails: Seq[DescriptionListViewModel],
-                            preHeader: String)
+                                         mainHeading: String,
+                                         ledeMessage: String,
+                                         taxCodeDetails: Seq[DescriptionListViewModel],
+                                         preHeader: String)
 
-object TaxCodeViewModelPreviousYears extends ViewModelHelper with TaxCodeDescriptor {
+object TaxCodeViewModelPreviousYears extends ViewModelHelper {
 
-  def apply(taxCodeRecords: Seq[TaxCodeRecord],
+  def apply(taxCodeDescriptor: TaxCodeDescriptor,
+            taxCodeRecords: Seq[TaxCodeRecord],
             scottishTaxRateBands: Map[String, BigDecimal],
             year: TaxYear = TaxYear())
            (implicit messages: Messages): TaxCodeViewModelPreviousYears = {
 
     val preHeader = messages(s"tai.taxCode.prev.preHeader")
 
-    val descriptionListViewModels = sortedTaxCodeRecords(taxCodeRecords).map { recordToDescriptionListViewModel(_, scottishTaxRateBands) }
+    val descriptionListViewModels = sortedTaxCodeRecords(taxCodeRecords).map {
+      recordToDescriptionListViewModel(taxCodeDescriptor, _, scottishTaxRateBands)
+    }
 
     val titleMessageKey = if (taxCodeRecords.size > 1) "tai.taxCode.prev.multiple.code.title" else "tai.taxCode.prev.single.code.title"
     val startOfTaxYearNonBroken = htmlNonBroken(Dates.formatDate(year.start))
@@ -63,10 +66,10 @@ object TaxCodeViewModelPreviousYears extends ViewModelHelper with TaxCodeDescrip
     records.sortBy(primarySecondaryPensionSort)
   }
 
-  private def recordToDescriptionListViewModel(record: TaxCodeRecord, scottishTaxRateBands: Map[String, BigDecimal])
+  private def recordToDescriptionListViewModel(taxCodeDescriptor: TaxCodeDescriptor, record: TaxCodeRecord, scottishTaxRateBands: Map[String, BigDecimal])
                                               (implicit messages: Messages): DescriptionListViewModel = {
     val taxCode = record.taxCode
-    val explanation = describeTaxCode(taxCode, record.basisOfOperation, scottishTaxRateBands, isCurrentYear = false)
+    val explanation = taxCodeDescriptor.describeTaxCode(taxCode, record.basisOfOperation, scottishTaxRateBands, isCurrentYear = false)
 
     DescriptionListViewModel(
       messages(

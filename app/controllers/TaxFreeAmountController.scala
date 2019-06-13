@@ -22,6 +22,7 @@ import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.renderer.TemplateRenderer
+import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.connectors.responses.TaiSuccessResponseWithPayload
 import uk.gov.hmrc.tai.model.domain.tax.TotalTax
 import uk.gov.hmrc.tai.model.{TaxFreeAmountDetails, TaxYear}
@@ -37,6 +38,7 @@ class TaxFreeAmountController @Inject()(taxFreeAmountView: views.html.taxFreeAmo
                                         employmentService: EmploymentService,
                                         taxAccountService: TaxAccountService,
                                         companyCarService: CompanyCarService,
+                                        applicationConfig: ApplicationConfig,
                                         authenticate: AuthAction,
                                         validatePerson: ValidatePerson,
                                         mcc: MessagesControllerComponents,
@@ -57,7 +59,7 @@ class TaxFreeAmountController @Inject()(taxFreeAmountView: views.html.taxFreeAmo
       } yield {
         totalTax match {
           case TaiSuccessResponseWithPayload(totalTax: TotalTax) =>
-            val viewModel = TaxFreeAmountViewModel(codingComponents, TaxFreeAmountDetails(employmentNames, companyCarBenefits, totalTax))
+            val viewModel = TaxFreeAmountViewModel(applicationConfig, codingComponents, TaxFreeAmountDetails(employmentNames, companyCarBenefits, totalTax))
             implicit val user = request.taiUser
             Ok(taxFreeAmountView(viewModel))
           case _ => throw new RuntimeException("Failed to fetch total tax details")

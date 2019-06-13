@@ -14,7 +14,6 @@
  * limitations under the License.
  *@
 
-@import includes.ptaHeader
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import incomeTaxComparison._
 @import uk.gov.hmrc.tai.config.{ApplicationConfig, TaiHtmlPartialRetriever}
@@ -22,7 +21,11 @@
 @import uk.gov.hmrc.tai.viewModels.incomeTaxComparison.{IncomeTaxComparisonViewModel, EstimatedIncomeTaxComparisonViewModel}
 @import uk.gov.hmrc.tai.model.TaxYear
 
-@this(taxCodes: TaxCodes, main: views.html.main, applicationConfig: ApplicationConfig)
+@this(  taxCodes: TaxCodes,
+        main: views.html.main,
+        ptaHeader: views.html.includes.ptaHeader,
+        link: views.html.includes.link,
+        applicationConfig: ApplicationConfig)
 
 @(incomeTaxComparisonViewModel: IncomeTaxComparisonViewModel, estimatedPayEnabled: Boolean)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
@@ -92,7 +95,7 @@
 
                 <ul class="list list-bullet margin-bottom-large">
                     <li>
-                        @includes.link(
+                        @link(
                             id = Some("companyBenefitsLink"),
                             url = applicationConfig.companyBenefitsLinkUrl,
                             copy = messages("tai.incomeTaxComparison.whatHappensNext.tellAboutChange.companyBenefitsText"),
@@ -102,7 +105,7 @@
                     </li>
 
                     <li>
-                        @includes.link(
+                        @link(
                             id = Some("allowancesTaxReliefsLink"),
                             url = applicationConfig.taxFreeAllowanceLinkUrl,
                             copy = messages("tai.incomeTaxComparison.whatHappensNext.tellAboutChange.allowanceTaxReliefText"),
@@ -112,7 +115,7 @@
                     </li>
 
                     <li>
-                        @includes.link(
+                        @link(
                             id = Some("otherIncomeLink"),
                             url = applicationConfig.otherIncomeLinkUrl,
                             copy = messages("tai.incomeTaxComparison.whatHappensNext.tellAboutChange.otherIncomeText"),

@@ -16,13 +16,15 @@
 
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.urls.Link
-@import includes.ptaHeader
-@import includes.cancelLink
 @import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.TaxablePaySlipAmountViewModel
-@import includes.forms.{submit}
 @import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
-@this(main: views.html.main, form: FormWithCSRF, input: views.html.includes.forms.input)
+@this(main: views.html.main,
+        form: FormWithCSRF,
+        input: views.html.includes.forms.input,
+        ptaHeader: views.html.includes.ptaHeader)
+        submit: views.html.includes.submit,
+        cancelLink: views.html.includes.cancelLink)
 
 @(viewModel: TaxablePaySlipAmountViewModel)(implicit request: Request[_],
 messages: Messages, user: controllers.auth.AuthedUser)

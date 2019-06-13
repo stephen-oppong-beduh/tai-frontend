@@ -14,7 +14,6 @@
  * limitations under the License.
  *@
 
-@import includes.ptaHeader
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import uk.gov.hmrc.tai.util.ViewModelHelper._
 @import uk.gov.hmrc.tai.service.TaxPeriodLabelService
@@ -22,7 +21,12 @@
 @import uk.gov.hmrc.tai.viewModels.HistoricPayAsYouEarnViewModel.EmploymentViewModel
 @import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(  main: views.html.main,
+        applicationConfig: ApplicationConfig,
+        ptaHeader: views.html.includes.ptaHeader,
+        previousYearsSideNav: views.html.includes.previousYearsSideNav,
+        link: views.html.includes.link
+     )
 
 @(viewModel: uk.gov.hmrc.tai.viewModels.HistoricPayAsYouEarnViewModel, noOfPreviousYearsToShow: Int)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 
@@ -116,7 +120,7 @@
     @if(noOfPreviousYearsToShow > 1) {
     <div class="grid grid-1-3">
         <div class="inner-block">
-            @includes.previousYearsSideNav(viewModel.taxYear, noOfPreviousYearsToShow)
+            @previousYearsSideNav(viewModel.taxYear, noOfPreviousYearsToShow)
         </div>
     </div>
     }
@@ -163,7 +167,7 @@
                     </p>
 
                     <p class="flush--top">
-                        @includes.link(
+                        @link(
                             id = Some(s"${incomeType}${idx}-checkDetailsLink"),
                             url = routes.YourIncomeCalculationController.yourIncomeCalculationHistoricYears(viewModel.taxYear, employment.id).toString(),
                             copy=messages("tai.paye.lastTaxYear.table.link"),

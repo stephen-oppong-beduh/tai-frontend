@@ -33,6 +33,7 @@ import uk.gov.hmrc.tai.util.constants.TaiConstants._
 import scala.concurrent.{ExecutionContext, Future}
 
 class UnauthorisedController @Inject()(error_template_noauth: views.html.error_template_noauth,
+                                       configProperties: ConfigProperties,
                                        applicationConfig: ApplicationConfig,
                                        mcc: MessagesControllerComponents)
                                       (override implicit val partialRetriever: FormPartialRetriever,
@@ -79,14 +80,14 @@ class UnauthorisedController @Inject()(error_template_noauth: views.html.error_t
     lazy val idaSignIn = s"${applicationConfig.citizenAuthHost}/${applicationConfig.ida_web_context}/login"
     Future.successful(Redirect(idaSignIn).withSession(
       SessionKeys.loginOrigin -> "TAI",
-      SessionKeys.redirect -> ConfigProperties.postSignInRedirectUrl.getOrElse(controllers.routes.WhatDoYouWantToDoController.whatDoYouWantToDoPage().url)
+      SessionKeys.redirect -> configProperties.postSignInRedirectUrl.getOrElse(controllers.routes.WhatDoYouWantToDoController.whatDoYouWantToDoPage().url)
     ))
   }
 
   private def ggRedirect(implicit request: Request[_]): Future[Result] = {
     val postSignInUpliftUrl = s"${ViewModelHelper.urlEncode(applicationConfig.pertaxServiceUrl)}/do-uplift?redirectUrl=${
       ViewModelHelper.
-        urlEncode(ConfigProperties.postSignInRedirectUrl.
+        urlEncode(configProperties.postSignInRedirectUrl.
           getOrElse(controllers.routes.WhatDoYouWantToDoController.whatDoYouWantToDoPage().url))
     }"
 
