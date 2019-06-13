@@ -15,11 +15,14 @@
  *@
 
 @import uk.gov.hmrc.tai.viewModels.income.previousYears.UpdateHistoricIncomeDetailsViewModel
-@import includes.{cancelLink, ptaHeader}
 @import uk.gov.hmrc.tai.forms.income.previousYears.UpdateIncomeDetailsForm
 @import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
-@this(main: views.html.main, form: FormWithCSRF, submit: views.html.includes.forms.submit)
+@this(main: views.html.main,
+        form: FormWithCSRF,
+        ptaHeader: includes.ptaHeader,
+        cancelLink: includes.cancelLink,
+        submit: includes.forms.submit)
 
 @(viewModel: UpdateHistoricIncomeDetailsViewModel, updateIncomeDetailsForm: Form[String])(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 
