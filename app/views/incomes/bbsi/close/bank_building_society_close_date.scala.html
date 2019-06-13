@@ -14,13 +14,14 @@
  * limitations under the License.
  *@
 
-@import includes.{cancelLink, ptaHeader}
 @import org.joda.time.LocalDate
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 
 @this(main: views.html.main,
         form: FormWithCSRF,
+        cancelLink: views.html.includes.cancelLink,
+        ptaHeader: views.html.includes.ptaHeader,
         input: views.html.includes.forms.input,
         date: views.html.includes.forms.date,
         submit: views.html.includes.forms.submit)

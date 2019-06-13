@@ -18,10 +18,13 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import uk.gov.hmrc.urls.Link
 @import uk.gov.hmrc.tai.viewModels.estimatedIncomeTax.DetailedIncomeTaxEstimateViewModel
-@import includes.ptaHeader
 @import uk.gov.hmrc.play.views.formatting.Money._
 
-@this(main: views.html.main)
+@this(main: views.html.main,
+        ptaHeader: views.html.includes.ptaHeader,
+        details_summary: views.html.includes.details_summary,
+        links: views.html.includes.link)
+
 
 @(viewModel: DetailedIncomeTaxEstimateViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
@@ -131,7 +134,7 @@
                             <td>
                                 @additionalTaxRow.label.value
                                 @additionalTaxRow.label.link.map { link =>
-                                    @includes.link(
+                                    @links(
                                         id=Some(link.id),
                                         copy=link.value,
                                         url = link.href,
@@ -164,7 +167,7 @@
                         @for(taxPaidElsewhere <- viewModel.reductionTaxTable){
                         <tr>
                             <td>
-                                @includes.details_summary(taxPaidElsewhere.title){
+                                @details_summary(taxPaidElsewhere.title){
                                 <p>@Html(taxPaidElsewhere.description)</p>
                                 }
                             </td>

@@ -14,6 +14,10 @@
  * limitations under the License.
  *@
 
+@this(main: views.html.main,
+        link: views.html.includes.link)
+
+
 @(title: Option[String],
         confirmationLines : Seq[uk.gov.hmrc.tai.viewModels.CheckYourAnswersConfirmationLine],
         gaEventAction: Option[String] = None,
@@ -31,7 +35,7 @@
                 @line.answer
             </div>
             <div class="cya-change">
-                @includes.link(
+                @link(
                     id = Some("confirmation-line-" + idx.toString + "-change-link"),
                     url = line.changeUrl + "?edit=true",
                     copy=Messages("tai.checkYourAnswers.change.label"),

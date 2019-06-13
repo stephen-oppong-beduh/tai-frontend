@@ -15,12 +15,15 @@
  *@
 
 @import uk.gov.hmrc.tai.forms.employments.UpdateRemoveEmploymentForm
-@import includes.forms.submit
-@import includes.{cancelLink, ptaHeader}
 @import uk.gov.hmrc.play.views.html.helpers.{errorSummary, form}
-@import includes.forms.inputRadioGroupStyling
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
-@this(main: views.html.main, form: FormWithCSRF, submit: views.html.includes.forms.submit)
+@this(main: views.html.main,
+        form: FormWithCSRF,
+        ptaHeader: views.html.includes.ptaHeader,
+        cancelLink: views.html.includes.cancelLink,
+        submit: views.html.includes.forms.submit,
+        inputRadioGroupStyling: views.html.includes.forms.inputRadioGroupStyling)
 
 @(updateRemoveForm: Form[Option[String]], employmentName: String, empId: Int)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 

@@ -18,7 +18,6 @@
 @import uk.gov.hmrc.play.views.html.layouts.loginStatus
 @import uk.gov.hmrc.play.views.formatting.Money._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
-@import includes.ptaHeader
 
 @import uk.gov.hmrc.tai.viewModels.estimatedIncomeTax.{ComplexTaxView,SimpleTaxView, ZeroTaxView,TaxViewType}
 @import uk.gov.hmrc.tai.util.ViewModelHelper._
@@ -27,7 +26,9 @@
 @import uk.gov.hmrc.tai.config.FeatureTogglesConfig
 @import uk.gov.hmrc.play.views.html.layouts.Article
 
-@this(main: views.html.main)
+@this(main: views.html.main,
+        ptaHeader: views.html.includes.ptaHeader,
+        yourTaxGraph: views.html.includes.yourTaxGraph)
 
 @(viewModel: uk.gov.hmrc.tai.viewModels.estimatedIncomeTax.ZeroTaxEstimatedIncomeTaxViewModel, iFormLinks: Html)(implicit
 request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
@@ -82,7 +83,7 @@ request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, temp
                 </section>
 
                 <section>
-                    @includes.yourTaxGraph(viewModel.graph, viewModel.taxRegion,ZeroTaxView, Some(viewModel.incomeEstimate))
+                    @yourTaxGraph(viewModel.graph, viewModel.taxRegion,ZeroTaxView, Some(viewModel.incomeEstimate))
                 </section>
 
                 <section id="estimatedIncomeText" class="soft--top flush--bottom">
