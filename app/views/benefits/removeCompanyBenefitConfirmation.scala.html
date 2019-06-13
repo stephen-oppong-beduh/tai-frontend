@@ -15,9 +15,10 @@
  *@
 
 @import uk.gov.hmrc.urls.Link
-@import includes.confirmation_summary
 @import uk.gov.hmrc.tai.model.TaxYear
-@this(main: views.html.main)
+
+@this(main: views.html.main,
+       confirmation_summary: views.html.includes.confirmation_summary)
 
 @()(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 

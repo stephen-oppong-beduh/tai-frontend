@@ -22,8 +22,8 @@
 @this(main: views.html.main,
         form: FormWithCSRF,
         input: views.html.includes.forms.input,
-        ptaHeader: views.html.includes.ptaHeader)
-        submit: views.html.includes.submit,
+        ptaHeader: views.html.includes.ptaHeader,
+        submit: views.html.includes.forms.submit,
         cancelLink: views.html.includes.cancelLink)
 
 @(viewModel: TaxablePaySlipAmountViewModel)(implicit request: Request[_],

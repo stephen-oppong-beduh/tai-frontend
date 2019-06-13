@@ -14,18 +14,19 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers._
-@import uk.gov.hmrc.urls.Link
-@import includes.ptaHeader
-@import includes.cancelLink
-@import includes.checkYourAnswers
-@import includes.forms._
-@import uk.gov.hmrc.tai.viewModels.CheckYourAnswersConfirmationLine
-@import play.api.mvc.Call
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+@import uk.gov.hmrc.tai.viewModels.income.IncomeCheckYourAnswersViewModel
 
-@this(main: views.html.main, submit: views.html.includes.forms.submit)
+@this(main: views.html.main,
+        ptaHeader: includes.ptaHeader,
+        inputRadioGroupStyling: includes.forms.inputRadioGroupStyling,
+        cancelLink: includes.cancelLink,
+        submit: includes.forms.submit,
+        form: FormWithCSRF,
+        checkYourAnswers: includes.checkYourAnswers
+    )
 
-@(viewModel: uk.gov.hmrc.tai.viewModels.income.IncomeCheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages, authedUser: Option[controllers.auth.AuthedUser] = None, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(viewModel: IncomeCheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages, authedUser: Option[controllers.auth.AuthedUser] = None, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 
 @gaEventActionString = @{"Check your add missing employment answers"}
 

@@ -21,8 +21,8 @@
 @this(main: views.html.main,
         ptaHeader: views.html.includes.ptaHeader,
         checkYourAnswers: views.html.includes.checkYourAnswers,
-        form: views.html.includes.form,
-        submit: views.html.includes.submit,
+        form: FormWithCSRF,
+        submit: views.html.includes.forms.submit,
         cancelLink: views.html.includes.cancelLink)
 
 @(viewModel: RemoveCompanyBenefitCheckYourAnswersViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)

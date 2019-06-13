@@ -14,13 +14,13 @@
  * limitations under the License.
  *@
 
-@import includes.backLink
 @import org.joda.time.LocalDate
 @import uk.gov.hmrc.tai.viewModels.employments.WithinSixWeeksViewModel
 @import uk.gov.hmrc.urls.Link
-@import includes.ptaHeader
 
-@this(main: views.html.main)
+@this(main: views.html.main,
+        ptaHeader: views.html.includes.ptaHeader,
+        backLink: views.html.includes.backLink)
 
 @(model: WithinSixWeeksViewModel)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 

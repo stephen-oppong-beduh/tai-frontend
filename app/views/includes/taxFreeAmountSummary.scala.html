@@ -16,7 +16,7 @@
 
 @import uk.gov.hmrc.urls.Link
 
-@this()
+@this(links: views.html.includes.link)
 
 @(items: Seq[uk.gov.hmrc.tai.viewModels.TaxFreeAmountSummaryCategoryViewModel], gaEventActionString: String, taxCodeChange: Boolean = false)(implicit m: Messages)
 
@@ -44,7 +44,7 @@
                             <div id="summaryTable@{itemIdx.toString}Row@{rowIdx.toString}-header" class="cya-question break-word">
                                 @row.label.value
                                 @row.label.link.map { link =>
-                                    @includes.link(
+                                    @links(
                                         id=Some(link.id),
                                         copy=link.value,
                                         url = link.href,
@@ -61,7 +61,7 @@
                             @if(!taxCodeChange) {
                                 @if(row.link.isDisplayed ) {
                                 <div id="summaryTable@{itemIdx.toString}Row@{rowIdx.toString}ChangeLinkCell" class="cya-change">
-                                    @includes.link(
+                                    @links(
                                         id = Some(s"summaryTable${itemIdx.toString}Row${rowIdx.toString}ChangeLink"),
                                         url = row.link.href,
                                         copy=Messages("tai.updateOrRemove"),
@@ -89,7 +89,7 @@
                                 @item.rows(0).label.value
 
                                 @item.rows(0).label.link.map { link =>
-                                    @includes.link(
+                                    @links(
                                         id=Some(link.id),
                                         copy=link.value,
                                         url = link.href,
@@ -114,7 +114,7 @@
                     @if(!taxCodeChange) {
                         @if(item.rows(0).link.isDisplayed) {
                         <div id="summaryTable@{itemIdx.toString}Row1ChangeLinkCell" class="cya-change">
-                            @includes.link(
+                            @links(
                             id = Some(s"summaryTable${itemIdx.toString}Row1ChangeLink"),
                             url = item.rows(0).link.href,
                             copy=Messages("tai.updateOrRemove"),

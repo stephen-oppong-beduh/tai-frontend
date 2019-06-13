@@ -14,15 +14,18 @@
  * limitations under the License.
  *@
 
-@this(main: views.html.main)
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+@import uk.gov.hmrc.tai.forms.HowToUpdateForm
 
-@(howToUpdateForm: Form[uk.gov.hmrc.tai.forms.HowToUpdateForm], id: Int, employerName: String)(implicit request: Request[_],
+@this(main: views.html.main,
+        ptaHeader: includes.ptaHeader,
+        inputRadioGroupStyling: includes.forms.inputRadioGroupStyling,
+        cancelLink: includes.cancelLink,
+        form: FormWithCSRF
+)
+
+@(howToUpdateForm: Form[HowToUpdateForm], id: Int, employerName: String)(implicit request: Request[_],
 messages: Messages, user: controllers.auth.AuthedUser)
-
-@import includes.ptaHeader
-@import uk.gov.hmrc.play.views.html.helpers._
-@import includes.forms.inputRadioGroupStyling
-@import includes.cancelLink
 
 @gaEventActionString = @{"Choose how to update your income"}
 

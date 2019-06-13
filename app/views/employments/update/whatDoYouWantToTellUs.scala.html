@@ -15,15 +15,16 @@
  *@
 
 @import uk.gov.hmrc.tai.viewModels.employments.EmploymentViewModel
-@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+@import uk.gov.hmrc.play.views.html.helpers.{form}
 @import uk.gov.hmrc.tai.forms.employments.UpdateEmploymentDetailsForm
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
 @this(main: views.html.main,
         form: FormWithCSRF,
-        submit: views.html.includes.forms.submit,
-        textArea: views.html.includes.forms.textArea,
         ptaHeader: views.html.includes.ptaHeader,
-        cancelLink: views.html.includes.cancelLink)
+        cancelLink: views.html.includes.cancelLink,
+        textArea: views.html.includes.forms.textArea,
+        submit: views.html.includes.forms.submit)
 
 @(viewmodel: EmploymentViewModel, updateEmploymentDetailsForm: Form[String])(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 

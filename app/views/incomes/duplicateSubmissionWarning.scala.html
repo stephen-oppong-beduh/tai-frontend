@@ -15,12 +15,16 @@
  *@
 
 @import uk.gov.hmrc.tai.forms.YesNoForm
-@import includes.{cancelLink, ptaHeader}
-@import uk.gov.hmrc.play.views.html.helpers.{errorSummary, form}
-@import includes.forms.inputRadioGroupStyling
-@import includes.forms.submit
 @import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.DuplicateSubmissionEstimatedPay
-@this(main: views.html.main)
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
+
+
+@this(main: views.html.main,
+        ptaHeader: includes.ptaHeader,
+        form: FormWithCSRF,
+        inputRadioGroupStyling: includes.forms.inputRadioGroupStyling,
+        submit: includes.forms.submit,
+        cancelLink: includes.cancelLink)
 
 @(duplicateSubmissionWarningForm: Form[YesNoForm], viewModel: DuplicateSubmissionEstimatedPay, empId: Int)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 

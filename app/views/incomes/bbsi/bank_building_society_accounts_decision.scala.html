@@ -14,17 +14,19 @@
  * limitations under the License.
  *@
 
-@import includes.forms.submit
-@import includes.{cancelLink, ptaHeader}
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 @import uk.gov.hmrc.tai.model.domain.{BankAccount,UntaxedInterest}
 @import uk.gov.hmrc.urls.Link
 @import uk.gov.hmrc.tai.model.TaxYear
 @import uk.gov.hmrc.play.views.formatting.Money._
 @import uk.gov.hmrc.play.views.html.helpers._
-@import includes.forms.inputRadioGroupStyling
 
-@this(main: views.html.main, submit: views.html.includes.forms.submit)
+@this(main: views.html.main,
+        form: FormWithCSRF,
+        cancelLink: views.html.includes.cancelLink,
+        ptaHeader: views.html.includes.ptaHeader,
+        submit: views.html.includes.forms.submit,
+        inputRadioGroupStyling: views.html.includes.forms.inputRadioGroupStyling)
 
 @(viewModel: uk.gov.hmrc.tai.viewModels.income.BbsiAccountsDecisionViewModel, bankAccountsDecisionForm:Form[uk.gov.hmrc.tai.forms.income.bbsi.BankAccountsDecisionFormData])(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 

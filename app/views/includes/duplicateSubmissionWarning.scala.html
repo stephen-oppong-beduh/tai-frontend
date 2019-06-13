@@ -14,13 +14,12 @@
  * limitations under the License.
  *@
 
-@import includes.forms.submit
 @import uk.gov.hmrc.tai.forms.YesNoForm
 @import uk.gov.hmrc.play.views.html.helpers.{errorSummary, form}
-@import includes.forms.inputRadioGroupStyling
 @import play.api.mvc.Call
 
-@this(submit: views.html.includes.forms.submit)
+@this(submit: views.html.includes.forms.submit,
+        inputRadioGroupStyling: views.html.includes.forms.inputRadioGroupStyling)
 
 @(duplicateSubmissionWarningForm: Form[YesNoForm], yesChoiceText: String, noChoiceText: String, actionRoute: Call, gaEventActionString: String )(implicit request: Request[_], messages: Messages)
 

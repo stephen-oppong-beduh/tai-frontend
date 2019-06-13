@@ -15,10 +15,12 @@
  *@
 
 @import uk.gov.hmrc.tai.forms.YesNoForm
-@import includes.{cancelLink, ptaHeader}
 @import uk.gov.hmrc.play.views.html.helpers.{errorSummary, form}
 
-@this(duplicateSubmissionWarning: views.html.includes.duplicateSubmissionWarning, main: views.html.main)
+@this(main: views.html.main,
+        duplicateSubmissionWarning: views.html.includes.duplicateSubmissionWarning,
+        ptaHeader: views.html.includes.ptaHeader,
+        cancelLink: views.html.includes.cancelLink)
 
 @(duplicateSubmissionWarningForm: Form[YesNoForm], employmentName: String, empId: Int)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 

@@ -14,17 +14,22 @@
  * limitations under the License.
  *@
 
-@import includes._
 @import uk.gov.hmrc.tai.config.TaiHtmlPartialRetriever
 @import uk.gov.hmrc.tai.model.domain.BankAccount
 @import uk.gov.hmrc.urls.Link
 @import uk.gov.hmrc.tai.model.TaxYear
 @import uk.gov.hmrc.play.views.formatting.Money.pounds
 @import uk.gov.hmrc.play.views.html.helpers._
-@import includes.forms.submit
 @import uk.gov.hmrc.tai.viewModels.income.BbsiUpdateAccountViewModel
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
-@this(main: views.html.main, form: FormWithCSRF, input: views.html.includes.forms.input)
+
+@this(main: views.html.main,
+        form: FormWithCSRF,
+        input: views.html.includes.forms.input,
+        details_summary: views.html.includes.details_summary,
+        cancelLink: views.html.includes.cancelLink,
+        ptaHeader: views.html.includes.ptaHeader,
+        submit: views.html.includes.forms.submit)
 
 @(viewModel: BbsiUpdateAccountViewModel, updateInterestForm: Form[String])(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
@@ -61,7 +66,7 @@
                 )
             </div>
 
-            @includes.details_summary(Messages("tai.bbsi.update.captureInterest.accordion.title")) {
+            @details_summary(Messages("tai.bbsi.update.captureInterest.accordion.title")) {
             <p >@messages("tai.bbsi.update.captureInterest.accordion.desc1")</p>
             <p >@messages("tai.bbsi.update.captureInterest.accordion.desc2")</p>
 

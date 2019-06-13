@@ -14,11 +14,10 @@
  * limitations under the License.
  *@
 
-@import includes.forms.errorSummary
-@import includes.backLink
 @import uk.gov.hmrc.urls.Link
 
-@this()
+@this( backLink: views.html.includes.backLink,
+        errorSummary: views.html.includes.forms.errorSummary)
 
 @(formForErrorSummary: Option[Form[_]] = None,
   displayBackLink: Boolean = false,

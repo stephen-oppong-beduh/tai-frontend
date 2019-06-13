@@ -14,24 +14,20 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.formatting.Money._
-@import org.joda.time.{DateTime, LocalDate}
-@import uk.gov.hmrc.urls.Link
-@import includes.{cancelLink, ptaHeader}
-@import uk.gov.hmrc.play.views.html.layouts.loginStatus
-@import uk.gov.hmrc.play.views.html.helpers._
-@import uk.gov.hmrc.play.views.helpers._
-@import uk.gov.hmrc.play.language.LanguageUtils.Dates
-
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.EstimatedPayViewModel
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil
-@import uk.gov.hmrc.tai.util.MonetaryUtil
 
-@this(main: views.html.main)
+@this(main: views.html.main,
+        ptaHeader: includes.ptaHeader,
+        details_summary: includes.details_summary,
+        cancelLink: includes.cancelLink)
+        link: includes.link)
 
 @(viewModel: EstimatedPayViewModel)(implicit request: Request[_],messages: Messages, user: controllers.auth.AuthedUser,
 templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 
+@import uk.gov.hmrc.tai.util.MonetaryUtil
 @gaEventActionString = @{"Your estimated pay for the year"}
 @grossAnnualPay = @{MoneyPounds(viewModel.grossAnnualPay.getOrElse(0),0)}
 @netAnnualPay = @{MoneyPounds(viewModel.netAnnualPay.getOrElse(0),0)}
@@ -60,7 +56,7 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
 
 
         @if(viewModel.isGrossPayApportioned){
-            @includes.details_summary(messages("tai.estimatedPay.whyLower.title")) {
+            @details_summary(messages("tai.estimatedPay.whyLower.title")) {
                 @Html(messages("tai.estimatedPay.whyLower.message",Dates.formatDate(viewModel.incomeStartDate.get),
                     TaxYearRangeUtil.currentTaxYearRange,
                     MoneyPounds(viewModel.annualAmount.get,0).quantity))
@@ -75,7 +71,7 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
         <p>@messages("tai.estimatedPay.yourTaxablePay.text")</p>
 
         @if(viewModel.isGrossPayEqualsNetPay){
-            @includes.details_summary(messages("tai.estimatedPay.whySame.title")){
+            @details_summary(messages("tai.estimatedPay.whySame.title")){
                 @messages("tai.estimatedPay.whySame.text")
             }
         }
@@ -89,7 +85,7 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
 
     <div class="section">
 
-        @includes.link(
+        @link(
             copy=messages("tai.estimatedPay.checkTaxEstimate"),
             url = income.estimatedPay.update.routes.IncomeUpdateCalculatorController.handleCalculationResult.toString,
             isButton=true,

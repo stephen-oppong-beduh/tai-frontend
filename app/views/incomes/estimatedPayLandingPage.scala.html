@@ -16,11 +16,15 @@
 
 @import uk.gov.hmrc.play.views.html.helpers._
 @import uk.gov.hmrc.urls.Link
-@import includes.ptaHeader
 @import includes.cancelLink
 @import uk.gov.hmrc.tai.config.ApplicationConfig
 
-@this(main: views.html.main, applicationConfig: ApplicationConfig)
+@this(main: views.html.main,
+        applicationConfig: ApplicationConfig,
+        ptaHeader: includes.ptaHeader,
+        link: includes.link,
+        cancelLink: includes.cancelLink
+    )
 
 @(incomeName: String, id: Int, isPension: Boolean)(implicit request: Request[_],
 messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
@@ -47,7 +51,7 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
         <p>
             @if(isPension) {
                 @messages("tai.incomes.landing.pension.ended", incomeName)
-                @includes.link(
+                @link(
                         url=applicationConfig.incomeFromEmploymentPensionLinkUrl,
                         copy=messages("tai.incomes.landing.pension.ended.link"),
                         attributes = Seq(("data-journey-click", s"link - click:${gaEventActionString}:${messages("tai.incomes.landing.pension.ended.link")}")),
@@ -55,7 +59,7 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
                     )
             } else {
                 @messages("tai.incomes.landing.employment.ended", incomeName)
-                @includes.link(
+                @link(
                     url=controllers.employments.routes.EndEmploymentController.onPageLoad(id).toString,
                     copy=messages("tai.incomes.landing.employment.ended.link"),
                     attributes = Seq(("data-journey-click", s"link - click:${gaEventActionString}:${messages("tai.incomes.landing.employment.ended.link")}")),
@@ -65,7 +69,7 @@ messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.
         </p>
     </div>
     <div>
-        @includes.link(
+        @link(
             copy=messages("tai.income.details.updateTaxableIncome.update"),
             url = controllers.income.estimatedPay.update.routes.IncomeUpdateCalculatorController.howToUpdatePage(id).toString,
             attributes = Seq(("data-journey-click", s"button - click:${gaEventActionString}:${messages("tai.income.details.updateTaxableIncome.update")}")),
