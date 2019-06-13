@@ -14,7 +14,8 @@
  * limitations under the License.
  *@
 
-@this(updateIncomeCYPlus1Template: views.html.incomes.nextYear.updateIncomeCYPlus1Template)
+@this(updateIncomeCYPlus1Template: views.html.incomes.nextYear.updateIncomeCYPlus1Template,
+        link: views.html.includes.link)
 
 @(employmentName: String, employmentId: Int, isPension: Boolean)(
     implicit request: Request[_],
@@ -43,7 +44,7 @@
         <p>@messages("tai.updateIncome.CYPlus1.start.paragraph2", employmentName)</p>
         }
 
-        @includes.link(
+        @link(
             copy=messages("tai.income.details.updateTaxableIncome.update"),
             url = controllers.income.routes.UpdateIncomeNextYearController.edit(employmentId).url,
             attributes = Seq(("data-journey-click", s"button - click:${gaEventActionString}:${messages("tai.income.details.updateTaxableIncome.update")}")),

@@ -16,7 +16,8 @@
 
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil
 
-@this(main: views.html.main)
+@this(main: views.html.main,
+        link: views.html.includes.link)
 
 @(employmentName: String, isPension: Boolean)(
     implicit request: Request[_],
@@ -54,7 +55,7 @@
         }
 
         <p>
-        @includes.link(
+        @link(
             copy=messages("tai.returnToIncomeTaxSummary"),
             url = controllers.routes.IncomeTaxComparisonController.onPageLoad.url.toString,
             attributes = Seq(("data-journey-click", s"link - click:${gaEventActionString}:${messages("tai.returnToIncomeTaxSummary")}")),
