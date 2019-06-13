@@ -16,10 +16,13 @@
 
 @import uk.gov.hmrc.play.views.html.helpers._
 @import includes.forms.inputRadioGroupStyling
+@import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
 @this(main: views.html.main,
         cancelLink: views.html.includes.cancelLink,
-        ptaHeader: views.html.includes.ptaHeader)
+        ptaHeader: views.html.includes.ptaHeader,
+        inputRadioGroupStyling: includes.forms.inputRadioGroupStyling,
+        form: FormWithCSRF)
 
 @(workingHoursForm: Form[uk.gov.hmrc.tai.forms.HoursWorkedForm], id: Int, employerName: String)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 

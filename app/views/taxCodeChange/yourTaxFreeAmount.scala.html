@@ -19,7 +19,7 @@
 @import includes.taxFreeAmountSummaryComparison
 @import uk.gov.hmrc.urls.Link
 
-@this(ptaHeader: views.html.includes.ptaHeader, main: views.html.main)
+@this(ptaHeader: views.html.includes.ptaHeader, main: views.html.main, taxFreeAmountSummaryComparison: includes.taxFreeAmountSummaryComparison)
 
 
 @(currentTaxFreeAmount: YourTaxFreeAmountViewModel)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)

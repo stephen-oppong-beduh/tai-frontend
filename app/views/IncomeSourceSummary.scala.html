@@ -23,7 +23,7 @@
 @import uk.gov.hmrc.tai.util.constants.TaiConstants
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil
 
-@this(ptaHeader: views.html.includes.ptaHeader, main: views.html.main)
+@this(ptaHeader: views.html.includes.ptaHeader, main: views.html.main, link: includes.link)
 
 @(model: IncomeSourceSummaryViewModel)(implicit request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
@@ -201,7 +201,7 @@
                     <span class="visuallyhidden">@Html(messages("tai.income.details.benefit.amount.announce", withPoundPrefixAndSign(MoneyPounds(benefit.amount, 0))))</span>
                 </div>
                 <div class="tai-description-details--retain-column" id="companyBenefitChangeLinkDescription@idx">
-                    @includes.link(
+                    @link(
                         id = Some("changeCompanyBenefitLink" + idx.toString),
                         url = benefit.changeUrl,
                         copy=Messages("tai.updateOrRemove"),

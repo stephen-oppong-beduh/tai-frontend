@@ -14,20 +14,24 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.helpers.MoneyPounds
+@import uk.gov.hmrc.play.views.formatting.Money._
+@import org.joda.time.{DateTime, LocalDate}
+@import uk.gov.hmrc.urls.Link
+@import includes.{cancelLink, ptaHeader}
+@import uk.gov.hmrc.play.views.html.layouts.loginStatus
+@import uk.gov.hmrc.play.views.html.helpers._
+@import uk.gov.hmrc.play.views.helpers._
+@import uk.gov.hmrc.play.language.LanguageUtils.Dates
+
 @import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.EstimatedPayViewModel
 @import uk.gov.hmrc.tai.util.TaxYearRangeUtil
+@import uk.gov.hmrc.tai.util.MonetaryUtil
 
-@this(main: views.html.main,
-        ptaHeader: includes.ptaHeader,
-        details_summary: includes.details_summary,
-        cancelLink: includes.cancelLink)
-        link: includes.link)
+@this(main: views.html.main, ptaHeader: includes.ptaHeader, details_summary: includes.details_summary, link: includes.link, cancelLink: includes.cancelLink)
 
 @(viewModel: EstimatedPayViewModel)(implicit request: Request[_],messages: Messages, user: controllers.auth.AuthedUser,
-templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+        templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
 
-@import uk.gov.hmrc.tai.util.MonetaryUtil
 @gaEventActionString = @{"Your estimated pay for the year"}
 @grossAnnualPay = @{MoneyPounds(viewModel.grossAnnualPay.getOrElse(0),0)}
 @netAnnualPay = @{MoneyPounds(viewModel.netAnnualPay.getOrElse(0),0)}
@@ -93,7 +97,7 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
         )
 
         @cancelLink(url = Call("GET",controllers.routes.IncomeSourceSummaryController.onPageLoad(viewModel.employer.id).url),
-                    linkText = Some(messages("tai.cancel.noSave")))
+            linkText = Some(messages("tai.cancel.noSave")))
     </div>
 
 }

@@ -20,7 +20,9 @@
 @import includes.forms.input
 @import uk.gov.hmrc.play.views.html.helpers.FormWithCSRF
 
-@this(main: views.html.main, form: FormWithCSRF, input: views.html.includes.forms.input)
+@this(main: views.html.main, form: FormWithCSRF, input: views.html.includes.forms.input,
+        ptaHeader: includes.ptaHeader,
+        cancelLink: includes.cancelLink)
 
 @(viewModel: PaySlipAmountViewModel)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 

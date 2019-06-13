@@ -22,7 +22,8 @@
         form: FormWithCSRF,
         ptaHeader: includes.ptaHeader,
         cancelLink: includes.cancelLink,
-        submit: includes.forms.submit)
+        submit: includes.forms.submit,
+        textArea: includes.forms.textArea)
 
 @(viewModel: UpdateHistoricIncomeDetailsViewModel, updateIncomeDetailsForm: Form[String])(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 
