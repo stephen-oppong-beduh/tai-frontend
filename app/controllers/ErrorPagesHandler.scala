@@ -18,7 +18,6 @@ package controllers
 
 import javax.inject.Inject
 import play.Logger
-import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.mvc.Results._
 import play.api.mvc.{AnyContent, Request, Result}
@@ -35,56 +34,16 @@ import uk.gov.hmrc.urls.Link
 
 import scala.concurrent.Future
 
-trait ErrorPagesHandler {
-
-  implicit def templateRenderer: TemplateRenderer
-
-  implicit def partialRetriever: FormPartialRetriever
+class ErrorPagesHandler @Inject()(error_template_noauth: views.html.error_template_noauth,
+                                  error_no_primary: views.html.error_no_primary,
+                                  templateRenderer: TemplateRenderer,
+                                  partialRetriever: FormPartialRetriever
+                                 ) {
 
   type RecoveryLocation = Class[_]
 
   @deprecated("Prefer chaining of named partial functions for clarity", "Introduction of new WDYWTD page")
   def handleErrorResponse(methodName: String, nino: Nino)
-                         (implicit request: Request[_], messages: Messages): PartialFunction[Throwable, Future[Result]]
-  def error4xxPageWithLink(pageTitle: String)(implicit request: Request[_], messages: Messages): Html
-
-  def badRequestPageWrongVersion(implicit request: Request[_], messages: Messages): Html
-
-  def error4xxFromNps(pageTitle: String)(implicit request: Request[_], messages: Messages): Html
-
-  def error5xx(pageBody: String)(implicit request: Request[_], messages: Messages): Html
-
-  def npsEmploymentAbsentResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]]
-
-  def rtiEmploymentAbsentResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]]
-
-  def hodInternalErrorResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]]
-
-  def hodBadRequestResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]]
-
-  def hodAnyErrorResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]]
-
-  def npsTaxAccountDeceasedResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]]
-
-  def npsTaxAccountCYAbsentResult_withEmployCheck(prevYearEmployments: Seq[Employment], nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]]
-
-  def npsTaxAccountAbsentResult_withEmployCheck(prevYearEmployments: Seq[Employment], nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]]
-
-  def npsNoEmploymentResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]]
-
-  def npsNoEmploymentForCYResult_withEmployCheck(prevYearEmployments: Seq[Employment], nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]]
-
-  def internalServerError(logMessage: String, ex: Option[Throwable] = None)(implicit request: Request[_], messages: Messages): Result
-}
-
-class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.error_template_noauth,
-                                      error_no_primary: views.html.error_no_primary,
-                                      val templateRenderer: TemplateRenderer,
-                                      val partialRetriever: FormPartialRetriever
-                                     ) extends ErrorPagesHandler {
-
-  @deprecated("Prefer chaining of named partial functions for clarity", "Introduction of new WDYWTD page")
-  override def handleErrorResponse(methodName: String, nino: Nino)
                          (implicit request: Request[_], messages: Messages):
 
   PartialFunction[Throwable, Future[Result]] = PartialFunction[Throwable, Future[Result]] {
@@ -168,8 +127,8 @@ class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.error_te
       }
   }
 
-  override def error4xxPageWithLink(pageTitle: String)
-                                   (implicit request: Request[_], messages: Messages) = {
+  def error4xxPageWithLink(pageTitle: String)
+                          (implicit request: Request[_], messages: Messages): Html = {
     error_template_noauth(
       pageTitle,
       Messages("tai.errorMessage.heading"),
@@ -181,15 +140,15 @@ class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.error_te
       )))
   }
 
-  override def badRequestPageWrongVersion(implicit request: Request[_], messages: Messages) = {
+  def badRequestPageWrongVersion(implicit request: Request[_], messages: Messages): Html = {
     error_template_noauth(
       Messages("global.error.badRequest400.title"),
       Messages("tai.errorMessage.heading"),
       Messages("tai.errorMessage.frontend400.message1.version"))
   }
 
-  override def error4xxFromNps(pageTitle: String)
-                              (implicit request: Request[_], messages: Messages) = {
+  def error4xxFromNps(pageTitle: String)
+                     (implicit request: Request[_], messages: Messages): Html = {
     error_template_noauth(
       pageTitle,
       Messages("tai.errorMessage.heading.nps"),
@@ -197,33 +156,33 @@ class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.error_te
       Some(Messages("tai.errorMessage.frontend400.message2.nps")))
   }
 
-  override def error5xx(pageBody: String)
-                       (implicit request: Request[_], messages: Messages) = {
+  def error5xx(pageBody: String)
+              (implicit request: Request[_], messages: Messages): Html = {
     error_template_noauth(
       Messages("global.error.InternalServerError500.title"),
       Messages("tai.technical.error.heading"),
       pageBody)
   }
 
-  override def npsEmploymentAbsentResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]] = {
+  def npsEmploymentAbsentResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]] = {
     case e: NotFoundException if e.getMessage.toLowerCase.contains(NpsAppStatusMsg) =>
       Logger.warn(s"<Not found response received from NPS> - for nino $nino @${rl.getName}")
       Future.successful(NotFound(error4xxFromNps(Messages("global.error.pageNotFound404.title"))))
   }
 
-  override def rtiEmploymentAbsentResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]] = {
+  def rtiEmploymentAbsentResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]] = {
     case e: NotFoundException =>
       Logger.warn(s"<Not found response received from rti> - for nino $nino @${rl.getName}")
       Future.successful(NotFound(error4xxPageWithLink(Messages("global.error.pageNotFound404.title"))))
   }
 
-  override def hodInternalErrorResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]] = {
+  def hodInternalErrorResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]] = {
     case e@(_: InternalServerException | _: HttpException) =>
       Logger.warn(s"<Exception returned from HOD call for nino $nino @${rl.getName} with exception: ${e.getClass()}", e)
       Future.successful(InternalServerError(error5xx(Messages("tai.technical.error.message"))))
   }
 
-  override def hodBadRequestResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]] = {
+  def hodBadRequestResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[Throwable, Future[Result]] = {
     case e: BadRequestException =>
       Logger.warn(s"<Bad request exception returned from HOD call for nino $nino @${rl.getName} with exception: ${e.getClass}", e)
       Future.successful(BadRequest(error4xxPageWithLink(Messages("global.error.badRequest400.title"))))
@@ -235,14 +194,14 @@ class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.error_te
       Future.successful(InternalServerError(error5xx(Messages("tai.technical.error.message"))))
   }
 
-  override def npsTaxAccountDeceasedResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
+  def npsTaxAccountDeceasedResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
     case TaiTaxAccountFailureResponse(msg) if msg.contains(TaiConstants.NpsTaxAccountDeceasedMsg) => {
       Logger.warn(s"<Deceased response received from nps tax account> - for nino $nino @${rl.getName}")
       Some(Redirect(routes.DeceasedController.deceased()))
     }
   }
 
-  override def npsTaxAccountCYAbsentResult_withEmployCheck(prevYearEmployments: Seq[Employment], nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
+  def npsTaxAccountCYAbsentResult_withEmployCheck(prevYearEmployments: Seq[Employment], nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
     case TaiTaxAccountFailureResponse(msg) if msg.toLowerCase.contains(TaiConstants.NpsTaxAccountCYDataAbsentMsg) => {
       prevYearEmployments match {
         case Nil => {
@@ -257,7 +216,7 @@ class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.error_te
     }
   }
 
-  override def npsTaxAccountAbsentResult_withEmployCheck(prevYearEmployments: Seq[Employment], nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
+  def npsTaxAccountAbsentResult_withEmployCheck(prevYearEmployments: Seq[Employment], nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
     case TaiTaxAccountFailureResponse(msg) if msg.toLowerCase.contains(TaiConstants.NpsTaxAccountDataAbsentMsg) => {
       prevYearEmployments match {
         case Nil => {
@@ -272,14 +231,14 @@ class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.error_te
     }
   }
 
-  override def npsNoEmploymentResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
+  def npsNoEmploymentResult(nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
     case TaiTaxAccountFailureResponse(msg) if msg.toLowerCase.contains(TaiConstants.NpsNoEmploymentsRecorded) => {
       Logger.warn(s"<No data returned from nps employments> - for nino $nino @${rl.getName}")
       Some(BadRequest(error_no_primary()))
     }
   }
 
-  override def npsNoEmploymentForCYResult_withEmployCheck(prevYearEmployments: Seq[Employment], nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
+  def npsNoEmploymentForCYResult_withEmployCheck(prevYearEmployments: Seq[Employment], nino: String)(implicit request: Request[AnyContent], messages: Messages, rl: RecoveryLocation): PartialFunction[TaiResponse, Option[Result]] = {
     case TaiTaxAccountFailureResponse(msg) if msg.toLowerCase.contains(TaiConstants.NpsNoEmploymentForCurrentTaxYear) => {
       prevYearEmployments match {
         case Nil => {
@@ -294,7 +253,7 @@ class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.error_te
     }
   }
 
-  override def internalServerError(logMessage: String, ex: Option[Throwable] = None)(implicit request: Request[_], messages: Messages): Result = {
+  def internalServerError(logMessage: String, ex: Option[Throwable] = None)(implicit request: Request[_], messages: Messages): Result = {
     Logger.warn(logMessage)
     ex.map(x => Logger.warn(x.getMessage()))
     InternalServerError(error5xx(Messages("tai.technical.error.message")))

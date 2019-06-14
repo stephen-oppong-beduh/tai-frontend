@@ -48,9 +48,7 @@ class UpdateIncomeDetailsController @Inject()(can_we_contact_by_phone: views.htm
                                               validatePerson: ValidatePerson,
                                               @Named("Track Successful Journey") trackingJourneyCacheService: JourneyCacheService,
                                               @Named("Update Previous Years Income") journeyCacheService: JourneyCacheService,
-                                              mcc: MessagesControllerComponents,
-                                              override implicit val partialRetriever: FormPartialRetriever,
-                                              override implicit val templateRenderer: TemplateRenderer)
+                                              mcc: MessagesControllerComponents)
                                              (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with JourneyCacheConstants

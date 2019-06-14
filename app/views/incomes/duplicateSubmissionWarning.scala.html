@@ -26,7 +26,7 @@
         submit: includes.forms.submit,
         cancelLink: includes.cancelLink)
 
-@(duplicateSubmissionWarningForm: Form[YesNoForm], viewModel: DuplicateSubmissionEstimatedPay, empId: Int)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(duplicateSubmissionWarningForm: Form[YesNoForm], viewModel: DuplicateSubmissionEstimatedPay, empId: Int)(implicit request: Request[_], user: controllers.auth.AuthedUser, messages: Messages)
 
 @gaEventActionString = @{"Update received"}
 

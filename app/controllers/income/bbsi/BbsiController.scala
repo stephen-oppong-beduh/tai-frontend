@@ -18,7 +18,7 @@ package controllers.income.bbsi
 
 
 import javax.inject.{Inject, Named}
-import controllers.TaiBaseController
+import controllers.{ErrorPagesHandler, TaiBaseController}
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import play.api.Play.current
@@ -46,8 +46,7 @@ class BbsiController @Inject()(bank_building_society_accounts_decision: views.ht
                                validatePerson: ValidatePerson,
                                @Named("Update Bank Account Choice") journeyCacheService: JourneyCacheService,
                                mcc: MessagesControllerComponents,
-                               override implicit val partialRetriever: FormPartialRetriever,
-                               override implicit val templateRenderer: TemplateRenderer)
+                               errorPagesHandler: ErrorPagesHandler)
                               (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with BankAccountDecisionConstants
@@ -88,7 +87,7 @@ class BbsiController @Inject()(bank_building_society_accounts_decision: views.ht
       (bbsiService.untaxedInterest(Nino(user.getNino)) map { untaxedInterest =>
         Ok(bank_building_society_overview(untaxedInterest.amount))
       }).recover {
-        case e: Exception => internalServerError(e.getMessage)
+        case e: Exception => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -105,7 +104,7 @@ class BbsiController @Inject()(bank_building_society_accounts_decision: views.ht
         case Some(_) => throw new RuntimeException(s"Bank account does not contain name, number or sortcode for nino: [${user.getNino}] and id: [$id]")
         case None => NotFound
       }).recover {
-        case e: Exception => internalServerError(e.getMessage)
+        case e: Exception => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -139,7 +138,7 @@ class BbsiController @Inject()(bank_building_society_accounts_decision: views.ht
           }
         }
       ).recover {
-        case e: Exception => internalServerError(e.getMessage)
+        case e: Exception => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 }

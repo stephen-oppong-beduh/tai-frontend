@@ -16,16 +16,12 @@
 
 package controllers.benefits
 
-import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
+import controllers.{ErrorPagesHandler, TaiBaseController}
 import javax.inject.{Inject, Named}
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.play.partials.FormPartialRetriever
-import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.forms.benefits.UpdateOrRemoveCompanyBenefitDecisionForm
 import uk.gov.hmrc.tai.model.domain.BenefitComponentType
 import uk.gov.hmrc.tai.service.EmploymentService
@@ -42,8 +38,7 @@ class CompanyBenefitController @Inject()(updateOrRemoveCompanyBenefitDecision: v
                                          authenticate: AuthAction,
                                          validatePerson: ValidatePerson,
                                          mcc: MessagesControllerComponents,
-                                         override implicit val templateRenderer: TemplateRenderer,
-                                         override implicit val partialRetriever: FormPartialRetriever)
+                                         errorPagesHandler: ErrorPagesHandler)
                                         (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with JourneyCacheConstants
@@ -98,7 +93,7 @@ class CompanyBenefitController @Inject()(updateOrRemoveCompanyBenefitDecision: v
           case None => throw new RuntimeException("No employment found")
         }
       }).flatMap(identity) recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 

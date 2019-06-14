@@ -42,8 +42,7 @@ class TaxFreeAmountController @Inject()(taxFreeAmountView: views.html.taxFreeAmo
                                         authenticate: AuthAction,
                                         validatePerson: ValidatePerson,
                                         mcc: MessagesControllerComponents,
-                                        override implicit val partialRetriever: FormPartialRetriever,
-                                        override implicit val templateRenderer: TemplateRenderer
+                                        errorPagesHandler: ErrorPagesHandler
                                        )(implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
@@ -65,7 +64,7 @@ class TaxFreeAmountController @Inject()(taxFreeAmountView: views.html.taxFreeAmo
           case _ => throw new RuntimeException("Failed to fetch total tax details")
         }
       }) recover {
-        case NonFatal(e) => internalServerError(s"Could not get tax free amount", Some(e))
+        case NonFatal(e) => errorPagesHandler.internalServerError(s"Could not get tax free amount", Some(e))
       }
 
   }

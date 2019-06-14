@@ -29,8 +29,7 @@
 
 @this(main: views.html.main, ptaHeader: includes.ptaHeader, details_summary: includes.details_summary, link: includes.link, cancelLink: includes.cancelLink)
 
-@(viewModel: EstimatedPayViewModel)(implicit request: Request[_],messages: Messages, user: controllers.auth.AuthedUser,
-        templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+@(viewModel: EstimatedPayViewModel)(implicit request: Request[_],messages: Messages, user: controllers.auth.AuthedUser)
 
 @gaEventActionString = @{"Your estimated pay for the year"}
 @grossAnnualPay = @{MoneyPounds(viewModel.grossAnnualPay.getOrElse(0),0)}

@@ -20,7 +20,7 @@ import com.google.inject.ImplementedBy
 import javax.inject.{Inject, Singleton}
 import controllers.auth.AuthenticatedRequest
 import controllers.routes
-import play.api.mvc.{ActionFilter, Result}
+import play.api.mvc.{ActionFilter, AnyContent, BodyParser, MessagesControllerComponents, Result}
 import uk.gov.hmrc.tai.service.PersonService
 import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.http.HeaderCarrier
@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.HeaderCarrierConverter
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class ValidatePersonImpl @Inject()(personService: PersonService)
+class ValidatePersonImpl @Inject()(personService: PersonService, cc: MessagesControllerComponents)
                            (implicit ec: ExecutionContext) extends ValidatePerson {
 
 
@@ -46,6 +46,7 @@ class ValidatePersonImpl @Inject()(personService: PersonService)
     })
   }
 
+  override protected val executionContext: ExecutionContext = cc.executionContext
 }
 
 @ImplementedBy(classOf[ValidatePersonImpl])

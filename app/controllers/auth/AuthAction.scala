@@ -56,7 +56,7 @@ object AuthedUser {
 }
 
 @Singleton
-class AuthActionImpl @Inject()(override val authConnector: AuthConnector)
+class AuthActionImpl @Inject()(override val authConnector: AuthConnector, cc: MessagesControllerComponents)
                               (implicit ec: ExecutionContext) extends AuthAction
   with AuthorisedFunctions {
 
@@ -121,6 +121,9 @@ class AuthActionImpl @Inject()(override val authConnector: AuthConnector)
       Redirect(routes.UnauthorisedController.onPageLoad())
     }
   }
+
+  override def parser: BodyParser[AnyContent] = cc.parsers.defaultBodyParser
+  override protected def executionContext: ExecutionContext = cc.executionContext
 }
 
 @ImplementedBy(classOf[AuthActionImpl])

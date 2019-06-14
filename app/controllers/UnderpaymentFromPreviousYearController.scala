@@ -39,9 +39,7 @@ class UnderpaymentFromPreviousYearController @Inject()(previousYearUnderpayment:
                                                        taxAccountService: TaxAccountService,
                                                        authenticate: AuthAction,
                                                        validatePerson: ValidatePerson,
-                                                       mcc: MessagesControllerComponents,
-                                                       override implicit val partialRetriever: FormPartialRetriever,
-                                                       override implicit val templateRenderer: TemplateRenderer)
+                                                       mcc: MessagesControllerComponents)
                                                       (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 

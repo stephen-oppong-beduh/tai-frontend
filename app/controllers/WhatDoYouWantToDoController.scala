@@ -50,12 +50,11 @@ class WhatDoYouWantToDoController @Inject()(whatDoYouWantToDoTileView: views.htm
                                             validatePerson: ValidatePerson,
                                             featureTogglesConfig: FeatureTogglesConfig,
                                             mcc: MessagesControllerComponents,
-                                            override implicit val partialRetriever: FormPartialRetriever,
-                                            override implicit val templateRenderer: TemplateRenderer)
+                                            errorPagesHandler: ErrorPagesHandler)
                                            (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
-  implicit val recoveryLocation: RecoveryLocation = classOf[WhatDoYouWantToDoController]
+  implicit val recoveryLocation = classOf[WhatDoYouWantToDoController]
 
   def whatDoYouWantToDoPage(): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request => {
@@ -71,11 +70,11 @@ class WhatDoYouWantToDoController @Inject()(whatDoYouWantToDoTileView: views.htm
         } yield {
 
           val npsFailureHandlingPf: PartialFunction[TaiResponse, Option[Result]] =
-            npsTaxAccountAbsentResult_withEmployCheck(prevYearEmployments, ninoString) orElse
-              npsTaxAccountCYAbsentResult_withEmployCheck(prevYearEmployments, ninoString) orElse
-              npsNoEmploymentForCYResult_withEmployCheck(prevYearEmployments, ninoString) orElse
-              npsNoEmploymentResult(ninoString) orElse
-              npsTaxAccountDeceasedResult(ninoString) orElse { case _ => None }
+            errorPagesHandler.npsTaxAccountAbsentResult_withEmployCheck(prevYearEmployments, ninoString) orElse
+              errorPagesHandler.npsTaxAccountCYAbsentResult_withEmployCheck(prevYearEmployments, ninoString) orElse
+              errorPagesHandler.npsNoEmploymentForCYResult_withEmployCheck(prevYearEmployments, ninoString) orElse
+              errorPagesHandler.npsNoEmploymentResult(ninoString) orElse
+              errorPagesHandler.npsTaxAccountDeceasedResult(ninoString) orElse { case _ => None }
 
           npsFailureHandlingPf(taxAccountSummary)
         }
@@ -87,7 +86,7 @@ class WhatDoYouWantToDoController @Inject()(whatDoYouWantToDoTileView: views.htm
     } recoverWith {
       val nino = request.taiUser.getNino
 
-      (hodBadRequestResult(nino) orElse hodInternalErrorResult(nino))
+      (errorPagesHandler.hodBadRequestResult(nino) orElse errorPagesHandler.hodInternalErrorResult(nino))
     }
   }
 

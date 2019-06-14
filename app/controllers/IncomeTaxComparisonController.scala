@@ -47,8 +47,7 @@ class IncomeTaxComparisonController @Inject()(mainView: views.html.incomeTaxComp
                                               validatePerson: ValidatePerson,
                                               featureTogglesConfig: FeatureTogglesConfig,
                                               mcc: MessagesControllerComponents,
-                                              override implicit val partialRetriever: FormPartialRetriever,
-                                              override implicit val templateRenderer: TemplateRenderer)
+                                              errorPagesHandler: ErrorPagesHandler)
                                              (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
@@ -116,7 +115,7 @@ class IncomeTaxComparisonController @Inject()(mainView: views.html.incomeTaxComp
           case _ => throw new RuntimeException("Not able to fetch income tax comparision details")
         }
       }) recover {
-        case NonFatal(e) => internalServerError("IncomeTaxComparisonController exception", Some(e))
+        case NonFatal(e) => errorPagesHandler.internalServerError("IncomeTaxComparisonController exception", Some(e))
       }
   }
 

@@ -18,7 +18,7 @@ package controllers.income.bbsi
 
 
 import javax.inject.{Inject, Named}
-import controllers.TaiBaseController
+import controllers.{ErrorPagesHandler, TaiBaseController}
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import play.api.Play.current
@@ -45,8 +45,7 @@ class BbsiUpdateAccountController @Inject()(bbsiService: BbsiService,
                                             validatePerson: ValidatePerson,
                                             @Named("Update Bank Account") journeyCacheService: JourneyCacheService,
                                             mcc: MessagesControllerComponents,
-                                            override implicit val partialRetriever: FormPartialRetriever,
-                                            override implicit val templateRenderer: TemplateRenderer)
+                                            errorPagesHandler: ErrorPagesHandler)
                                            (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
   with JourneyCacheConstants {
@@ -66,7 +65,7 @@ class BbsiUpdateAccountController @Inject()(bbsiService: BbsiService,
             Ok(bank_building_society_update_interest(model, form))
           case None => throw new RuntimeException(s"Not able to found account with id $id")
       }).recover {
-        case e: Exception => internalServerError(e.getMessage)
+        case e: Exception => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -92,7 +91,7 @@ class BbsiUpdateAccountController @Inject()(bbsiService: BbsiService,
           case None => throw new RuntimeException(s"Not able to found account with id $id")
         }
       }).recover {
-        case e: Exception => internalServerError(e.getMessage)
+        case e: Exception => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 

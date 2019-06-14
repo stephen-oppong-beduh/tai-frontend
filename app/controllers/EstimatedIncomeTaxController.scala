@@ -48,8 +48,7 @@ class EstimatedIncomeTaxController @Inject()(zeroTaxEstimatedIncomeTax: views.ht
                                              authenticate: AuthAction,
                                              validatePerson: ValidatePerson,
                                              mcc: MessagesControllerComponents,
-                                             override implicit val partialRetriever: FormPartialRetriever,
-                                             override implicit val templateRenderer: TemplateRenderer)
+                                             errorPagesHandler: ErrorPagesHandler)
                                             (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
@@ -93,7 +92,7 @@ class EstimatedIncomeTaxController @Inject()(zeroTaxEstimatedIncomeTax: views.ht
               }
             }
           case _ => {
-            internalServerError("Failed to get estimated income tax")
+            errorPagesHandler.internalServerError("Failed to get estimated income tax")
           }
         }
       }

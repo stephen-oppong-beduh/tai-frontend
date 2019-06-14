@@ -27,9 +27,8 @@ import scala.concurrent.Future
 
 class DeceasedController @Inject()(deceased_helpline: views.html.deceased_helpline,
                                     authenticate: AuthAction,
-                                   mcc: MessagesControllerComponents,
-                                   override implicit val partialRetriever: FormPartialRetriever,
-                                   override implicit val templateRenderer: TemplateRenderer) extends TaiBaseController(mcc) {
+                                   mcc: MessagesControllerComponents
+                              ) extends TaiBaseController(mcc) {
 
   def deceased() = authenticate.async {
     implicit request =>

@@ -33,8 +33,7 @@ class ExternalServiceRedirectController @Inject()(sessionService: SessionService
                                                   authenticate: AuthAction,
                                                   validatePerson: ValidatePerson,
                                                   mcc: MessagesControllerComponents,
-                                                  override implicit val partialRetriever: FormPartialRetriever,
-                                                  override implicit val templateRenderer: TemplateRenderer)
+                                                  errorPagesHandler: ErrorPagesHandler)
                                                  (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
@@ -47,7 +46,7 @@ class ExternalServiceRedirectController @Inject()(sessionService: SessionService
       } yield {
         Redirect(redirectUri)
       }) recover {
-        case _ => internalServerError("Unable to audit and redirect")
+        case _ => errorPagesHandler.internalServerError("Unable to audit and redirect")
       }
     }
   }

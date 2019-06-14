@@ -43,8 +43,7 @@ class YourTaxCodeController @Inject()(taxCodeDetails: views.html.taxCodeDetails,
                                       validatePerson: ValidatePerson,
                                       featureTogglesConfig: FeatureTogglesConfig,
                                       mcc: MessagesControllerComponents,
-                                      override implicit val partialRetriever: FormPartialRetriever,
-                                      override implicit val templateRenderer: TemplateRenderer)
+                                      errorPagesHandler: ErrorPagesHandler)
                                      (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
@@ -61,7 +60,7 @@ class YourTaxCodeController @Inject()(taxCodeDetails: views.html.taxCodeDetails,
         Ok(taxCodeDetails(taxCodeViewModel))
       }) recover {
         case NonFatal(e) => {
-          internalServerError(s"Exception: ${e.getClass()}")
+          errorPagesHandler.internalServerError(s"Exception: ${e.getClass()}")
         }
       }
   }
@@ -79,7 +78,7 @@ class YourTaxCodeController @Inject()(taxCodeDetails: views.html.taxCodeDetails,
         Ok(taxCodeDetailsPreviousYears(taxCodeViewModel))
       }) recover {
         case NonFatal(e) => {
-          internalServerError(s"Exception: ${e.getClass()}")
+          errorPagesHandler.internalServerError(s"Exception: ${e.getClass()}")
         }
       }
   }

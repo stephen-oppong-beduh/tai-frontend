@@ -36,8 +36,6 @@ class UnauthorisedController @Inject()(error_template_noauth: views.html.error_t
                                        configProperties: ConfigProperties,
                                        applicationConfig: ApplicationConfig,
                                        mcc: MessagesControllerComponents)
-                                      (override implicit val partialRetriever: FormPartialRetriever,
-                                       override implicit val templateRenderer: TemplateRenderer)
                                       (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 

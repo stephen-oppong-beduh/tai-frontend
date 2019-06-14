@@ -17,7 +17,7 @@
 package controllers.pensions
 
 import javax.inject.{Inject, Named}
-import controllers.TaiBaseController
+import controllers.{ErrorPagesHandler, TaiBaseController}
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import org.joda.time.LocalDate
@@ -60,8 +60,7 @@ class AddPensionProviderController @Inject()(addPensionName: views.html.pensions
                                              @Named("Add Pension Provider") journeyCacheService: JourneyCacheService,
                                              @Named("Track Successful Journey") successfulJourneyCacheService: JourneyCacheService,
                                              mcc: MessagesControllerComponents,
-                                             override implicit val partialRetriever: FormPartialRetriever,
-                                             override implicit val templateRenderer: TemplateRenderer)
+                                             errorPagesHandler: ErrorPagesHandler)
                                             (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with JourneyCacheConstants
@@ -167,7 +166,7 @@ class AddPensionProviderController @Inject()(addPensionName: views.html.pensions
 
         Ok(addPensionStartDate(form, mandatoryVals(0)))
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -290,7 +289,7 @@ class AddPensionProviderController @Inject()(addPensionName: views.html.pensions
           Ok(addPensionCheckYourAnswers(model))
         }
       } catch {
-        case NonFatal(e) => Future.successful(internalServerError(e.getMessage))
+        case NonFatal(e) => Future.successful(errorPagesHandler.internalServerError(e.getMessage))
       }
   }
 

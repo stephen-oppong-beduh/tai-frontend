@@ -17,7 +17,7 @@
 package controllers.income
 
 import javax.inject.Inject
-import controllers.TaiBaseController
+import controllers.{ErrorPagesHandler, TaiBaseController}
 import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, AuthedUser}
 import play.api.Play.current
@@ -53,8 +53,7 @@ class UpdateIncomeNextYearController @Inject()(updateIncomeCYPlus1Success: views
                                                authenticate: AuthAction,
                                                validatePerson: ValidatePerson,
                                                mcc: MessagesControllerComponents,
-                                               override implicit val partialRetriever: FormPartialRetriever,
-                                               override implicit val templateRenderer: TemplateRenderer)
+                                               errorPagesHandler: ErrorPagesHandler)
                                               (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with FormValuesConstants {
@@ -186,7 +185,7 @@ class UpdateIncomeNextYearController @Inject()(updateIncomeCYPlus1Success: views
             throw new RuntimeException("[UpdateIncomeNextYear] Estimated income for next year not found for user.")
           }
         }).recover {
-          case NonFatal(e) => internalServerError(e.getMessage)
+          case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
         }
       }
   }
@@ -201,10 +200,10 @@ class UpdateIncomeNextYearController @Inject()(updateIncomeCYPlus1Success: views
           case TaiSuccessResponse => Redirect(routes.UpdateIncomeNextYearController.success(employmentId))
           case _ => throw new RuntimeException(s"Not able to update estimated pay for $employmentId")
         }).recover {
-          case NonFatal(e) => internalServerError(e.getMessage)
+          case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
         }
       } else {
-        Future.successful(NotFound(error4xxPageWithLink(Messages("global.error.pageNotFound404.title"))))
+        Future.successful(NotFound(errorPagesHandler.error4xxPageWithLink(Messages("global.error.pageNotFound404.title"))))
       }
 
   }
@@ -249,7 +248,7 @@ class UpdateIncomeNextYearController @Inject()(updateIncomeCYPlus1Success: views
     if (featureTogglesConfig.cyPlusOneEnabled) {
       action
     } else {
-      Future.successful(NotFound(error4xxPageWithLink(Messages("global.error.pageNotFound404.title"))))
+      Future.successful(NotFound(errorPagesHandler.error4xxPageWithLink(Messages("global.error.pageNotFound404.title"))))
     }
   }
 }

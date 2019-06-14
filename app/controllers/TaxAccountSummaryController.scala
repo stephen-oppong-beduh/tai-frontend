@@ -47,8 +47,7 @@ class TaxAccountSummaryController @Inject()(incomeTaxSummary: views.html.incomeT
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,
                                             mcc: MessagesControllerComponents,
-                                            override implicit val partialRetriever: FormPartialRetriever,
-                                            override implicit val templateRenderer: TemplateRenderer)
+                                            errorPagesHandler: ErrorPagesHandler)
                                            (implicit ec: ExecutionContext) extends TaiBaseController(mcc)
   with AuditConstants {
 
@@ -70,7 +69,7 @@ class TaxAccountSummaryController @Inject()(incomeTaxSummary: views.html.incomeT
           }
         case _ => throw new RuntimeException("Failed to fetch tax account summary details")
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 

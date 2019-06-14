@@ -34,9 +34,7 @@ class BbsiRemoveAccountController @Inject()(bank_building_society_check_your_ans
                                             bbsiService: BbsiService,
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,
-                                            mcc: MessagesControllerComponents,
-                                            override implicit val partialRetriever: FormPartialRetriever,
-                                            override implicit val templateRenderer: TemplateRenderer)
+                                            mcc: MessagesControllerComponents)
                                            (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
