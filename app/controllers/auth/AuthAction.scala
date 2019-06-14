@@ -56,10 +56,12 @@ object AuthedUser {
 }
 
 @Singleton
-class AuthActionImpl @Inject()(override val authConnector: AuthConnector)
+class AuthActionImpl @Inject()(override val authConnector: AuthConnector, cc: MessagesControllerComponents)
                               (implicit ec: ExecutionContext) extends AuthAction
   with AuthorisedFunctions {
 
+  override def parser: BodyParser[AnyContent] = cc.parsers.defaultBodyParser
+  override protected def executionContext: ExecutionContext = cc.executionContext
 
   override def invokeBlock[A](request: Request[A], block: AuthenticatedRequest[A] => Future[Result]): Future[Result] = {
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))

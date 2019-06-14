@@ -20,8 +20,9 @@
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import uk.gov.hmrc.tai.viewModels.DescriptionListViewModel
 @import org.joda.time.LocalDate
+@import uk.gov.hmrc.tai.viewModels.TaxCodeDescriptor
 
-@this(details_summary: views.html.includes.Details_summary)
+@this(details_summary: views.html.includes.Details_summary, taxCodeDescriptor: TaxCodeDescriptor)
 
 @(taxCodeRecord: TaxCodeRecord, identifier: String, scottishTaxRateBands: Map[String, BigDecimal])(implicit messages: Messages)
 
@@ -46,7 +47,7 @@
 </div>
 
 @taxCodeRecordExplanation(taxCodeRecord: TaxCodeRecord, identifier: String) = {
-    @defining(TaxCodeChangeViewModel.getTaxCodeExplanations(taxCodeRecord, scottishTaxRateBands, identifier)) { taxCodeDescription =>
+    @defining(TaxCodeChangeViewModel.getTaxCodeExplanations(taxCodeDescriptor, taxCodeRecord, scottishTaxRateBands, identifier)) { taxCodeDescription =>
         <div class="tax-code-change__explanation">
             @details_summary(
                 taxCodeDescription.heading,
