@@ -77,8 +77,8 @@ trait ErrorPagesHandler {
   def internalServerError(logMessage: String, ex: Option[Throwable] = None)(implicit request: Request[_], messages: Messages): Result
 }
 
-class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.error_template_noauth,
-                                      error_no_primary: views.html.error_no_primary,
+class ErrorPagesHandlerImpl @Inject()(error_template_noauth: views.html.Error_template_noauth,
+                                      error_no_primary: views.html.Error_no_primary,
                                       val templateRenderer: TemplateRenderer,
                                       val partialRetriever: FormPartialRetriever
                                      ) extends ErrorPagesHandler {

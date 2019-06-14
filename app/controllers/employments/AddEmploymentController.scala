@@ -43,14 +43,14 @@ import uk.gov.hmrc.tai.viewModels.income.IncomeCheckYourAnswersViewModel
 import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 
-class AddEmploymentController @Inject()(add_employment_error_page: views.html.employments.add_employment_error_page,
-                                        add_employment_name_form: views.html.employments.add_employment_name_form,
-                                        add_employment_start_date_form: views.html.employments.add_employment_start_date_form,
-                                        add_employment_first_pay_form: views.html.employments.add_employment_first_pay_form,
-                                        add_employment_payroll_number_form: views.html.employments.add_employment_payroll_number_form,
-                                        can_we_contact_by_phone: views.html.can_we_contact_by_phone,
-                                        confirmationView: views.html.employments.confirmation,
-                                        addIncomeCheckYourAnswers: views.html.incomes.addIncomeCheckYourAnswers,
+class AddEmploymentController @Inject()(add_employment_error_page: views.html.employments.Add_employment_error_page,
+                                        add_employment_name_form: views.html.employments.Add_employment_name_form,
+                                        add_employment_start_date_form: views.html.employments.Add_employment_start_date_form,
+                                        add_employment_first_pay_form: views.html.employments.Add_employment_first_pay_form,
+                                        add_employment_payroll_number_form: views.html.employments.Add_employment_payroll_number_form,
+                                        can_we_contact_by_phone: views.html.Can_we_contact_by_phone,
+                                        confirmationView: views.html.employments.Confirmation,
+                                        addIncomeCheckYourAnswers: views.html.incomes.AddIncomeCheckYourAnswers,
                                         auditService: AuditService,
                                         employmentService: EmploymentService,
                                         authenticate: AuthAction,

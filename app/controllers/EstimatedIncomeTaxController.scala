@@ -38,10 +38,10 @@ import uk.gov.hmrc.tai.viewModels.estimatedIncomeTax._
 
 import scala.concurrent.ExecutionContext
 
-class EstimatedIncomeTaxController @Inject()(zeroTaxEstimatedIncomeTax: views.html.estimatedIncomeTax.zeroTaxEstimatedIncomeTax,
-                                             noCurrentIncome: views.html.estimatedIncomeTax.noCurrentIncome,
-                                             complexEstimatedIncomeTax: views.html.estimatedIncomeTax.complexEstimatedIncomeTax,
-                                             simpleEstimatedIncomeTax: views.html.estimatedIncomeTax.simpleEstimatedIncomeTax,
+class EstimatedIncomeTaxController @Inject()(zeroTaxEstimatedIncomeTax: views.html.estimatedIncomeTax.ZeroTaxEstimatedIncomeTax,
+                                             noCurrentIncome: views.html.estimatedIncomeTax.NoCurrentIncome,
+                                             complexEstimatedIncomeTax: views.html.estimatedIncomeTax.ComplexEstimatedIncomeTax,
+                                             simpleEstimatedIncomeTax: views.html.estimatedIncomeTax.SimpleEstimatedIncomeTax,
                                              codingComponentService: CodingComponentService,
                                              partialService: HasFormPartialService,
                                              taxAccountService: TaxAccountService,

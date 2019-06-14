@@ -36,7 +36,7 @@ import uk.gov.hmrc.tai.viewModels.benefit.CompanyBenefitDecisionViewModel
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class CompanyBenefitController @Inject()(updateOrRemoveCompanyBenefitDecision: views.html.benefits.updateOrRemoveCompanyBenefitDecision,
+class CompanyBenefitController @Inject()(updateOrRemoveCompanyBenefitDecision: views.html.benefits.UpdateOrRemoveCompanyBenefitDecision,
                                          employmentService: EmploymentService,
                                          @Named("End Company Benefit") journeyCacheService: JourneyCacheService,
                                          authenticate: AuthAction,

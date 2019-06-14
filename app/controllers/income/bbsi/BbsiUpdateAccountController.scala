@@ -39,8 +39,8 @@ import scala.concurrent.{ExecutionContext, Future}
 
 
 class BbsiUpdateAccountController @Inject()(bbsiService: BbsiService,
-                                            bank_building_society_check_your_answers: views.html.incomes.bbsi.update.bank_building_society_check_your_answers,
-                                            bank_building_society_update_interest: views.html.incomes.bbsi.update.bank_building_society_update_interest,
+                                            bank_building_society_check_your_answers: views.html.incomes.bbsi.update.Bank_building_society_check_your_answers,
+                                            bank_building_society_update_interest: views.html.incomes.bbsi.update.Bank_building_society_update_interest,
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,
                                             @Named("Update Bank Account") journeyCacheService: JourneyCacheService,

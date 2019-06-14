@@ -33,7 +33,7 @@ import uk.gov.hmrc.tai.viewModels.NoCYIncomeTaxErrorViewModel
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class NoCYIncomeTaxErrorController @Inject()(noCYIncomeTaxErrorPageView: views.html.noCYIncomeTaxErrorPage,
+class NoCYIncomeTaxErrorController @Inject()(noCYIncomeTaxErrorPageView: views.html.NoCYIncomeTaxErrorPage,
                                              employmentService: EmploymentService,
                                              val auditConnector: AuditConnector,
                                              authenticate: AuthAction,

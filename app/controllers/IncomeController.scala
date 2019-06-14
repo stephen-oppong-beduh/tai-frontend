@@ -43,12 +43,12 @@ import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
-class IncomeController @Inject()(editIncome: views.html.incomes.editIncome,
-                                 sameEstimatedPay: views.html.incomes.sameEstimatedPay,
-                                 confirm_save_Income: views.html.incomes.confirm_save_Income,
-                                 editPensionSuccess: views.html.incomes.editPensionSuccess,
-                                 editSuccess: views.html.incomes.editSuccess,
-                                 editPension: views.html.incomes.editPension,
+class IncomeController @Inject()(editIncome: views.html.incomes.EditIncome,
+                                 sameEstimatedPay: views.html.incomes.SameEstimatedPay,
+                                 confirm_save_Income: views.html.incomes.Confirm_save_Income,
+                                 editPensionSuccess: views.html.incomes.EditPensionSuccess,
+                                 editSuccess: views.html.incomes.EditSuccess,
+                                 editPension: views.html.incomes.EditPension,
                                  @Named("Update Income") journeyCacheService: JourneyCacheService,
                                  taxAccountService: TaxAccountService,
                                  employmentService: EmploymentService,

@@ -32,7 +32,7 @@ import uk.gov.hmrc.tai.viewModels.PotentialUnderpaymentViewModel
 
 import scala.concurrent.ExecutionContext
 
-class PotentialUnderpaymentController @Inject()(potentialUnderpayment: views.html.potentialUnderpayment,
+class PotentialUnderpaymentController @Inject()(potentialUnderpayment: views.html.PotentialUnderpayment,
                                                 taxAccountService: TaxAccountService,
                                                 codingComponentService: CodingComponentService,
                                                 auditService: AuditService,

@@ -44,14 +44,14 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.language.postfixOps
 import scala.util.control.NonFatal
 
-class AddPensionProviderController @Inject()(addPensionName: views.html.pensions.addPensionName,
-                                             addPensionReceivedFirstPay: views.html.pensions.addPensionReceivedFirstPay,
-                                             addPensionErrorPage: views.html.pensions.addPensionErrorPage,
-                                             addPensionStartDate: views.html.pensions.addPensionStartDate,
-                                             addPensionNumberView: views.html.pensions.addPensionNumber,
-                                             addPensionConfirmation: views.html.pensions.addPensionConfirmation,
-                                             can_we_contact_by_phone: views.html.can_we_contact_by_phone,
-                                             addPensionCheckYourAnswers: views.html.pensions.addPensionCheckYourAnswers,
+class AddPensionProviderController @Inject()(addPensionName: views.html.pensions.AddPensionName,
+                                             addPensionReceivedFirstPay: views.html.pensions.AddPensionReceivedFirstPay,
+                                             addPensionErrorPage: views.html.pensions.AddPensionErrorPage,
+                                             addPensionStartDate: views.html.pensions.AddPensionStartDate,
+                                             addPensionNumberView: views.html.pensions.AddPensionNumber,
+                                             addPensionConfirmation: views.html.pensions.AddPensionConfirmation,
+                                             can_we_contact_by_phone: views.html.Can_we_contact_by_phone,
+                                             addPensionCheckYourAnswers: views.html.pensions.AddPensionCheckYourAnswers,
                                              pensionProviderService: PensionProviderService,
                                              auditService: AuditService,
                                              val auditConnector: AuditConnector,

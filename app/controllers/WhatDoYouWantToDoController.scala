@@ -39,7 +39,7 @@ import uk.gov.hmrc.tai.viewModels.WhatDoYouWantToDoViewModel
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhatDoYouWantToDoController @Inject()(whatDoYouWantToDoTileView: views.html.whatDoYouWantToDoTileView,
+class WhatDoYouWantToDoController @Inject()(whatDoYouWantToDoTileView: views.html.WhatDoYouWantToDoTileView,
                                             employmentService: EmploymentService,
                                             taxCodeChangeService: TaxCodeChangeService,
                                             taxAccountService: TaxAccountService,

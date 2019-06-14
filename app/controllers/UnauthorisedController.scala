@@ -32,7 +32,7 @@ import uk.gov.hmrc.tai.util.constants.TaiConstants._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class UnauthorisedController @Inject()(error_template_noauth: views.html.error_template_noauth,
+class UnauthorisedController @Inject()(error_template_noauth: views.html.Error_template_noauth,
                                        configProperties: ConfigProperties,
                                        applicationConfig: ApplicationConfig,
                                        mcc: MessagesControllerComponents)

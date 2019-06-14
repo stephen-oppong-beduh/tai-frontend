@@ -38,7 +38,7 @@ import uk.gov.hmrc.tai.viewModels.income.previousYears.{UpdateHistoricIncomeDeta
 import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 
-class UpdateIncomeDetailsController @Inject()(can_we_contact_by_phone: views.html.can_we_contact_by_phone,
+class UpdateIncomeDetailsController @Inject()(can_we_contact_by_phone: views.html.Can_we_contact_by_phone,
                                               UpdateIncomeDetailsDecision: views.html.incomes.previousYears.UpdateIncomeDetailsDecision,
                                               updateIncomeDetails: views.html.incomes.previousYears.UpdateIncomeDetails,
                                               updateIncomeDetailsConfirmation: views.html.incomes.previousYears.UpdateIncomeDetailsConfirmation,

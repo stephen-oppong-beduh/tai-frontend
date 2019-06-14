@@ -34,8 +34,8 @@ import uk.gov.hmrc.tai.viewModels.{TaxCodeDescriptor, TaxCodeViewModel, TaxCodeV
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class YourTaxCodeController @Inject()(taxCodeDetails: views.html.taxCodeDetails,
-                                      taxCodeDetailsPreviousYears: views.html.taxCodeDetailsPreviousYears,
+class YourTaxCodeController @Inject()(taxCodeDetails: views.html.TaxCodeDetails,
+                                      taxCodeDetailsPreviousYears: views.html.TaxCodeDetailsPreviousYears,
                                       taxCodeDescriptor: TaxCodeDescriptor,
                                       taxAccountService: TaxAccountService,
                                       taxCodeChangeService: TaxCodeChangeService,

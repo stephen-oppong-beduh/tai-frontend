@@ -46,12 +46,12 @@ import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
-class UpdatePensionProviderController @Inject()(whatDoYouWantToTellUsView: views.html.pensions.update.whatDoYouWantToTellUs,
-                                                doYouGetThisPensionIncome: views.html.pensions.update.doYouGetThisPensionIncome,
-                                                can_we_contact_by_phone: views.html.can_we_contact_by_phone,
-                                                updatePensionCheckYourAnswers: views.html.pensions.update.updatePensionCheckYourAnswers,
-                                                duplicateSubmissionWarningView: views.html.pensions.duplicateSubmissionWarning,
-                                                confirmationView: views.html.pensions.update.confirmation,
+class UpdatePensionProviderController @Inject()(whatDoYouWantToTellUsView: views.html.pensions.update.WhatDoYouWantToTellUs,
+                                                doYouGetThisPensionIncome: views.html.pensions.update.DoYouGetThisPensionIncome,
+                                                can_we_contact_by_phone: views.html.Can_we_contact_by_phone,
+                                                updatePensionCheckYourAnswers: views.html.pensions.update.UpdatePensionCheckYourAnswers,
+                                                duplicateSubmissionWarningView: views.html.pensions.DuplicateSubmissionWarning,
+                                                confirmationView: views.html.pensions.update.Confirmation,
                                                 taxAccountService: TaxAccountService,
                                                 pensionProviderService: PensionProviderService,
                                                 applicationConfig: ApplicationConfig,

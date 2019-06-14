@@ -41,12 +41,12 @@ import uk.gov.hmrc.tai.viewModels.income.estimatedPay.update.{DuplicateSubmissio
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
-class UpdateIncomeNextYearController @Inject()(updateIncomeCYPlus1Success: views.html.incomes.nextYear.updateIncomeCYPlus1Success,
-                                               updateIncomeCYPlus1Warning: views.html.incomes.nextYear.updateIncomeCYPlus1Warning,
-                                               updateIncomeCYPlus1Start: views.html.incomes.nextYear.updateIncomeCYPlus1Start,
-                                               updateIncomeCYPlus1Edit: views.html.incomes.nextYear.updateIncomeCYPlus1Edit,
-                                               updateIncomeCYPlus1Same: views.html.incomes.nextYear.updateIncomeCYPlus1Same,
-                                               updateIncomeCYPlus1Confirm: views.html.incomes.nextYear.updateIncomeCYPlus1Confirm,
+class UpdateIncomeNextYearController @Inject()(updateIncomeCYPlus1Success: views.html.incomes.nextYear.UpdateIncomeCYPlus1Success,
+                                               updateIncomeCYPlus1Warning: views.html.incomes.nextYear.UpdateIncomeCYPlus1Warning,
+                                               updateIncomeCYPlus1Start: views.html.incomes.nextYear.UpdateIncomeCYPlus1Start,
+                                               updateIncomeCYPlus1Edit: views.html.incomes.nextYear.UpdateIncomeCYPlus1Edit,
+                                               updateIncomeCYPlus1Same: views.html.incomes.nextYear.UpdateIncomeCYPlus1Same,
+                                               updateIncomeCYPlus1Confirm: views.html.incomes.nextYear.UpdateIncomeCYPlus1Confirm,
                                                updateNextYearsIncomeService: UpdateNextYearsIncomeService,
                                                featureTogglesConfig: FeatureTogglesConfig,
                                                val auditConnector: AuditConnector,

@@ -30,7 +30,7 @@ import uk.gov.hmrc.tai.service.BbsiService
 import scala.concurrent.ExecutionContext
 
 
-class BbsiRemoveAccountController @Inject()(bank_building_society_check_your_answers: views.html.incomes.bbsi.remove.bank_building_society_check_your_answers,
+class BbsiRemoveAccountController @Inject()(bank_building_society_check_your_answers: views.html.incomes.bbsi.remove.Bank_building_society_check_your_answers,
                                             bbsiService: BbsiService,
                                             authenticate: AuthAction,
                                             validatePerson: ValidatePerson,

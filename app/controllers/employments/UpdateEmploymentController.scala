@@ -42,10 +42,10 @@ import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
-class UpdateEmploymentController @Inject()(can_we_contact_by_phone: views.html.can_we_contact_by_phone,
-                                           whatDoYouWantToTellUs: views.html.employments.update.whatDoYouWantToTellUs,
+class UpdateEmploymentController @Inject()(can_we_contact_by_phone: views.html.Can_we_contact_by_phone,
+                                           whatDoYouWantToTellUs: views.html.employments.update.WhatDoYouWantToTellUs,
                                            updateEmploymentCheckYourAnswersView: views.html.employments.update.UpdateEmploymentCheckYourAnswers,
-                                           confirmationView: views.html.employments.confirmation,
+                                           confirmationView: views.html.employments.Confirmation,
                                            employmentService: EmploymentService,
                                            val auditConnector: AuditConnector,
                                            authenticate: AuthAction,

@@ -44,11 +44,11 @@ import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 import scala.math.BigDecimal.RoundingMode
 
-class RemoveCompanyBenefitController @Inject()(can_we_contact_by_phone: views.html.can_we_contact_by_phone,
-                                               removeCompanyBenefitStopDate: views.html.benefits.removeCompanyBenefitStopDate,
-                                               removeBenefitTotalValue: views.html.benefits.removeBenefitTotalValue,
-                                               removeCompanyBenefitCheckYourAnswers: views.html.benefits.removeCompanyBenefitCheckYourAnswers,
-                                               removeCompanyBenefitConfirmation: views.html.benefits.removeCompanyBenefitConfirmation,
+class RemoveCompanyBenefitController @Inject()(can_we_contact_by_phone: views.html.Can_we_contact_by_phone,
+                                               removeCompanyBenefitStopDate: views.html.benefits.RemoveCompanyBenefitStopDate,
+                                               removeBenefitTotalValue: views.html.benefits.RemoveBenefitTotalValue,
+                                               removeCompanyBenefitCheckYourAnswers: views.html.benefits.RemoveCompanyBenefitCheckYourAnswers,
+                                               removeCompanyBenefitConfirmation: views.html.benefits.RemoveCompanyBenefitConfirmation,
                                                @Named("End Company Benefit") journeyCacheService: JourneyCacheService,
                                                @Named("Track Successful Journey") trackingJourneyCacheService: JourneyCacheService,
                                                benefitsService: BenefitsService,

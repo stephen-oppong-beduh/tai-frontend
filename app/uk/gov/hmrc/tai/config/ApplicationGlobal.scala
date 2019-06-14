@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.config.ControllerConfig
 import uk.gov.hmrc.tai.connectors.LocalTemplateRenderer
 import uk.gov.hmrc.urls.Link
 
-class TaiErrorHandler @Inject()(error_template_noauth: views.html.error_template_noauth,
+class TaiErrorHandler @Inject()(error_template_noauth: views.html.Error_template_noauth,
                                 localTemplateRenderer: LocalTemplateRenderer,
                                 taiHtmlPartialRetriever: TaiHtmlPartialRetriever,
                                 val messagesApi: MessagesApi,

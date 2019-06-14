@@ -32,7 +32,7 @@ import uk.gov.hmrc.tai.viewModels.PreviousYearUnderpaymentViewModel
 import scala.concurrent.ExecutionContext
 
 
-class UnderpaymentFromPreviousYearController @Inject()(previousYearUnderpayment: views.html.previousYearUnderpayment,
+class UnderpaymentFromPreviousYearController @Inject()(previousYearUnderpayment: views.html.PreviousYearUnderpayment,
                                                        codingComponentService: CodingComponentService,
                                                        employmentService: EmploymentService,
                                                        companyCarService: CompanyCarService,

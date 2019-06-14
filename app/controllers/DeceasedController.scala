@@ -25,7 +25,7 @@ import uk.gov.hmrc.renderer.TemplateRenderer
 import scala.concurrent.Future
 
 
-class DeceasedController @Inject()(deceased_helpline: views.html.deceased_helpline,
+class DeceasedController @Inject()(deceased_helpline: views.html.Deceased_helpline,
                                     authenticate: AuthAction,
                                    mcc: MessagesControllerComponents,
                                    override implicit val partialRetriever: FormPartialRetriever,

@@ -37,10 +37,10 @@ import uk.gov.hmrc.tai.viewModels.income.BbsiAccountsDecisionViewModel
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class BbsiController @Inject()(bank_building_society_accounts_decision: views.html.incomes.bbsi.bank_building_society_accounts_decision,
-                               bank_building_society_accounts: views.html.incomes.bbsi.bank_building_society_accounts,
-                               bank_building_society_confirmation: views.html.incomes.bbsi.bank_building_society_confirmation,
-                               bank_building_society_overview: views.html.incomes.bbsi.bank_building_society_overview,
+class BbsiController @Inject()(bank_building_society_accounts_decision: views.html.incomes.bbsi.Bank_building_society_accounts_decision,
+                               bank_building_society_accounts: views.html.incomes.bbsi.Bank_building_society_accounts,
+                               bank_building_society_confirmation: views.html.incomes.bbsi.Bank_building_society_confirmation,
+                               bank_building_society_overview: views.html.incomes.bbsi.Bank_building_society_overview,
                                bbsiService: BbsiService,
                                authenticate: AuthAction,
                                validatePerson: ValidatePerson,

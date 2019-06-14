@@ -38,9 +38,9 @@ import uk.gov.hmrc.tai.viewModels.income.BbsiClosedCheckYourAnswersViewModel
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class BbsiCloseAccountController @Inject()(bank_building_society_closing_interest: views.html.incomes.bbsi.close.bank_building_society_closing_interest,
-                                           bank_building_society_close_date: views.html.incomes.bbsi.close.bank_building_society_close_date,
-                                           bank_building_society_check_your_answers: views.html.incomes.bbsi.close.bank_building_society_check_your_answers,
+class BbsiCloseAccountController @Inject()(bank_building_society_closing_interest: views.html.incomes.bbsi.close.Bank_building_society_closing_interest,
+                                           bank_building_society_close_date: views.html.incomes.bbsi.close.Bank_building_society_close_date,
+                                           bank_building_society_check_your_answers: views.html.incomes.bbsi.close.Bank_building_society_check_your_answers,
                                            bbsiService: BbsiService,
                                            authenticate: AuthAction,
                                            validatePerson: ValidatePerson,

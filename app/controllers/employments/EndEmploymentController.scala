@@ -45,14 +45,14 @@ import uk.gov.hmrc.tai.viewModels.income.IncomeCheckYourAnswersViewModel
 import scala.Function.tupled
 import scala.concurrent.{ExecutionContext, Future}
 
-class EndEmploymentController @Inject()(duplicateSubmissionWarningView: views.html.employments.duplicateSubmissionWarning,
-                                        update_remove_employment_decision: views.html.employments.update_remove_employment_decision,
-                                        endEmploymentWithinSixWeeksError: views.html.employments.endEmploymentWithinSixWeeksError,
+class EndEmploymentController @Inject()(duplicateSubmissionWarningView: views.html.employments.DuplicateSubmissionWarning,
+                                        update_remove_employment_decision: views.html.employments.Update_remove_employment_decision,
+                                        endEmploymentWithinSixWeeksError: views.html.employments.EndEmploymentWithinSixWeeksError,
                                         endEmploymentIrregularPaymentError: views.html.employments.EndEmploymentIrregularPaymentError,
-                                        endEmployment: views.html.employments.endEmployment,
-                                        can_we_contact_by_phone: views.html.can_we_contact_by_phone,
-                                        addIncomeCheckYourAnswers: views.html.incomes.addIncomeCheckYourAnswers,
-                                        confirmation: views.html.employments.confirmation,
+                                        endEmployment: views.html.employments.EndEmployment,
+                                        can_we_contact_by_phone: views.html.Can_we_contact_by_phone,
+                                        addIncomeCheckYourAnswers: views.html.incomes.AddIncomeCheckYourAnswers,
+                                        confirmation: views.html.employments.Confirmation,
                                         auditService: AuditService,
                                         employmentService: EmploymentService,
                                         authenticate: AuthAction,

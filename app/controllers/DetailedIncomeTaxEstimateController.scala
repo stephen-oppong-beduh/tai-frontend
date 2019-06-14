@@ -37,7 +37,7 @@ import uk.gov.hmrc.tai.viewModels.estimatedIncomeTax.DetailedIncomeTaxEstimateVi
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class DetailedIncomeTaxEstimateController @Inject()(detailedIncomeTaxEstimate: views.html.estimatedIncomeTax.detailedIncomeTaxEstimate,
+class DetailedIncomeTaxEstimateController @Inject()(detailedIncomeTaxEstimate: views.html.estimatedIncomeTax.DetailedIncomeTaxEstimate,
                                                     taxAccountService: TaxAccountService,
                                                     codingComponentService: CodingComponentService,
                                                     authenticate: AuthAction,

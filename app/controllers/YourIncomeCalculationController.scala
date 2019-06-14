@@ -36,10 +36,10 @@ import uk.gov.hmrc.tai.viewModels.{HistoricIncomeCalculationViewModel, YourIncom
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class YourIncomeCalculationController @Inject()(incomeYourIncomeCalculation: views.html.incomes.yourIncomeCalculation,
-                                                printYourIncomeCalculation: views.html.print.yourIncomeCalculation,
-                                                printHistoricIncomeCalculation: views.html.print.historicIncomeCalculation,
-                                                incomeHistoricIncomeCalculation: views.html.incomes.historicIncomeCalculation,
+class YourIncomeCalculationController @Inject()(incomeYourIncomeCalculation: views.html.incomes.YourIncomeCalculation,
+                                                printYourIncomeCalculation: views.html.print.YourIncomeCalculation,
+                                                printHistoricIncomeCalculation: views.html.print.HistoricIncomeCalculation,
+                                                incomeHistoricIncomeCalculation: views.html.incomes.HistoricIncomeCalculation,
                                                 personService: PersonService,
                                                 taxAccountService: TaxAccountService,
                                                 employmentService: EmploymentService,

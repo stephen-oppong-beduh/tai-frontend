@@ -28,7 +28,7 @@ import uk.gov.hmrc.tai.config.{ApplicationConfig, ProxyHttpClient}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class HelpController @Inject()(getHelp: views.html.help.getHelp,
+class HelpController @Inject()(getHelp: views.html.help.GetHelp,
                                val config: ApplicationConfig,
                                val httpGet: ProxyHttpClient,
                                authenticate: AuthAction,

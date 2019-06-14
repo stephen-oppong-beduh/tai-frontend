@@ -39,7 +39,7 @@ import uk.gov.hmrc.tai.viewModels.TaxAccountSummaryViewModel
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
 
-class TaxAccountSummaryController @Inject()(incomeTaxSummary: views.html.incomeTaxSummary,
+class TaxAccountSummaryController @Inject()(incomeTaxSummary: views.html.IncomeTaxSummary,
                                             trackingService: TrackingService,
                                             employmentService: EmploymentService,
                                             taxAccountService: TaxAccountService,

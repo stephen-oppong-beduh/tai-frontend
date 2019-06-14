@@ -36,9 +36,9 @@ import uk.gov.hmrc.tai.viewModels.taxCodeChange.TaxCodeChangeViewModel
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class TaxCodeChangeController @Inject()(taxCodeComparison: views.html.taxCodeChange.taxCodeComparison,
-                                        yourTaxFreeAmount: views.html.taxCodeChange.yourTaxFreeAmount,
-                                        whatHappensNextView: views.html.taxCodeChange.whatHappensNext,
+class TaxCodeChangeController @Inject()(taxCodeComparison: views.html.taxCodeChange.TaxCodeComparison,
+                                        yourTaxFreeAmount: views.html.taxCodeChange.YourTaxFreeAmount,
+                                        whatHappensNextView: views.html.taxCodeChange.WhatHappensNext,
                                         taxCodeChangeService: TaxCodeChangeService,
                                         taxAccountService: TaxAccountService,
                                         describedYourTaxFreeAmountService: DescribedYourTaxFreeAmountService,

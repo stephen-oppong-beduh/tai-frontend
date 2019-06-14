@@ -33,7 +33,7 @@ import uk.gov.hmrc.tai.viewModels.TaxFreeAmountViewModel
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-class TaxFreeAmountController @Inject()(taxFreeAmountView: views.html.taxFreeAmount,
+class TaxFreeAmountController @Inject()(taxFreeAmountView: views.html.TaxFreeAmount,
                                         codingComponentService: CodingComponentService,
                                         employmentService: EmploymentService,
                                         taxAccountService: TaxAccountService,

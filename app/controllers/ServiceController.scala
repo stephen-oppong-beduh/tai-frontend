@@ -28,8 +28,8 @@ import uk.gov.hmrc.tai.util.constants.TaiConstants
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ServiceController @Inject()(timeout: views.html.timeout,
-                                  manualCorrespondence: views.html.manualCorrespondence,
+class ServiceController @Inject()(timeout: views.html.Timeout,
+                                  manualCorrespondence: views.html.ManualCorrespondence,
                                   applicationConfig: ApplicationConfig,
                                   authenticate: AuthAction,
                                   validatePerson: ValidatePerson,
