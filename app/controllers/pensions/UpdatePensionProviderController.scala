@@ -17,7 +17,7 @@
 package controllers.pensions
 
 import javax.inject.{Inject, Named}
-import controllers.TaiBaseController
+import controllers.{ErrorPagesHandler, TaiBaseController}
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import play.api.Play.current
@@ -61,8 +61,8 @@ class UpdatePensionProviderController @Inject()(whatDoYouWantToTellUsView: views
                                                 @Named("Update Pension Provider") journeyCacheService: JourneyCacheService,
                                                 @Named("Track Successful Journey") successfulJourneyCacheService: JourneyCacheService,
                                                 mcc: MessagesControllerComponents,
-                                                override implicit val partialRetriever: FormPartialRetriever,
-                                                override implicit val templateRenderer: TemplateRenderer)
+                                                errorPagesHandler: ErrorPagesHandler,
+                                                templateRenderer: TemplateRenderer)
                                                (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with JourneyCacheConstants
@@ -273,7 +273,7 @@ class UpdatePensionProviderController @Inject()(whatDoYouWantToTellUsView: views
           }
         case _ => throw new RuntimeException("Tax code income source is not available")
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
 
   }

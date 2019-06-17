@@ -18,17 +18,17 @@ package uk.gov.hmrc.tai.auth
 
 import javax.inject.Inject
 import play.api.Configuration
-import uk.gov.hmrc.tai.config.DefaultRunMode
+import uk.gov.hmrc.play.bootstrap.config.RunMode
 
-class ConfigProperties @Inject()(configuration: Configuration) extends DefaultRunMode {
+class ConfigProperties @Inject()(configuration: Configuration, runMode: RunMode) {
 
-  val postSignInRedirectUrl: Option[String] = configuration.getOptional[String](s"govuk-tax.$env.login-callback.url")
+  val postSignInRedirectUrl: Option[String] = configuration.getOptional[String](s"govuk-tax.${runMode.env}.login-callback.url")
 
-  val activatePaperless: Boolean = configuration.getOptional[Boolean](s"govuk-tax.$env.activatePaperless")
-    .getOrElse(throw new IllegalStateException(s"Could not find configuration for govuk-tax.$env.activatePaperless"))
+  val activatePaperless: Boolean = configuration.getOptional[Boolean](s"govuk-tax.${runMode.env}.activatePaperless")
+    .getOrElse(throw new IllegalStateException(s"Could not find configuration for govuk-tax.${runMode.env}.activatePaperless"))
 
-  val activatePaperlessEvenIfGatekeeperFails: Boolean = configuration.getOptional[Boolean](s"govuk-tax.$env.activatePaperlessEvenIfGatekeeperFails")
-    .getOrElse(throw new IllegalStateException(s"Could not find configuration for govuk-tax.$env.activatePaperless"))
+  val activatePaperlessEvenIfGatekeeperFails: Boolean = configuration.getOptional[Boolean](s"govuk-tax.${runMode.env}.activatePaperlessEvenIfGatekeeperFails")
+    .getOrElse(throw new IllegalStateException(s"Could not find configuration for govuk-tax.${runMode.env}.activatePaperless"))
 
-  val taxPlatformTaiRootUri: String = configuration.getOptional[String](s"govuk-tax.$env.taxPlatformTaiRootUri").getOrElse("http://noConfigTaiRootUri")
+  val taxPlatformTaiRootUri: String = configuration.getOptional[String](s"govuk-tax.${runMode.env}.taxPlatformTaiRootUri").getOrElse("http://noConfigTaiRootUri")
 }

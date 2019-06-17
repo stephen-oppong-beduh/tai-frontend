@@ -41,9 +41,7 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
                                      authenticate: AuthAction,
                                      validatePerson: ValidatePerson,
                                      mcc: MessagesControllerComponents,
-                                     updateCompanyCar: views.html.benefits.UpdateCompanyCar,
-                                     override implicit val partialRetriever: FormPartialRetriever,
-                                     override implicit val templateRenderer: TemplateRenderer)
+                                     updateCompanyCar: views.html.benefits.UpdateCompanyCar)
                                     (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
   with JourneyCacheConstants {

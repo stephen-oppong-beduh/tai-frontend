@@ -17,7 +17,7 @@
 package controllers.income.estimatedPay.update
 
 import javax.inject.{Inject, Named}
-import controllers.TaiBaseController
+import controllers.{ErrorPagesHandler, TaiBaseController}
 import controllers.actions.ValidatePerson
 import controllers.auth.{AuthAction, AuthedUser}
 import org.joda.time.LocalDate
@@ -76,8 +76,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
                                                  featureTogglesConfig: FeatureTogglesConfig,
                                                  @Named("Update Income") implicit val journeyCacheService: JourneyCacheService,
                                                  mcc: MessagesControllerComponents,
-                                                 override implicit val partialRetriever: FormPartialRetriever,
-                                                 override implicit val templateRenderer: TemplateRenderer)
+                                                 errorPagesHandler: ErrorPagesHandler)
                                                 (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with JourneyCacheConstants
@@ -102,7 +101,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
           Redirect(routes.IncomeUpdateCalculatorController.estimatedPayLandingPage())
         }
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -207,7 +206,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
           }
         case None => throw new RuntimeException("Not able to find employment")
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -319,7 +318,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
           case None => throw new RuntimeException(s"Not able to find employment with id $employmentId")
         }
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -369,7 +368,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
           Ok(confirmAmountEntered(vm))
         }
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -402,7 +401,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
         }
 
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -799,7 +798,7 @@ class IncomeUpdateCalculatorController @Inject()(howToUpdate: views.html.incomes
           Ok(confirm_save_Income(form, gaSetting))
         }
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 

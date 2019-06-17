@@ -58,8 +58,7 @@ class IncomeController @Inject()(editIncome: views.html.incomes.EditIncome,
                                  authenticate: AuthAction,
                                  validatePerson: ValidatePerson,
                                  mcc: MessagesControllerComponents,
-                                 override implicit val partialRetriever: FormPartialRetriever,
-                                 override implicit val templateRenderer: TemplateRenderer)
+                                 errorPagesHandler: ErrorPagesHandler)
                                 (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with JourneyCacheConstants
@@ -89,7 +88,7 @@ class IncomeController @Inject()(editIncome: views.html.incomes.EditIncome,
         Ok(editIncome(EditIncomeForm.create(employmentAmount), false,
           employmentAmount.employmentId, amountYearToDate.toString))
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -101,7 +100,7 @@ class IncomeController @Inject()(editIncome: views.html.incomes.EditIncome,
         val model = SameEstimatedPayViewModel(cachedData(0), cachedData(1).toInt, cachedData(2).toInt, false)
         Ok(sameEstimatedPay(model))
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -119,7 +118,7 @@ class IncomeController @Inject()(editIncome: views.html.incomes.EditIncome,
         val model = SameEstimatedPayViewModel(cachedData(0), id, income.oldAmount, income.isOccupationalPension)
         Ok(sameEstimatedPay(model))
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -182,7 +181,7 @@ class IncomeController @Inject()(editIncome: views.html.incomes.EditIncome,
           case _ => throw new RuntimeException("Exception while reading employment and tax code details")
         }
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -228,7 +227,7 @@ class IncomeController @Inject()(editIncome: views.html.incomes.EditIncome,
             case _ => throw new RuntimeException("Failed to update estimated income")
           }
         }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -249,7 +248,7 @@ class IncomeController @Inject()(editIncome: views.html.incomes.EditIncome,
         Ok(editPension(EditIncomeForm.create(employmentAmount), false,
           employmentAmount.employmentId, amountYearToDate.toString()))
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -321,7 +320,7 @@ class IncomeController @Inject()(editIncome: views.html.incomes.EditIncome,
           case _ => throw new RuntimeException("Exception while reading employment and tax code details")
         }
       }).recover {
-        case NonFatal(e) => internalServerError(e.getMessage)
+        case NonFatal(e) => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 

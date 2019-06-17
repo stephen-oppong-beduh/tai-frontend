@@ -16,14 +16,10 @@
 
 package controllers
 
+import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import uk.gov.hmrc.play.partials.FormPartialRetriever
-import uk.gov.hmrc.renderer.TemplateRenderer
 
-abstract class TaiBaseController(mcc: MessagesControllerComponents) extends FrontendController(mcc) with ErrorPagesHandler with I18nSupport {
-  override implicit def templateRenderer: TemplateRenderer
-  override implicit def partialRetriever: FormPartialRetriever
-}
+class TaiBaseController @Inject() (mcc: MessagesControllerComponents) extends FrontendController(mcc) with I18nSupport
 

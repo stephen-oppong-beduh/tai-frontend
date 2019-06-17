@@ -58,9 +58,7 @@ class AddEmploymentController @Inject()(add_employment_error_page: views.html.em
                                         @Named("Add Employment") journeyCacheService: JourneyCacheService,
                                         @Named("Track Successful Journey") successfulJourneyCacheService: JourneyCacheService,
                                         val auditConnector: AuditConnector,
-                                        mcc: MessagesControllerComponents,
-                                        override implicit val partialRetriever: FormPartialRetriever,
-                                        override implicit val templateRenderer: TemplateRenderer)
+                                        mcc: MessagesControllerComponents)
                                        (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with JourneyCacheConstants

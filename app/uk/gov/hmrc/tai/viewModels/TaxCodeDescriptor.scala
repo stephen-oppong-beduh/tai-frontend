@@ -15,6 +15,7 @@
  */
 
 package uk.gov.hmrc.tai.viewModels
+import javax.inject.Inject
 import play.api.i18n.Messages
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
 import uk.gov.hmrc.tai.config.ApplicationConfig
@@ -24,8 +25,7 @@ import uk.gov.hmrc.urls.Link
 
 import scala.collection.immutable.ListMap
 
-
-class TaxCodeDescriptor(applicationConfig: ApplicationConfig) {
+class TaxCodeDescriptor @Inject()(applicationConfig: ApplicationConfig) {
 
   type TaxCodeDescriptionTranslator = TaxCodeDescription => ListMap[String, String]
 

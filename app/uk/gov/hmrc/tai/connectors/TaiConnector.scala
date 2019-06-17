@@ -21,16 +21,16 @@ import play.api.libs.json.Reads
 import play.api.libs.json.JodaWrites._
 import play.api.libs.json.JodaReads._
 import uk.gov.hmrc.http._
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
-import uk.gov.hmrc.tai.config.{DefaultServicesConfig}
 import uk.gov.hmrc.tai.model._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class TaiConnector @Inject()(http: DefaultHttpClient) extends RawResponseReads with DefaultServicesConfig {
+class TaiConnector @Inject()(http: DefaultHttpClient, servicesConfig: ServicesConfig) extends RawResponseReads {
 
-  val serviceUrl = baseUrl("tai")
+  val serviceUrl = servicesConfig.baseUrl("tai")
 
   def url(path: String) = s"$serviceUrl$path"
 

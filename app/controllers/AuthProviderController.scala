@@ -16,11 +16,12 @@
 
 package controllers
 
+import javax.inject.Inject
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-class AuthProviderController(mcc: MessagesControllerComponents) extends FrontendController(mcc) {
+class AuthProviderController @Inject()(mcc: MessagesControllerComponents) extends FrontendController(mcc) {
 
   def verifyEntryPoint =  Action { implicit request =>
     Redirect(routes.TaxAccountSummaryController.onPageLoad().url).withNewSession.addingToSession(

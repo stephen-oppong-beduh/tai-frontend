@@ -49,7 +49,7 @@ class ErrorPagesHandlerSpec extends PlaySpec
     "handle an internal server error" in {
       val controller = createSut
       implicit val request = FakeRequest("GET", "/")
-      val result = Future.successful(controller.internalServerError("bad"))
+      val result = Future.successful(controller.errorPagesHandler.internalServerError("bad"))
 
       status(result) mustBe INTERNAL_SERVER_ERROR
     }

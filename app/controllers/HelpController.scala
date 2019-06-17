@@ -34,8 +34,7 @@ class HelpController @Inject()(getHelp: views.html.help.GetHelp,
                                authenticate: AuthAction,
                                validatePerson: ValidatePerson,
                                mcc: MessagesControllerComponents,
-                               override implicit val partialRetriever: FormPartialRetriever,
-                               override implicit val templateRenderer: TemplateRenderer
+                               errorPagesHandler: ErrorPagesHandler
                               )(implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
@@ -50,7 +49,7 @@ class HelpController @Inject()(getHelp: views.html.help.GetHelp,
         getEligibilityStatus map { status =>
           Ok(getHelp(status))
         } recover {
-          case _ => internalServerError("Could not get eligibility status")
+          case _ => errorPagesHandler.internalServerError("Could not get eligibility status")
         }
       } catch {
         case _: Exception => {

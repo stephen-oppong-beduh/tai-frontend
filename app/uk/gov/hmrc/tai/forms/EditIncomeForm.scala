@@ -26,7 +26,7 @@ import play.api.mvc.Request
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
 import uk.gov.hmrc.tai.model.EmploymentAmount
 import uk.gov.hmrc.tai.util.{DateHelper, FormHelper}
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
+import uk.gov.hmrc.play.views.formatting.Dates
 import play.api.libs.json.JodaWrites._
 import play.api.libs.json.JodaReads._
 import play.api.data.JodaForms._

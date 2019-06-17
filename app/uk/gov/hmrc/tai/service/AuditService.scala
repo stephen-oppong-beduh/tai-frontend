@@ -16,15 +16,15 @@
 
 package uk.gov.hmrc.tai.service
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import javax.inject.{Inject, Named, Singleton}
+import play.api.Configuration
 import play.api.mvc.{AnyContent, Request}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.AuditExtensions
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector, AuditResult}
 import uk.gov.hmrc.play.audit.model.DataEvent
-import uk.gov.hmrc.tai.config.{ApplicationConfig, DefaultAppName}
+import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.model.domain.Employment
 import uk.gov.hmrc.tai.model.domain.income.TaxCodeIncome
 import uk.gov.hmrc.tai.util.constants.TaiConstants._
@@ -33,9 +33,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 @Singleton
-class AuditService @Inject()(val auditConnector: AuditConnector,
+class AuditService @Inject()(configuration: Configuration,
+                             val auditConnector: AuditConnector,
                              personService: PersonService,
-                             applicationConfig: ApplicationConfig) extends DefaultAppName {
+                             applicationConfig: ApplicationConfig,
+                             @Named("appName") appName: String) {
 
   val userEnterEvent = "userEntersService"
   val employmentPensionEvent = "startedEmploymentPensionJourney"

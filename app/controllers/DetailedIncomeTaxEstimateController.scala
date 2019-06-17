@@ -43,8 +43,7 @@ class DetailedIncomeTaxEstimateController @Inject()(detailedIncomeTaxEstimate: v
                                                     authenticate: AuthAction,
                                                     validatePerson: ValidatePerson,
                                                     mcc: MessagesControllerComponents,
-                                                    override implicit val partialRetriever: FormPartialRetriever,
-                                                    override implicit val templateRenderer: TemplateRenderer)
+                                                    errorPagesHandler: ErrorPagesHandler)
                                                    (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
@@ -76,11 +75,11 @@ class DetailedIncomeTaxEstimateController @Inject()(detailedIncomeTaxEstimate: v
             val model = DetailedIncomeTaxEstimateViewModel(totalTax, taxCodeIncomes, taxAccountSummary, codingComponents, nonTaxCodeIncome)
             Ok(detailedIncomeTaxEstimate(model))
           case _ => {
-            internalServerError("Failed to fetch total tax details")
+            errorPagesHandler.internalServerError("Failed to fetch total tax details")
           }
         }
       }).recover {
-        case NonFatal(e) => internalServerError("Failed to fetch total tax details", Some(e))
+        case NonFatal(e) => errorPagesHandler.internalServerError("Failed to fetch total tax details", Some(e))
       }
   }
 }

@@ -16,7 +16,7 @@
 
 package controllers.income.bbsi
 
-import controllers.TaiBaseController
+import controllers.{ErrorPagesHandler, TaiBaseController}
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
 import javax.inject.{Inject, Named}
@@ -46,8 +46,7 @@ class BbsiCloseAccountController @Inject()(bank_building_society_closing_interes
                                            validatePerson: ValidatePerson,
                                            @Named("Close Bank Account") journeyCacheService: JourneyCacheService,
                                            mcc: MessagesControllerComponents,
-                                           override implicit val partialRetriever: FormPartialRetriever,
-                                           override implicit val templateRenderer: TemplateRenderer)
+                                           errorPagesHandler: ErrorPagesHandler)
                                           (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with JourneyCacheConstants {
@@ -75,7 +74,7 @@ class BbsiCloseAccountController @Inject()(bank_building_society_closing_interes
           case None => throw new RuntimeException(s"Bank account not found for nino: [${user.getNino}] and id: [$id]")
         }
       }).recover {
-        case e: Exception => internalServerError(e.getMessage)
+        case e: Exception => errorPagesHandler.internalServerError(e.getMessage)
       }
   }
 
@@ -101,8 +100,8 @@ class BbsiCloseAccountController @Inject()(bank_building_society_closing_interes
                   })
               }
             )
-        case Some(_) => Future.successful(internalServerError(s"Bank account does not contain name, number or sortcode for nino: [${user.getNino}] and id: [$id]"))
-        case None => Future.successful(internalServerError(s"Bank account not found for nino: [${user.getNino}] and id: [$id]"))
+        case Some(_) => Future.successful(errorPagesHandler.internalServerError(s"Bank account does not contain name, number or sortcode for nino: [${user.getNino}] and id: [$id]"))
+        case None => Future.successful(errorPagesHandler.internalServerError(s"Bank account not found for nino: [${user.getNino}] and id: [$id]"))
       }
   }
 
@@ -120,7 +119,7 @@ class BbsiCloseAccountController @Inject()(bank_building_society_closing_interes
         case Some(_) => throw new RuntimeException(s"Bank account does not contain name, number or sortcode for nino: [${user.getNino}] and id: [$id]")
         case None => throw new RuntimeException(s"Bank account not found for nino: [${user.getNino}] and id: [$id]")
       }) recover {
-        case e: Exception => internalServerError(e.getMessage())
+        case e: Exception => errorPagesHandler.internalServerError(e.getMessage())
       }
   }
 

@@ -46,9 +46,7 @@ class TaxCodeChangeController @Inject()(taxCodeComparison: views.html.taxCodeCha
                                         validatePerson: ValidatePerson,
                                         yourTaxFreeAmountService: YourTaxFreeAmountService,
                                         taxCodeChangeReasonsService: TaxCodeChangeReasonsService,
-                                        mcc: MessagesControllerComponents,
-                                        override implicit val partialRetriever: FormPartialRetriever,
-                                        override implicit val templateRenderer: TemplateRenderer)
+                                        mcc: MessagesControllerComponents)
                                        (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with YourTaxFreeAmount {

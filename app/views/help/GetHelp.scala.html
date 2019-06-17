@@ -17,8 +17,7 @@
 @this(webchat_available: views.html.help.Webchat_available, webchat_closed: views.html.help.Webchat_closed, webchat_busy: views.html.help.Webchat_busy, webchat_error: views.html.help.Webchat_error, main: views.html.Main)
 
 @(status : Option[String] = None)(implicit request: Request[_], messages: Messages,
-user: controllers.auth.AuthedUser,
-templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+user: controllers.auth.AuthedUser)
 
 @import uk.gov.hmrc.urls.Link
 

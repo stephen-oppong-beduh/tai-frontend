@@ -17,17 +17,15 @@
 package uk.gov.hmrc.tai.viewModels
 
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.i18n.Messages
+import uk.gov.hmrc.play.views.formatting.Dates
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
+import uk.gov.hmrc.tai.model.TaxYear
 import uk.gov.hmrc.tai.model.domain._
 import uk.gov.hmrc.tai.model.domain.income._
-
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
-import uk.gov.hmrc.tai.model.TaxYear
-import CeasedIncomeMessages._
-import ManualUpdateIncomeMessages._
-import PaymentFrequencyIncomeMessages._
+import uk.gov.hmrc.tai.viewModels.CeasedIncomeMessages._
+import uk.gov.hmrc.tai.viewModels.ManualUpdateIncomeMessages._
+import uk.gov.hmrc.tai.viewModels.PaymentFrequencyIncomeMessages._
 
 case class PaymentDetailsViewModel(date: LocalDate,
                                    taxableIncome: BigDecimal,

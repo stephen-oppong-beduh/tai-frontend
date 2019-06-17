@@ -19,7 +19,7 @@ package uk.gov.hmrc.tai.util
 import controllers.FakeTaiPlayApplication
 import org.joda.time.LocalDate
 import org.scalatestplus.play.PlaySpec
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
+import uk.gov.hmrc.play.views.formatting.Dates
 
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi

@@ -46,8 +46,7 @@ class YourIncomeCalculationController @Inject()(incomeYourIncomeCalculation: vie
                                                 authenticate: AuthAction,
                                                 validatePerson: ValidatePerson,
                                                 mcc: MessagesControllerComponents,
-                                                override implicit val partialRetriever: FormPartialRetriever,
-                                                override implicit val templateRenderer: TemplateRenderer)
+                                                errorPagesHandler: ErrorPagesHandler)
                                                (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
@@ -81,7 +80,7 @@ class YourIncomeCalculationController @Inject()(incomeYourIncomeCalculation: vie
           } else {
             Ok(incomeYourIncomeCalculation(model))
           }
-        case _ => internalServerError("Error while fetching RTI details")
+        case _ => errorPagesHandler.internalServerError("Error while fetching RTI details")
       }
     }
   }
@@ -93,7 +92,7 @@ class YourIncomeCalculationController @Inject()(incomeYourIncomeCalculation: vie
         implicit val user = request.taiUser
         showHistoricIncomeCalculation(nino, empId, year = year)
       } else {
-        Future.successful(internalServerError(s"yourIncomeCalculationHistoricYears: Doesn't support year $year"))
+        Future.successful(errorPagesHandler.internalServerError(s"yourIncomeCalculationHistoricYears: Doesn't support year $year"))
       }
     }
   }
@@ -106,7 +105,7 @@ class YourIncomeCalculationController @Inject()(incomeYourIncomeCalculation: vie
 
         showHistoricIncomeCalculation(nino, empId, printPage = true, year = year)
       } else {
-        Future.successful(internalServerError(s"printYourIncomeCalculationHistoricYears: Doesn't support year $year"))
+        Future.successful(errorPagesHandler.internalServerError(s"printYourIncomeCalculationHistoricYears: Doesn't support year $year"))
       }
     }
   }

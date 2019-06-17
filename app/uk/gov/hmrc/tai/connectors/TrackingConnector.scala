@@ -18,16 +18,16 @@ package uk.gov.hmrc.tai.connectors
 
 import javax.inject.Inject
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.tai.config.DefaultServicesConfig
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.tai.model.domain.tracking.TrackedForm
 import uk.gov.hmrc.tai.model.domain.tracking.formatter.TrackedFormFormatters
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class TrackingConnector @Inject() (httpHandler: HttpHandler) extends TrackedFormFormatters with DefaultServicesConfig {
+class TrackingConnector @Inject() (httpHandler: HttpHandler, servicesConfig: ServicesConfig) extends TrackedFormFormatters {
 
-  lazy val serviceUrl: String = baseUrl("tracking")
+  lazy val serviceUrl: String = servicesConfig.baseUrl("tracking")
 
   private val IdType = "nino"
 

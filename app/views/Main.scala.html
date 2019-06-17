@@ -18,7 +18,6 @@
 @import uk.gov.hmrc.play.views.helpers.AttorneyRegime.standAlone
 @import uk.gov.hmrc.tai.util.constants.TaiConstants
 @import uk.gov.hmrc.tai.config.{ApplicationConfig, FeatureTogglesConfig}
-@import uk.gov.hmrc.play.language.LanguageUtils
 @import uk.gov.hmrc.tai.viewModels.GoogleAnalyticsSettings
 @import uk.gov.hmrc.play.views.html.layouts.Article
 @import uk.gov.hmrc.play.views.html.layouts.Sidebar
@@ -200,7 +199,8 @@
 }
 
 @isWelshActive = @{
-    LanguageUtils.getCurrentLang == Lang("cy")
+    false
+//     LanguageUtils.getCurrentLang == Lang("cy")
 }
 
 @mustacheMap = @{

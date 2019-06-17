@@ -23,7 +23,7 @@
 @this(main: views.html.Main, ptaHeader: includes.PtaHeader, form: FormWithCSRF)
 
 @(income: uk.gov.hmrc.tai.forms.EditIncomeForm, gaSettings: GoogleAnalyticsSettings)(implicit
-        request: Request[_], messages: Messages, user: controllers.auth.AuthedUser, templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
+        request: Request[_], messages: Messages, user: controllers.auth.AuthedUser)
 
 @header = @{
     ptaHeader(

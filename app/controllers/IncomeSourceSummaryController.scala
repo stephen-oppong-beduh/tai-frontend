@@ -47,8 +47,7 @@ class IncomeSourceSummaryController @Inject()(incomeSourceSummary: views.html.In
                                               authenticate: AuthAction,
                                               validatePerson: ValidatePerson,
                                               mcc: MessagesControllerComponents,
-                                              override implicit val partialRetriever: FormPartialRetriever,
-                                              override implicit val templateRenderer: TemplateRenderer)
+                                              errorPagesHandler: ErrorPagesHandler)
                                              (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
@@ -79,7 +78,7 @@ class IncomeSourceSummaryController @Inject()(incomeSourceSummary: views.html.In
           case _ => throw new RuntimeException("Error while fetching income summary details")
         }
       }) recover {
-        case NonFatal(e) => internalServerError("IncomeSourceSummaryController exception", Some(e))
+        case NonFatal(e) => errorPagesHandler.internalServerError("IncomeSourceSummaryController exception", Some(e))
       }
   }
 }

@@ -22,7 +22,7 @@ import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import play.api.Play.current
 import play.api.i18n.Messages
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
+import uk.gov.hmrc.play.views.formatting.Dates
 import uk.gov.hmrc.play.views.formatting.Money
 import uk.gov.hmrc.tai.model.TaxYear
 

@@ -38,9 +38,7 @@ class NoCYIncomeTaxErrorController @Inject()(noCYIncomeTaxErrorPageView: views.h
                                              val auditConnector: AuditConnector,
                                              authenticate: AuthAction,
                                              validatePerson: ValidatePerson,
-                                             mcc: MessagesControllerComponents,
-                                             override implicit val partialRetriever: FormPartialRetriever,
-                                             override implicit val templateRenderer: TemplateRenderer)(implicit ec: ExecutionContext)
+                                             mcc: MessagesControllerComponents)(implicit ec: ExecutionContext)
   extends TaiBaseController(mcc) {
 
   def noCYIncomeTaxErrorPage(): Action[AnyContent] = (authenticate andThen validatePerson).async {

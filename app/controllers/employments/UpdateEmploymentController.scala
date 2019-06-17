@@ -16,19 +16,15 @@
 
 package controllers.employments
 
-import javax.inject.{Inject, Named}
-import controllers.TaiBaseController
 import controllers.actions.ValidatePerson
 import controllers.auth.AuthAction
-import play.api.Play.current
+import controllers.{ErrorPagesHandler, TaiBaseController}
+import javax.inject.{Inject, Named}
 import play.api.data.validation.{Constraint, Invalid, Valid}
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
-import uk.gov.hmrc.play.partials.FormPartialRetriever
-import uk.gov.hmrc.renderer.TemplateRenderer
 import uk.gov.hmrc.tai.forms.YesNoTextEntryForm
 import uk.gov.hmrc.tai.forms.employments.UpdateEmploymentDetailsForm
 import uk.gov.hmrc.tai.model.domain.IncorrectIncome
@@ -53,8 +49,7 @@ class UpdateEmploymentController @Inject()(can_we_contact_by_phone: views.html.C
                                            @Named("Update Employment") journeyCacheService: JourneyCacheService,
                                            @Named("Track Successful Journey") successfulJourneyCacheService: JourneyCacheService,
                                            mcc: MessagesControllerComponents,
-                                           override implicit val partialRetriever: FormPartialRetriever,
-                                           override implicit val templateRenderer: TemplateRenderer)
+                                           errorPagesHandler: ErrorPagesHandler)
                                           (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
     with JourneyCacheConstants
@@ -100,7 +95,7 @@ class UpdateEmploymentController @Inject()(can_we_contact_by_phone: views.html.C
           case _ => throw new RuntimeException("Error during employment details retrieval")
         }
       } yield futureResult).recover {
-        case NonFatal(exception) => internalServerError(exception.getMessage)
+        case NonFatal(exception) => errorPagesHandler.internalServerError(exception.getMessage)
       }
 
   }
