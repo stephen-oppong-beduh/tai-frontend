@@ -21,7 +21,7 @@ import play.api.Logger
 import play.api.libs.json.JsValue
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.tai.config.DefaultServicesConfig
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.tai.model.domain.{BankAccount, UntaxedInterest}
 import uk.gov.hmrc.tai.model.{AmountRequest, CloseAccountRequest}
 
@@ -29,9 +29,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-class BbsiConnector @Inject() (httpHandler: HttpHandler) extends DefaultServicesConfig {
+class BbsiConnector @Inject() (httpHandler: HttpHandler, servicesConfig: ServicesConfig) {
 
-  val serviceUrl: String = baseUrl("tai")
+  val serviceUrl: String = servicesConfig.baseUrl("tai")
 
   def bankAccounts(nino: Nino)(implicit hc: HeaderCarrier): Future[Seq[BankAccount]] = {
     httpHandler.getFromApi(bbsiAccountsUrl(nino)) map ( json => (json \ "data").as[Seq[BankAccount]]) recover {

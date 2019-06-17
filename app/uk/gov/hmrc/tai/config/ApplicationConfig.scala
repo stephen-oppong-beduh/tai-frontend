@@ -17,12 +17,14 @@
 package uk.gov.hmrc.tai.config
 
 import javax.inject.{Inject, Singleton}
-import play.api.{Configuration, Play}
+import play.api.Configuration
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.play.bootstrap.config.RunMode
 import uk.gov.hmrc.tai.model.TaxYear
 import views.html.helper
 
 @Singleton
-class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultServicesConfig {
+class ApplicationConfig @Inject()(configuration: Configuration, servicesConfig: ServicesConfig, runMode: RunMode) {
 
   def statusRange = s"${TaxYear().prev.year}-${TaxYear().year}"
 
@@ -44,15 +46,15 @@ class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultS
   lazy val urBannerLink = configuration.getString("ur-banner.url").getOrElse("")
   lazy val checkUpdateProgressLinkUrl = s"${fetchUrl("track")}/track"
 
-  lazy val analyticsToken: Option[String] = configuration.getString(s"govuk-tax.$env.google-analytics.token")
-  lazy val gaValueOfPayments: String = configuration.getString(s"govuk-tax.$env.google-analytics.gaValueOfPayments").getOrElse("")
-  lazy val gaRecStatus: String = configuration.getString(s"govuk-tax.$env.google-analytics.gaRecStatus").getOrElse("")
-  lazy val analyticsHost: String = configuration.getString(s"govuk-tax.$env.google-analytics.host").getOrElse("auto")
+  lazy val analyticsToken: Option[String] = configuration.getString(s"govuk-tax.${runMode.env}.google-analytics.token")
+  lazy val gaValueOfPayments: String = configuration.getString(s"govuk-tax.${runMode.env}.google-analytics.gaValueOfPayments").getOrElse("")
+  lazy val gaRecStatus: String = configuration.getString(s"govuk-tax.${runMode.env}.google-analytics.gaRecStatus").getOrElse("")
+  lazy val analyticsHost: String = configuration.getString(s"govuk-tax.${runMode.env}.google-analytics.host").getOrElse("auto")
   lazy val pertaxServiceUrl = s"${fetchUrl("pertax-frontend")}/personal-account"
   lazy val pertaxServiceUpliftFailedUrl = s"${fetchUrl("pertax-frontend")}/personal-account/identity-check-failed"
   lazy val pertaxExitSurveyUrl = s"$pertaxServiceUrl/signout?origin=TES"
   lazy val feedbackSurveyUrl = s"$feedbackHost/feedback/TES"
-  lazy val feedbackHost = configuration.getString(s"govuk-tax.$env.external-url.feedback-survey-frontend.host").getOrElse("")
+  lazy val feedbackHost = configuration.getString(s"govuk-tax.${runMode.env}.external-url.feedback-survey-frontend.host").getOrElse("")
   lazy val companyCarServiceUrl = s"${fetchUrl("paye-frontend")}/paye/company-car/service-landing-page"
   lazy val companyCarDetailsUrl = s"${fetchUrl("cocar-frontend")}/paye/company-car/details"
   lazy val companyCarFuelBenefitUrl = s"${fetchUrl("paye-frontend")}/paye/company-car/service-landing-page"
@@ -65,21 +67,21 @@ class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultS
   lazy val sa16UpliftUrl = s"${fetchUrl("identity-verification-frontend")}/mdtp/uplift"
   lazy val taiFrontendServiceUrl = s"$personServiceUrl/income-tax"
   lazy val taxYouPaidStatus = s"${fetchUrl("taxcalc-frontend")}/tax-you-paid/status"
-  lazy val gg_web_context = configuration.getString(s"$env.external-url.gg.web-context").getOrElse("gg")
-  lazy val ida_web_context = configuration.getString(s"$env.external-url.ida.web-context").getOrElse("ida")
-  lazy val hardshipHelpBase = configuration.getString(s"govuk-tax.$env.external-url.hardship-help.host").getOrElse("")
+  lazy val gg_web_context = configuration.getString(s"${runMode.env}.external-url.gg.web-context").getOrElse("gg")
+  lazy val ida_web_context = configuration.getString(s"${runMode.env}.external-url.ida.web-context").getOrElse("ida")
+  lazy val hardshipHelpBase = configuration.getString(s"govuk-tax.${runMode.env}.external-url.hardship-help.host").getOrElse("")
   lazy val hardshipHelpUrl = s"$hardshipHelpBase/forms/form/tell-us-how-you-want-to-pay-estimated-tax/guide"
-  private val contactHost = configuration.getString(s"govuk-tax.$env.services.contact-frontend.host").getOrElse("")
+  private val contactHost = configuration.getString(s"govuk-tax.${runMode.env}.services.contact-frontend.host").getOrElse("")
   lazy val companyAuthFrontendSignOutUrl = s"$companyAuthUrl/gg/sign-out?continue=$feedbackSurveyUrl"
   lazy val citizenAuthFrontendSignOutUrl = citizenAuthHost + "/ida/signout"
-  lazy val assetsPath = s"${configuration.getString(s"$env.assets.url").getOrElse("")}${configuration.getString(s"$env.assets.version").getOrElse("")}/"
-  lazy val webchatTemplate = configuration.getString(s"govuk-tax.$env.services.webchat-frontend.template").getOrElse("defaultTemplate")
-  lazy val webchatEntryPoint = configuration.getString(s"govuk-tax.$env.services.webchat-frontend.entry-point").getOrElse("defaultEntryPoint")
-  lazy val webchatAvailabilityUrl = s"${configuration.getString(s"govuk-tax.$env.services.webchat-frontend.url").getOrElse("")}/$webchatEntryPoint"
+  lazy val assetsPath = s"${configuration.getString(s"${runMode.env}.assets.url").getOrElse("")}${configuration.getString(s"${runMode.env}.assets.version").getOrElse("")}/"
+  lazy val webchatTemplate = configuration.getString(s"govuk-tax.${runMode.env}.services.webchat-frontend.template").getOrElse("defaultTemplate")
+  lazy val webchatEntryPoint = configuration.getString(s"govuk-tax.${runMode.env}.services.webchat-frontend.entry-point").getOrElse("defaultEntryPoint")
+  lazy val webchatAvailabilityUrl = s"${configuration.getString(s"govuk-tax.${runMode.env}.services.webchat-frontend.url").getOrElse("")}/$webchatEntryPoint"
   lazy val scottishRateIncomeTaxUrl: String = "https://www.gov.uk/scottish-rate-income-tax"
   lazy val welshRateIncomeTaxUrl: String = "https://www.gov.uk/welsh-income-tax"
   lazy val welshRateIncomeTaxWelshUrl: String = "https://www.gov.uk/treth-incwm-cymru"
-  lazy val frontendTemplatePath: String = configuration.getString(s"govuk-tax.$env.services.frontend-template-provider.path").getOrElse("/template/mustache")
+  lazy val frontendTemplatePath: String = configuration.getString(s"govuk-tax.${runMode.env}.services.frontend-template-provider.path").getOrElse("/template/mustache")
   lazy val webchatIconUrl = configuration.getString("tai.webchat.iconUrl").getOrElse("not found")
   lazy val webchatJsUrl = configuration.getString("tai.webchat.jsUrl").getOrElse("not found")
   lazy val numberOfPreviousYearsToShow = configuration.getOptional[Int]("tai.numberOfPreviousYearsToShow").getOrElse(3)
@@ -89,7 +91,7 @@ class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultS
 
   def fetchUrl(service: String) = {
     try {
-      baseUrl(service)
+      servicesConfig.baseUrl(service)
     } catch {
       case ex: RuntimeException => ""
       case _: Throwable => s"Unknown Exception: $service-url"
@@ -100,7 +102,7 @@ class ApplicationConfig @Inject()(configuration: Configuration) extends DefaultS
 }
 
 @Singleton
-class FeatureTogglesConfig @Inject()(configuration: Configuration) extends DefaultServicesConfig {
+class FeatureTogglesConfig @Inject()(configuration: Configuration) {
   val cyPlusOneEnabled = configuration.getOptional[Boolean]("tai.cyPlusOne.enabled").getOrElse(false)
   val welshLanguageEnabled =  configuration.getOptional[Boolean]("tai.feature.welshLanguage.enabled").getOrElse(false)
   val companyCarForceRedirectEnabled = configuration.getOptional[Boolean]("tai.feature.companyCarForceRedirect.enabled").getOrElse(false)
@@ -108,7 +110,7 @@ class FeatureTogglesConfig @Inject()(configuration: Configuration) extends Defau
   val webChatEnabled = configuration.getOptional[Boolean]("tai.webChat.enabled").getOrElse(false)
 }
 
-trait TaiConfig extends DefaultServicesConfig {
-  lazy val baseURL: String = baseUrl("tai")
+class TaiConfig @Inject()(servicesConfig: ServicesConfig) {
+  lazy val baseURL: String = servicesConfig.baseUrl("tai")
 }
 

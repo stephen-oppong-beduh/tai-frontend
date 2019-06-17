@@ -18,7 +18,7 @@ package views.html.incomeTaxComparison
 
 import org.jsoup.Jsoup
 import play.twirl.api.Html
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
+import uk.gov.hmrc.play.views.formatting.Dates
 import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.model.TaxYear
 import uk.gov.hmrc.tai.util.{DateHelper, TaxYearRangeUtil}

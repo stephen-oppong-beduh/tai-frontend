@@ -19,7 +19,7 @@ package uk.gov.hmrc.tai.config
 import akka.actor.ActorSystem
 import javax.inject.Inject
 import play.api.Configuration
-import play.api.libs.ws.{DefaultWSProxyServer, WSClient, WSProxyServer}
+import play.api.libs.ws.{WSClient, WSProxyServer}
 import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.http.hooks.HttpHook
@@ -37,7 +37,6 @@ trait HttpClient extends HttpGet with HttpPut with HttpPost with HttpDelete with
 class ProxyHttpClient @Inject()(config: Configuration,
                                 override val auditConnector: Auditing,
                                 override val wsClient: WSClient,
-                                defaultWSProxyServer: DefaultWSProxyServer,
                                 override protected val actorSystem: ActorSystem)
   extends HttpClient
     with WSHttp
@@ -52,7 +51,7 @@ class ProxyHttpClient @Inject()(config: Configuration,
 
   override val hooks: Seq[HttpHook] = Seq(AuditingHook)
 
-  override def wsProxyServer: Option[WSProxyServer] = Some(defaultWSProxyServer)
+  override def wsProxyServer: Option[WSProxyServer] = None
 }
 
 class TaiHtmlPartialRetriever @Inject()(sessionCookieCrypto: SessionCookieCrypto, http: DefaultHttpClient) extends FormPartialRetriever {

@@ -22,7 +22,7 @@ import org.scalatestplus.play.PlaySpec
 import uk.gov.hmrc.tai.model.domain.Employment
 import uk.gov.hmrc.tai.model.{TaxYear, tai}
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.language.LanguageUtils.Dates
+import uk.gov.hmrc.play.views.formatting.Dates
 import uk.gov.hmrc.tai.model
 
 class NoCYIncomeTaxErrorViewModelSpec extends PlaySpec with FakeTaiPlayApplication {

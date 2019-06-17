@@ -18,14 +18,13 @@ package uk.gov.hmrc.tai.connectors
 
 import javax.inject.Inject
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
-import uk.gov.hmrc.tai.config.TaiConfig
 
 import scala.concurrent.Future
 
-class SessionConnector @Inject() (httpHandler: HttpHandler) extends TaiUrls with TaiConfig {
+class SessionConnector @Inject() (httpHandler: HttpHandler, taiUrls: TaiUrls) {
 
   def invalidateCache()(implicit hc: HeaderCarrier): Future[HttpResponse] = {
-    httpHandler.deleteFromApi(invalidateCacheUrl())
+    httpHandler.deleteFromApi(taiUrls.invalidateCacheUrl())
   }
 
 }

@@ -16,10 +16,11 @@
 
 package uk.gov.hmrc.tai.connectors
 
+import javax.inject.Inject
 import uk.gov.hmrc.tai.config.TaiConfig
 
-trait TaiUrls {
-  config: TaiConfig =>
+class TaiUrls @Inject()(taiConfig: TaiConfig) {
+  config: TaiConfig => taiConfig
 
   def invalidateCacheUrl() = s"$baseURL/tai/session-cache"
 }

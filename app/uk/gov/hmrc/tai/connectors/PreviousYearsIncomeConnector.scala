@@ -19,15 +19,15 @@ package uk.gov.hmrc.tai.connectors
 import javax.inject.Inject
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.tai.config.DefaultServicesConfig
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.tai.model.domain.IncorrectIncome
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class PreviousYearsIncomeConnector @Inject() (httpHandler: HttpHandler) extends DefaultServicesConfig {
+class PreviousYearsIncomeConnector @Inject() (httpHandler: HttpHandler, servicesConfig: ServicesConfig) {
 
-  val serviceUrl: String = baseUrl("tai")
+  val serviceUrl: String = servicesConfig.baseUrl("tai")
 
   def previousYearsIncomeServiceUrl(nino: Nino, year: Int) = s"$serviceUrl/tai/$nino/employments/years/$year/update"
 

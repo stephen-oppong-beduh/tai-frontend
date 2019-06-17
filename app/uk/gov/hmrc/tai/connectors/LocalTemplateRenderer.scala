@@ -18,16 +18,16 @@ package uk.gov.hmrc.tai.connectors
 
 import javax.inject.Inject
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 import uk.gov.hmrc.renderer.TemplateRenderer
-import uk.gov.hmrc.tai.config.DefaultServicesConfig
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
-class LocalTemplateRenderer @Inject()(http: DefaultHttpClient) extends TemplateRenderer with DefaultServicesConfig {
+class LocalTemplateRenderer @Inject()(http: DefaultHttpClient, servicesConfig: ServicesConfig) extends TemplateRenderer {
 
-  override lazy val templateServiceBaseUrl = baseUrl("frontend-template-provider")
+  override lazy val templateServiceBaseUrl = servicesConfig.baseUrl("frontend-template-provider")
   override val refreshAfter: Duration = 10 minutes
 
   private implicit val hc = HeaderCarrier()

@@ -33,14 +33,12 @@ private object AppDependencies {
     "uk.gov.hmrc"  %% "url-builder"                   % "3.1.0",
     "uk.gov.hmrc"  %% "play-partials"                 % "6.9.0-play-26",
     "uk.gov.hmrc"  %% "csp-client"                    % "3.4.0",
-    "uk.gov.hmrc"  %% "play-language"                 % "3.5.0",
     "uk.gov.hmrc"  %% "local-template-renderer"       % "2.4.0",
     "uk.gov.hmrc"  %% "auth-client"                   % "2.20.0-play-26",
     "uk.gov.hmrc"  %% "govuk-template"                % "5.35.0-play-26",
     "uk.gov.hmrc"  %% "play-ui"                       % "7.40.0-play-26",
     "com.typesafe.play" %% "play-json-joda"           % "2.6.10",
-    "com.typesafe.play" %% "play-joda-forms"           % "2.7.2"
-  )
+    "com.typesafe.play" %% "play-joda-forms"           % "2.6.0")
 
   trait TestDependencies {
     lazy val scope: String = "test"
