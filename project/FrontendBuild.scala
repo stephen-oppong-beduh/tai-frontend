@@ -30,7 +30,7 @@ private object AppDependencies {
     "uk.gov.hmrc"  %% "play-conditional-form-mapping" % "1.1.0-play-26",
     "uk.gov.hmrc"  %% "bootstrap-play-26"             % "0.40.0",
     "uk.gov.hmrc"  %% "domain"                        % "5.6.0-play-26",
-    "uk.gov.hmrc"  %% "url-builder"                   % "3.1.0",
+    "uk.gov.hmrc"  %% "url-builder"                   % "3.3.0-play-26",
     "uk.gov.hmrc"  %% "play-partials"                 % "6.9.0-play-26",
     "uk.gov.hmrc"  %% "csp-client"                    % "3.4.0",
     "uk.gov.hmrc"  %% "local-template-renderer"       % "2.7.0-play-26",
