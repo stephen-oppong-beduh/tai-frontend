@@ -20,18 +20,19 @@ import javax.inject.Inject
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.tai.util.constants.TaiConstants
 
 class AuthProviderController @Inject()(mcc: MessagesControllerComponents) extends FrontendController(mcc) {
 
   def verifyEntryPoint =  Action { implicit request =>
     Redirect(routes.TaxAccountSummaryController.onPageLoad().url).withNewSession.addingToSession(
-      SessionKeys.authProvider -> "AuthenticationProviderIds.VerifyProviderId"
+      SessionKeys.authProvider -> TaiConstants.AuthProviderVerify
     )
   }
 
   def governmentGatewayEntryPoint =  Action { implicit request =>
     Redirect(routes.TaxAccountSummaryController.onPageLoad().url).withNewSession.addingToSession(
-      SessionKeys.authProvider -> "AuthenticationProviderIds.GovernmentGatewayId"
+      SessionKeys.authProvider -> TaiConstants.AuthProviderGG
     )
   }
 }

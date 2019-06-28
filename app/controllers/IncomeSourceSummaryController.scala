@@ -64,8 +64,7 @@ class IncomeSourceSummaryController @Inject()(incomeSourceSummary: views.html.In
       } yield {
         (taxCodeIncomeDetails, employmentDetails) match {
           case (TaiSuccessResponseWithPayload(taxCodeIncomes: Seq[TaxCodeIncome]), Some(employment)) =>
-            val incomeDetailsViewModel = IncomeSourceSummaryViewModel(
-              applicationConfig,
+            val incomeDetailsViewModel = IncomeSourceSummaryViewModel(applicationConfig,
               empId,
               taiUser.getDisplayName,
               taxCodeIncomes,

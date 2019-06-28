@@ -57,11 +57,8 @@ class AuditControllerSpec extends PlaySpec with FakeTaiPlayApplication with Mock
   class TestAuditController extends AuditController(
     auditService,
     FakeAuthAction,
-    FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
-  ) {
-
+    FakeValidatePerson
+  )
     when(auditService.sendAuditEventAndGetRedirectUri(any(), any())(any(), any()))
       .thenReturn(Future.successful(redirectUri))
   }

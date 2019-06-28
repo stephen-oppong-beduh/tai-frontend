@@ -45,7 +45,7 @@ class ServiceController @Inject()(timeout: views.html.Timeout,
   def serviceSignout = (authenticate andThen validatePerson).async {
     implicit request =>
 
-      if (request.taiUser.providerType == TaiConstants.AuthProviderVerify) {
+    if (request.taiUser.providerType == TaiConstants.AuthProviderVerify) {
         Future.successful(Redirect(applicationConfig.citizenAuthFrontendSignOutUrl).
           withSession(TaiConstants.SessionPostLogoutPage -> applicationConfig.feedbackSurveyUrl))
       } else {

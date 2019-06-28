@@ -228,39 +228,39 @@ class AddEmploymentController @Inject()(add_employment_error_page: views.html.em
     implicit request =>
       journeyCacheService.optionalValues(AddEmployment_TelephoneQuestionKey, AddEmployment_TelephoneNumberKey) map { optSeq =>
 
-        val telNoToDisplay = optSeq.head match {
-          case Some(YesValue) => optSeq(1)
-          case _ => None
-        }
-        implicit val user = request.taiUser
-        Ok(can_we_contact_by_phone(Some(user),
-          telephoneNumberViewModel,
-          YesNoTextEntryForm.form().fill(YesNoTextEntryForm(optSeq.head, telNoToDisplay))
-        ))
-      }
+            val telNoToDisplay = optSeq.head match {
+              case Some(YesValue) => optSeq(1)
+              case _ => None
+            }
+            implicit val user = request.taiUser
+            Ok(can_we_contact_by_phone(Some(user),
+              telephoneNumberViewModel,
+              YesNoTextEntryForm.form().fill(YesNoTextEntryForm(optSeq.head, telNoToDisplay))
+            ))
+          }
   }
 
   def submitTelephoneNumber(): Action[AnyContent] = (authenticate andThen validatePerson).async {
-    implicit request =>
-      YesNoTextEntryForm.form(
-        Messages("tai.canWeContactByPhone.YesNoChoice.empty"),
-        Messages("tai.canWeContactByPhone.telephone.empty"),
-        Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
-        formWithErrors => {
-          implicit val user = request.taiUser
-          Future.successful(BadRequest(can_we_contact_by_phone(Some(user), telephoneNumberViewModel, formWithErrors)))
-        },
-        form => {
-          val mandatoryData = Map(AddEmployment_TelephoneQuestionKey -> Messages(s"tai.label.${form.yesNoChoice.getOrElse(NoValue).toLowerCase}"))
-          val dataForCache = form.yesNoChoice match {
-            case Some(yn) if yn == YesValue => mandatoryData ++ Map(AddEmployment_TelephoneNumberKey -> form.yesNoTextEntry.getOrElse(""))
-            case _ => mandatoryData ++ Map(AddEmployment_TelephoneNumberKey -> "")
+      implicit request =>
+        YesNoTextEntryForm.form(
+          Messages("tai.canWeContactByPhone.YesNoChoice.empty"),
+          Messages("tai.canWeContactByPhone.telephone.empty"),
+          Some(telephoneNumberSizeConstraint)).bindFromRequest().fold(
+          formWithErrors => {
+              implicit val user = request.taiUser
+              Future.successful(BadRequest(can_we_contact_by_phone(Some(user), telephoneNumberViewModel, formWithErrors)))
+          },
+          form => {
+            val mandatoryData = Map(AddEmployment_TelephoneQuestionKey -> Messages(s"tai.label.${form.yesNoChoice.getOrElse(NoValue).toLowerCase}"))
+            val dataForCache = form.yesNoChoice match {
+              case Some(yn) if yn==YesValue => mandatoryData ++ Map(AddEmployment_TelephoneNumberKey -> form.yesNoTextEntry.getOrElse(""))
+              case _ => mandatoryData ++ Map(AddEmployment_TelephoneNumberKey -> "")
+            }
+            journeyCacheService.cache(dataForCache) map { _ =>
+              Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentCheckYourAnswers())
+            }
           }
-          journeyCacheService.cache(dataForCache) map { _ =>
-            Redirect(controllers.employments.routes.AddEmploymentController.addEmploymentCheckYourAnswers())
-          }
-        }
-      )
+        )
   }
 
 

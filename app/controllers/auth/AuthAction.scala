@@ -26,7 +26,7 @@ import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name, ~}
 import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 import uk.gov.hmrc.play.HeaderCarrierConverter
 import uk.gov.hmrc.tai.util.constants.TaiConstants
 
@@ -76,7 +76,7 @@ class AuthActionImpl @Inject()(override val authConnector: AuthConnector, cc: Me
           authWithCredentials(request, block, credentials, user)
         }
         case _ => throw new RuntimeException("Can't find credentials for user")
-      } recover handleGGFailure
+      } recover handleEntryPointFailure(request)
   }
 
   private def authWithCredentials[A](request: Request[A], block: AuthenticatedRequest[A] => Future[Result], credentials: Option[Credentials], user: AuthedUser)(implicit hc: HeaderCarrier): Future[Result] = {
@@ -97,7 +97,7 @@ class AuthActionImpl @Inject()(override val authConnector: AuthConnector, cc: Me
     val confidenceLevel = user.confidenceLevel.toInt
 
     (confidenceLevel match {
-    case level if level >= 200 => {
+      case level if level >= 200 => {
         for {
           result <- block(AuthenticatedRequest(request, user))
         } yield {
@@ -106,6 +106,15 @@ class AuthActionImpl @Inject()(override val authConnector: AuthConnector, cc: Me
       }
       case _ => Future.successful(Redirect(routes.UnauthorisedController.upliftFailedUrl()))
     }) recover failureHandler
+  }
+
+  private def handleEntryPointFailure[A](request: Request[A]): PartialFunction[Throwable, Result] = {
+    request.session.get(SessionKeys.authProvider) match {
+      case Some(TaiConstants.AuthProviderVerify) =>
+        handleVerifyFailure
+      case _ =>
+        handleGGFailure
+    }
   }
 
   private def handleGGFailure: PartialFunction[Throwable, Result] = {
