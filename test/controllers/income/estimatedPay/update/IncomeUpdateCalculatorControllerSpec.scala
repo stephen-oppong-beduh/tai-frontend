@@ -79,8 +79,7 @@ class IncomeUpdateCalculatorControllerSpec
     FakeAuthAction,
     FakeValidatePerson,
     journeyCacheService,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     when(journeyCacheService.mandatoryValueAsInt(Matchers.eq(UpdateIncome_IdKey))(any())).thenReturn(Future.successful(employer.id))
     when(journeyCacheService.mandatoryValue(Matchers.eq(UpdateIncome_NameKey))(any())).thenReturn(Future.successful(employer.name))

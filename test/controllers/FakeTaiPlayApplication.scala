@@ -20,10 +20,14 @@ import org.scalatest.concurrent.PatienceConfiguration
 import org.scalatest.{Args, Status, Suite, TestSuite}
 import org.scalatestplus.play.OneServerPerSuite
 import play.api.Application
+import play.api.i18n.MessagesProvider
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.tai.model.domain.Person
+import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
+
+import scala.concurrent.ExecutionContext
 
 trait FakeTaiPlayApplication extends OneServerPerSuite with PatienceConfiguration with TestSuite {
   this: Suite =>
@@ -57,4 +61,9 @@ trait FakeTaiPlayApplication extends OneServerPerSuite with PatienceConfiguratio
   val fakeRequest = FakeRequest("GET", "/")
 
   abstract override def run(testName: Option[String], args: Args): Status = super[OneServerPerSuite].run(testName, args)
+  val stubMCC = stubMessagesControllerComponents()
+
+  implicit val ec: ExecutionContext = stubMCC.executionContext
+  implicit val messagesProvider = app.injector.instanceOf[MessagesProvider]
+
 }

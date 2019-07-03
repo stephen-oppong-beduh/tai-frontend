@@ -146,8 +146,7 @@ class TaxCodeChangeControllerSpec extends PlaySpec
     FakeValidatePerson,
     yourTaxFreeAmountService,
     taxCodeChangeReasonsService,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     implicit val hc: HeaderCarrier = HeaderCarrier()
     when(taxCodeChangeService.latestTaxCodeChangeDate(nino)).thenReturn(Future.successful(new LocalDate(2018, 6, 11)))

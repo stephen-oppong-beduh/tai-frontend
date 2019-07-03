@@ -188,11 +188,10 @@ class TaxAccountSummaryServiceSpec extends PlaySpec
   val taxAccountService: TaxAccountService = mock[TaxAccountService]
 
   class SUT() extends TaxAccountSummaryService(
-    trackingService = trackingService,
-    employmentService = employmentService,
-    taxAccountService = taxAccountService,
-    partialRetriever = mock[FormPartialRetriever],
-    templateRenderer = MockTemplateRenderer
+    trackingService,
+    employmentService,
+    taxAccountService,
+    stubMCC
   ) {
 
     when(employmentService.ceasedEmployments(any[Nino], any[TaxYear])(any[HeaderCarrier])).thenReturn(

@@ -83,8 +83,7 @@ class TaiLanguageControllerSpec extends PlaySpec with FakeTaiPlayApplication wit
   private class SUT(welshEnabled: Boolean = true) extends TaiLanguageController(
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     override val isWelshEnabled = welshEnabled
   }

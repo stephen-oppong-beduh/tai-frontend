@@ -201,8 +201,7 @@ class IncomeTaxComparisonControllerSpec extends PlaySpec
     updateNextYearsIncomeService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
 
     when(taxAccountService.taxCodeIncomes(any(), any())(any())).thenReturn(

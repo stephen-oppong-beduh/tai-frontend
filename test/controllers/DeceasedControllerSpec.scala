@@ -49,8 +49,7 @@ class DeceasedControllerSpec extends PlaySpec with FakeTaiPlayApplication with I
 
   class SUT extends DeceasedController(
     FakeAuthAction,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   )
 
 }

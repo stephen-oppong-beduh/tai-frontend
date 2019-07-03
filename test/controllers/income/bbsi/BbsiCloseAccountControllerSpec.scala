@@ -564,8 +564,7 @@ class BbsiCloseAccountControllerSpec extends PlaySpec
     FakeAuthAction,
     FakeValidatePerson,
     journeyCacheService,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     val closeBankAccountDateForm = DateForm(Seq(futureDateValidation), "bankName")
   }

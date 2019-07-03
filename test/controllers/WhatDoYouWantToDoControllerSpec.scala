@@ -27,7 +27,7 @@ import org.mockito.{Matchers, Mockito}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.i18n.{I18nSupport, Messages, MessagesApi, MessagesProvider}
 import play.api.test.Helpers.{contentAsString, status, _}
 import uk.gov.hmrc.domain.Generator
 import uk.gov.hmrc.http._
@@ -54,8 +54,6 @@ class WhatDoYouWantToDoControllerSpec extends PlaySpec
   with I18nSupport
   with JsoupMatchers
   with BeforeAndAfterEach {
-
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   override def beforeEach: Unit = {
     Mockito.reset(auditService, employmentService)
@@ -419,8 +417,7 @@ class WhatDoYouWantToDoControllerSpec extends PlaySpec
     auditService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     override val cyPlusOneEnabled: Boolean = isCyPlusOneEnabled
 

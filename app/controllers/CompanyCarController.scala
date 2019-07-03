@@ -33,22 +33,22 @@ import uk.gov.hmrc.tai.viewModels.benefit.CompanyCarChoiceViewModel
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CompanyCarController @Inject()(companyCarService: CompanyCarService,
+class CompanyCarController @Inject()(updateCompanyCar: views.html.benefits.UpdateCompanyCar,
+                                     companyCarService: CompanyCarService,
                                      @Named("Company Car") journeyCacheService: JourneyCacheService,
                                      sessionService: SessionService,
                                      featureTogglesConfig: FeatureTogglesConfig,
                                      applicationConfig: ApplicationConfig,
                                      authenticate: AuthAction,
                                      validatePerson: ValidatePerson,
-                                     mcc: MessagesControllerComponents,
-                                     updateCompanyCar: views.html.benefits.UpdateCompanyCar)
+                                     mcc: MessagesControllerComponents)
                                     (implicit ec: ExecutionContext)
   extends TaiBaseController(mcc)
-  with JourneyCacheConstants {
+    with JourneyCacheConstants {
   def redirectCompanyCarSelection(employmentId: Int): Action[AnyContent] = (authenticate andThen validatePerson).async {
     implicit request =>
       journeyCacheService.cache(CompanyCar_EmployerIdKey, employmentId.toString) map {
-       _ => Redirect(controllers.routes.CompanyCarController.getCompanyCarDetails())
+        _ => Redirect(controllers.routes.CompanyCarController.getCompanyCarDetails())
       }
   }
 
@@ -78,13 +78,13 @@ class CompanyCarController @Inject()(companyCarService: CompanyCarService,
           }
         },
         formData => {
-            formData.whatDoYouWantToDo match {
-              case Some("removeCar") if !featureTogglesConfig.companyCarForceRedirectEnabled =>
-                sessionService.invalidateCache() map (_ => Redirect(applicationConfig.companyCarDetailsUrl))
-              case _ =>
-                sessionService.invalidateCache() map (_ => Redirect(applicationConfig.companyCarServiceUrl))
-            }
+          formData.whatDoYouWantToDo match {
+            case Some("removeCar") if !featureTogglesConfig.companyCarForceRedirectEnabled =>
+              sessionService.invalidateCache() map (_ => Redirect(applicationConfig.companyCarDetailsUrl))
+            case _ =>
+              sessionService.invalidateCache() map (_ => Redirect(applicationConfig.companyCarServiceUrl))
           }
+        }
       )
   }
 

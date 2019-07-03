@@ -90,7 +90,6 @@ class TaxFreeAmountControllerSpec extends PlaySpec with FakeTaiPlayApplication w
     companyCarService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   )
 }

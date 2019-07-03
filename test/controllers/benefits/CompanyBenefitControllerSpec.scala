@@ -251,8 +251,7 @@ class CompanyBenefitControllerSpec extends PlaySpec
     journeyCacheService,
     FakeAuthAction,
     FakeValidatePerson,
-    MockTemplateRenderer,
-    mock[FormPartialRetriever]) {
+    stubMCC) {
     when(journeyCacheService.cache(any(), any())(any())).thenReturn(Future.successful(Map.empty[String, String]))
   }
 }

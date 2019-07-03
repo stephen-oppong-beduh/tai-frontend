@@ -202,8 +202,7 @@ class TaxAccountSummaryControllerSpec extends PlaySpec
     auditService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     when(trackingService.isAnyIFormInProgress(any())(any())).thenReturn(Future.successful(ThreeWeeks))
   }

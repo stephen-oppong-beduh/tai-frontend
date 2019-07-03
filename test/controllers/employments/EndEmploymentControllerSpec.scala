@@ -699,8 +699,7 @@ class EndEmploymentControllerSpec
     endEmploymentJourneyCacheService,
     trackSuccessJourneyCacheService,
     mock[AuditConnector],
-    MockTemplateRenderer,
-    mock[FormPartialRetriever]) {
+    stubMCC) {
 
     val employmentEndDateForm = EmploymentEndDateForm("employer")
 

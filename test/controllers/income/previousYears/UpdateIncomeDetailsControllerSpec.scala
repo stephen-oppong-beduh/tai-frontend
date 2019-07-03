@@ -340,7 +340,6 @@ class UpdateIncomeDetailsControllerSpec extends PlaySpec
     FakeValidatePerson,
     trackingjourneyCacheService,
     journeyCacheService,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   )
 }

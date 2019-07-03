@@ -48,6 +48,7 @@ private object AppDependencies {
   object Test {
     def apply() = new TestDependencies {
       override lazy val test = Seq(
+        "uk.gov.hmrc"  %% "bootstrap-play-26" % "0.40.0" % scope classifier "tests",
         "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % scope,
         "uk.gov.hmrc"       %%    "hmrctest"   %  "3.8.0-play-26"  % scope,
         "org.pegdown"        %    "pegdown"    %  "1.6.0"  % scope,

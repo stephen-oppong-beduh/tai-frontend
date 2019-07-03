@@ -31,12 +31,13 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.domain.Generator
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, SessionKeys}
-import uk.gov.hmrc.tai.config.ApplicationConfig
+import uk.gov.hmrc.tai.config.{ApplicationConfig, FeatureTogglesConfig}
 import uk.gov.hmrc.tai.connectors.responses.{TaiNoCompanyCarFoundResponse, TaiSuccessResponseWithPayload}
 import uk.gov.hmrc.tai.service.SessionService
 import uk.gov.hmrc.tai.service.benefits.CompanyCarService
 import uk.gov.hmrc.tai.service.journeyCache.JourneyCacheService
 import uk.gov.hmrc.tai.util.constants.JourneyCacheConstants
+import views.html.benefits.UpdateCompanyCar
 
 import scala.concurrent.Future
 import scala.language.postfixOps
@@ -166,15 +167,20 @@ class CompanyCarControllerSpec extends PlaySpec
   val companyCarService = mock[CompanyCarService]
   val journeyCacheService = mock[JourneyCacheService]
 
+  val applicationConfig = mock[ApplicationConfig]
+  val view = mock[UpdateCompanyCar]
+
   class SUT(isCompanyCarForceRedirectEnabled: Boolean) extends CompanyCarController(
+    view,
     companyCarService,
     journeyCacheService,
     sessionService,
+    mock[FeatureTogglesConfig],
+    applicationConfig,
     FakeAuthAction,
     FakeValidatePerson,
-    MockPartialRetriever,
-    MockTemplateRenderer){
-    override val companyCarForceRedirectEnabled: Boolean = isCompanyCarForceRedirectEnabled
+    stubMCC) {
+    // override val companyCarForceRedirectEnabled: Boolean = isCompanyCarForceRedirectEnabled
   }
 
   override def messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]

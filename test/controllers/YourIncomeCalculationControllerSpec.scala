@@ -227,10 +227,8 @@ class YourIncomeCalculationControllerSpec extends PlaySpec
     employmentService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
-
     when(personService.personDetails(any())(any())).thenReturn(Future.successful(fakePerson(nino)))
   }
 

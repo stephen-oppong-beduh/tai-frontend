@@ -737,8 +737,7 @@ class IncomeControllerSpec extends PlaySpec
     estimatedPayJourneyCompletionService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer){
+    stubMCC){
 
     implicit val user = UserBuilder.apply()
 

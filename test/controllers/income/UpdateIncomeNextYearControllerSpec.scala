@@ -460,8 +460,7 @@ class UpdateIncomeNextYearControllerSpec extends PlaySpec
     mock[AuditConnector],
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     override val cyPlusOneEnabled: Boolean = isCyPlusOneEnabled
   }

@@ -208,8 +208,7 @@ class PayeControllerHistoricSpec extends PlaySpec
     employmentService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     override val numberOfPreviousYearsToShow: Int = previousYears
 

@@ -67,7 +67,6 @@ class ExternalServiceRedirectControllerSpec extends PlaySpec with MockitoSugar w
     auditService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   )
 }

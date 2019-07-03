@@ -166,8 +166,7 @@ class BbsiUpdateAccountControllerSpec extends PlaySpec with MockitoSugar with Fa
     FakeAuthAction,
     FakeValidatePerson,
     journeyCacheService,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     when(bbsiService.untaxedInterest(any())(any())).thenReturn(Future.successful(UntaxedInterest(1000,
       Seq(BankAccount(1, Some("1231231"), Some("123456"), Some("TEST"), 1000, Some("customer"))))))

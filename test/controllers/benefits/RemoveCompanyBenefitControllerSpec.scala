@@ -612,7 +612,6 @@ class RemoveCompanyBenefitControllerSpec extends PlaySpec
     benefitsService,
     FakeAuthAction,
     FakeValidatePerson,
-    MockTemplateRenderer,
-    mock[FormPartialRetriever])
+    stubMCC)
 
 }

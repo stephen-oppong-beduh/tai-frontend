@@ -98,8 +98,7 @@ class DetailedIncomeTaxEstimateControllerSpec extends PlaySpec with MockitoSugar
     codingComponentService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
 
     when(taxAccountService.totalTax(any(), any())(any())).thenReturn(Future.successful(TaiSuccessResponseWithPayload(TotalTax(0, Seq.empty, None, None, None))))

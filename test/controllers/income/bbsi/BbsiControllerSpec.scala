@@ -307,7 +307,6 @@ class BbsiControllerSpec extends PlaySpec
     FakeAuthAction,
     FakeValidatePerson,
     journeyCacheService,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   )
 }

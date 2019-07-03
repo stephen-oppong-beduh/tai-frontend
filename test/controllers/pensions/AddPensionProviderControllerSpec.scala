@@ -756,8 +756,7 @@ class AddPensionProviderControllerSpec extends PlaySpec
     FakeValidatePerson,
     addPensionProviderJourneyCacheService,
     trackSuccessJourneyCacheService,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
 
     val pensionStartDateForm = PensionAddDateForm("pension provider")

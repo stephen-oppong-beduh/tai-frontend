@@ -116,8 +116,7 @@ class PotentialUnderpaymentControllerSpec extends PlaySpec
     auditService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     when(taxAccountService.taxAccountSummary(any(), any())(any())).thenReturn(
       Future.successful(TaiSuccessResponseWithPayload[TaxAccountSummary](

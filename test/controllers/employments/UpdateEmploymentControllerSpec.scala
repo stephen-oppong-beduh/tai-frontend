@@ -410,8 +410,7 @@ class UpdateEmploymentControllerSpec extends PlaySpec
     FakeValidatePerson,
     journeyCacheService,
     successfulJourneyCacheService,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
 
   }

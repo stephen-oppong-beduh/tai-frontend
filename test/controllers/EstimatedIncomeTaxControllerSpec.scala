@@ -345,8 +345,7 @@ class EstimatedIncomeTaxControllerSpec extends PlaySpec with MockitoSugar with F
     taxAccountService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   )
 
 }

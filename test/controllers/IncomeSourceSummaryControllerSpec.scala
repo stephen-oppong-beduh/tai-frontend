@@ -148,7 +148,6 @@ class IncomeSourceSummaryControllerSpec extends PlaySpec
     estimatedPayJourneyCompletionService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   )
 }

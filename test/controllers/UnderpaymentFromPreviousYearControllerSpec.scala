@@ -72,8 +72,7 @@ class UnderPaymentFromPreviousYearControllerSpec extends PlaySpec
     taxAccountService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
     when(employmentService.employments(any(), any())(any())).thenReturn(Future.successful(Seq.empty))
     when(taxAccountService.totalTax(any(), any())(any())).thenReturn(Future(TaiSuccessResponseWithPayload(totalTax)))

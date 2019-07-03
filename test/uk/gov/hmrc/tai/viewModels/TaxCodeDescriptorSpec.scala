@@ -178,7 +178,6 @@ class TaxCodeDescriptorSpec extends PlaySpec with FakeTaiPlayApplication with I1
   private class SUT(welshEnabled: Boolean = true) extends TaiLanguageController(
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   )
 }

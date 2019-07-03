@@ -495,7 +495,6 @@ class UpdatePensionProviderControllerSpec extends PlaySpec with FakeTaiPlayAppli
     FakeValidatePerson,
     journeyCacheService,
     successfulJourneyCacheService,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   )
 }

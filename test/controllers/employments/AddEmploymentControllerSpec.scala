@@ -680,8 +680,7 @@ class AddEmploymentControllerSpec extends PlaySpec
     addEmploymentJourneyCacheService,
     trackSuccessJourneyCacheService,
     mock[AuditConnector],
-    mock[FormPartialRetriever],
-    MockTemplateRenderer) {
+    stubMCC) {
 
     val employmentStartDateForm = EmploymentAddDateForm("employer")
 

@@ -54,11 +54,12 @@ class AuditControllerSpec extends PlaySpec with FakeTaiPlayApplication with Mock
 
   val auditService = mock[AuditService]
 
-  class TestAuditController extends AuditController(
+  class TestAuditController extends AuditController (
     auditService,
     FakeAuthAction,
-    FakeValidatePerson
-  )
+    FakeValidatePerson,
+    stubMCC
+  ) {
     when(auditService.sendAuditEventAndGetRedirectUri(any(), any())(any(), any()))
       .thenReturn(Future.successful(redirectUri))
   }

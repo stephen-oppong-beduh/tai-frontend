@@ -88,6 +88,5 @@ class BbsiRemoveAccountControllerSpec extends PlaySpec with MockitoSugar with Fa
     bbsiService,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer)
+    stubMCC)
 }

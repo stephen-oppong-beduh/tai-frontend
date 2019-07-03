@@ -114,8 +114,7 @@ class HelpControllerSpec extends PlaySpec
     proxyHttpClient,
     FakeAuthAction,
     FakeValidatePerson,
-    mock[FormPartialRetriever],
-    MockTemplateRenderer
+    stubMCC
   ) {
 
     override val webChatURL = ""
