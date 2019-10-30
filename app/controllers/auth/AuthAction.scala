@@ -78,7 +78,7 @@ class AuthActionImpl @Inject()(override val authConnector: AuthConnector)(implic
       Retrievals.credentials and Retrievals.nino and Retrievals.name and Retrievals.saUtr and Retrievals.confidenceLevel and Retrievals.trustedHelper) {
       case credentials ~ _ ~ _ ~ saUtr ~ confidenceLevel ~ Some(helper) => {
         val providerType = credentials.map(_.providerType)
-        val user = AuthedUser(helper.principalName, helper.principalNino, providerType, confidenceLevel)
+        val user = AuthedUser(helper.principalName, Nino(helper.principalNino), providerType, confidenceLevel)
 
         authWithCredentials(request, block, credentials, user)
       }
