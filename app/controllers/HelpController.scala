@@ -43,36 +43,7 @@ class HelpController @Inject()(
   def helpPage() = (authenticate andThen validatePerson).async { implicit request =>
     implicit val user = request.taiUser
 
-    try {
-      getEligibilityStatus map { status =>
-        Ok(views.html.help.getHelp(status))
-      } recover {
-        case _ => internalServerError("Could not get eligibility status")
-      }
-    } catch {
-      case _: Exception => {
-        Future.successful(Ok(views.html.help.getHelp(None)))
-      }
-    }
-  }
+    Future.successful(Ok(views.html.help.getHelp()))
 
-  private def getEligibilityStatus()(implicit headerCarrier: HeaderCarrier): Future[Option[String]] = {
-    httpGet.GET[HttpResponse](webChatURL) map { response =>
-      Logger.debug(s"Response Body: $response")
-      if (response.body.nonEmpty) {
-        scala.xml.XML
-          .loadString(response.body)
-          .attribute("responseType")
-          .fold[Option[String]](None)(x => Some(x.head.toString()))
-      } else {
-        Logger.warn(s"No content returned from call to webchat: $response")
-        None
-      }
-    }
-  }.recoverWith {
-    case e: Exception => {
-      Logger.warn(s"Call to webchat threw exception: ${e.getMessage}")
-      Future.successful(None)
-    }
   }
 }

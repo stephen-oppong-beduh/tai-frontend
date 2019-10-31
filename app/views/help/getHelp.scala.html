@@ -14,17 +14,14 @@
  * limitations under the License.
  *@
 
-@(status : Option[String] = None)(implicit request: Request[_], messages: Messages,
+@()(implicit request: Request[_], messages: Messages,
 user: controllers.auth.AuthedUser,
 templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.gov.hmrc.play.partials.FormPartialRetriever)
-
-@import uk.gov.hmrc.urls.Link
 
 @main(
     title = Messages("tai.getHelp.h1"),
     articleClasses = Some("full-width"),
     authedUser = Some(user),
-    clickWebChat = true,
     gaCustomTitle = None
 ){
 
@@ -32,16 +29,5 @@ templateRenderer: uk.gov.hmrc.renderer.TemplateRenderer, partialRetriever: uk.go
     <h1 class="heading-xlarge" id="getHelpTitle">@Messages("tai.getHelp.h1")</h1>
 </header>
 
-@status match {
-    case Some("0") =>{<p>@Messages("tai.getHelp.p1")</p>}
-    case _ =>{<p>@Messages("tai.getHelp.p1.with.acronym")</p>}
-}
-
-<h2 class="heading-medium">@Messages("tai.getHelp.webchat.h2")</h2>
-    @status match {
-        case Some("0") => {@webchat_available()}
-        case Some("1") => {@webchat_closed()}
-        case Some("2") => {@webchat_busy()}
-        case _ => {@webchat_error()}
-    }
+<p>@Messages("tai.getHelp.p1.with.acronym")</p>
 }
