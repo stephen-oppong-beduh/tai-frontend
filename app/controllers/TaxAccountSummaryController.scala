@@ -52,10 +52,10 @@ class TaxAccountSummaryController @Inject()(
 
     auditService.createAndSendAuditEvent(TaxAccountSummary_UserEntersSummaryPage, Map("nino" -> nino.toString()))
 
-    (taxAccountService
+    taxAccountService
       .taxAccountSummary(nino, TaxYear())
       .flatMap {
-        case (TaiTaxAccountFailureResponse(message))
+        case TaiTaxAccountFailureResponse(message)
             if message.toLowerCase.contains(TaiConstants.NpsTaxAccountDataAbsentMsg) ||
               message.toLowerCase.contains(TaiConstants.NpsNoEmploymentForCurrentTaxYear) =>
           Future.successful(Redirect(routes.NoCYIncomeTaxErrorController.noCYIncomeTaxErrorPage()))
@@ -63,9 +63,10 @@ class TaxAccountSummaryController @Inject()(
           taxAccountSummaryService.taxAccountSummaryViewModel(nino, taxAccountSummary) map { vm =>
             Ok(views.html.incomeTaxSummary(vm))
           }
-        case (TaiTaxAccountFailureResponse(message)) =>
-          throw new RuntimeException(s"Failed to fetch tax account summary details with exception: $message")
-      })
+        case TaiTaxAccountFailureResponse(message) =>
+          val e = new RuntimeException(s"Failed to fetch tax account summary details with exception: $message")
+          Future.successful(internalServerError(e.getMessage, None))
+      }
       .recover {
         case NonFatal(e) => internalServerError(e.getMessage, Some(e))
       }
