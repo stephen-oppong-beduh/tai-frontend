@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.tai.viewModels
 
+import uk.gov.hmrc.tai.config.ApplicationConfig
 import uk.gov.hmrc.tai.model.domain.TaxCodeMismatch
 import uk.gov.hmrc.tai.service.TimeToProcess
 import uk.gov.hmrc.tai.util.MapForGoogleAnalytics
@@ -28,6 +29,8 @@ case class WhatDoYouWantToDoViewModel(
   isCyPlusOneEnabled: Boolean,
   hasTaxCodeChanged: Boolean = false,
   taxCodeMismatch: Option[TaxCodeMismatch] = None) {
+
+  def showHistoricData(): Boolean = !ApplicationConfig.disableRtiPages
 
   def showTaxCodeChangeTile(): Boolean =
     (hasTaxCodeChanged, taxCodeMismatch) match {

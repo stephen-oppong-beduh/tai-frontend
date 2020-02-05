@@ -102,6 +102,7 @@ class ApplicationConfig extends DefaultServicesConfig {
     }
 
   lazy val isTaiCy3Enabled = configuration.getBoolean("tai.cy3.enabled").getOrElse(false)
+  lazy val disableRtiPages = configuration.getBoolean("tai.disableRtiPages").getOrElse(false)
 }
 
 object ApplicationConfig extends ApplicationConfig
