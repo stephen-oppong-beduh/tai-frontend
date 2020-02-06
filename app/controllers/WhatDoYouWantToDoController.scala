@@ -63,7 +63,6 @@ class WhatDoYouWantToDoController @Inject()(
       val possibleRedirectFuture =
         for {
           taxAccountSummary   <- taxAccountService.taxAccountSummary(nino, TaxYear())
-          _                   <- employmentService.employments(nino, TaxYear())
           prevYearEmployments <- previousYearEmployments(nino)
         } yield {
 
