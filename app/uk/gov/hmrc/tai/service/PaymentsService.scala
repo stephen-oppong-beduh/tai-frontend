@@ -21,10 +21,11 @@ import uk.gov.hmrc.tai.model.domain.{Employment, Payment}
 import uk.gov.hmrc.tai.viewModels.PaymentDetailsViewModel
 
 class PaymentsService @Inject()() {
-  def filterDuplicates(employment: Employment): Seq[PaymentDetailsViewModel] = {
-    val payments = employment.latestAnnualAccount.map(_.payments).getOrElse(Seq.empty[Payment])
-    val paymentsWithoutDuplicates = payments.filterNot(_.duplicate.getOrElse(false))
-
-    paymentsWithoutDuplicates.map(PaymentDetailsViewModel(_))
-  }
+  def filterDuplicates(employment: Employment): Seq[PaymentDetailsViewModel] =
+    //TODO: This relies entirely on the new endpoint. Need to re-engineer for that, including when the RTI service is down.
+//    val payments = employment.latestAnnualAccount.map(_.payments).getOrElse(Seq.empty[Payment])
+//    val paymentsWithoutDuplicates = payments.filterNot(_.duplicate.getOrElse(false))
+//
+//    paymentsWithoutDuplicates.map(PaymentDetailsViewModel(_))
+    Seq.empty[PaymentDetailsViewModel]
 }

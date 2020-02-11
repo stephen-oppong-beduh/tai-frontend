@@ -140,15 +140,18 @@ class EndEmploymentController @Inject()(
                     .updateEmploymentDetails(mandatoryValues(1).toInt)))
               case _ =>
                 val nino = Nino(user.getNino)
+                //TODO: This needs to able to access the annual accounts - use endpoint here.
                 employmentService.employment(nino, mandatoryValues(1).toInt) flatMap {
                   case Some(employment) =>
                     val today = new LocalDate()
-                    val latestPaymentDate: Option[LocalDate] = for {
-                      latestAnnualAccount <- employment.latestAnnualAccount
-                      latestPayment       <- latestAnnualAccount.latestPayment
-                    } yield latestPayment.date
 
-                    val hasIrregularPayment = employment.latestAnnualAccount.exists(_.isIrregularPayment)
+                    val latestPaymentDate = Option.empty[LocalDate]
+//                    val latestPaymentDate: Option[LocalDate] = for {
+//                      latestAnnualAccount <- employment.latestAnnualAccount
+//                      latestPayment       <- latestAnnualAccount.latestPayment
+//                    } yield latestPayment.date
+
+                    val hasIrregularPayment = false //employment.latestAnnualAccount.exists(_.isIrregularPayment)
                     if (latestPaymentDate.isDefined && latestPaymentDate.get
                           .isAfter(today.minusWeeks(6).minusDays(1))) {
 

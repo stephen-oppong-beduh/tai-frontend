@@ -42,12 +42,15 @@ case class IncomeSourceViewModel(
 object IncomeSourceViewModel extends ViewModelHelper {
 
   def createFromEmployment(employment: Employment)(implicit messages: Messages): IncomeSourceViewModel = {
-    val amountNumeric: BigDecimal = (
-      for {
-        latestAccount <- employment.latestAnnualAccount
-        latestPayment <- latestAccount.latestPayment
-      } yield latestPayment.amountYearToDate
-    ).getOrElse(0)
+//TODO: This should be provided by the model, but we make this call a number of
+    //    val amountNumeric: BigDecimal = (
+//      for {
+//        latestAccount <- employment.latestAnnualAccount
+//        latestPayment <- latestAccount.latestPayment
+//      } yield latestPayment.amountYearToDate
+//    ).getOrElse(0)
+
+    val amountNumeric = BigDecimal(0.0)
 
     val amountString = if (amountNumeric != BigDecimal(0)) withPoundPrefixAndSign(MoneyPounds(amountNumeric, 0)) else ""
 

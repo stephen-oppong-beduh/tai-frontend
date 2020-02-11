@@ -60,13 +60,14 @@ object HistoricIncomeCalculationViewModel {
       case _                 => TemporarilyUnavailable
     }
 
+  //TODO: This might be a good point for integration
   def fetchEmploymentAndAnnualAccount(
     employments: Seq[Employment],
     taxYear: TaxYear,
     employmentId: Int): (Option[Employment], Option[AnnualAccount]) = {
     val employment = employments.find(_.sequenceNumber == employmentId)
-    val annualAccount: Option[AnnualAccount] =
-      employment.flatMap(emp => emp.annualAccounts.find(_.taxYear.year == taxYear.year))
+    val annualAccount: Option[AnnualAccount] = Option.empty[AnnualAccount]
+//      employment.flatMap(emp => emp.annualAccounts.find(_.taxYear.year == taxYear.year))
     (employment, annualAccount)
   }
 

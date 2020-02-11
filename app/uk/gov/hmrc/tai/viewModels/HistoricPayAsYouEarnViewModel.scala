@@ -47,14 +47,15 @@ object HistoricPayAsYouEarnViewModel {
       showTaxCodeDescriptionLink)
   }
 
+  //TODO: This is an integration point. Potentially.
   private def filterIncomeSources(taxYear: TaxYear, employments: Seq[Employment]): Seq[EmploymentViewModel] =
     for {
       employment <- employments
-      account    <- employment.annualAccounts.find(_.taxYear.year == taxYear.year)
+//      account    <- employment.annualAccounts.find(_.taxYear.year == taxYear.year)
     } yield
       EmploymentViewModel(
         employment.name,
-        account.totalIncomeYearToDate,
+        0.0, //account.totalIncomeYearToDate,
         employment.sequenceNumber,
         employment.receivingOccupationalPension,
         employment.payrollNumber)

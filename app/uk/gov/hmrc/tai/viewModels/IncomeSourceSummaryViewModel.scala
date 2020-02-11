@@ -52,10 +52,11 @@ object IncomeSourceSummaryViewModel {
     employment: Employment,
     benefits: Benefits,
     estimatedPayJourneyCompleted: Boolean)(implicit messages: Messages): IncomeSourceSummaryViewModel = {
-    val amountYearToDate = for {
-      latestAnnualAccount <- employment.latestAnnualAccount
-      latestPayment       <- latestAnnualAccount.latestPayment
-    } yield latestPayment.amountYearToDate
+    val amountYearToDate = Some(BigDecimal(100.0)) //TODO: It makes sense to provide the annual account to the viewmodel instead here.
+    //    val amountYearToDate = for {
+//      latestAnnualAccount <- employment.latestAnnualAccount
+//      latestPayment       <- latestAnnualAccount.latestPayment
+//    } yield latestPayment.amountYearToDate
 
     val taxCodeIncomeSource = taxCodeIncomeSources
       .find(_.employmentId.contains(empId))

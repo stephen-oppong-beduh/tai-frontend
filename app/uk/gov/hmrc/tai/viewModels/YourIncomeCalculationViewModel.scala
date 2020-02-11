@@ -28,6 +28,8 @@ import CeasedIncomeMessages._
 import ManualUpdateIncomeMessages._
 import PaymentFrequencyIncomeMessages._
 
+import scala.concurrent.Future
+
 case class LatestPayment(
   date: LocalDate,
   amountYearToDate: BigDecimal,
@@ -40,7 +42,7 @@ case class YourIncomeCalculationViewModel(
   employerName: String,
   payments: Seq[PaymentDetailsViewModel],
   employmentStatus: TaxCodeIncomeSourceStatus,
-  rtiStatus: RealTimeStatus,
+//  rtiStatus: RealTimeStatus,
   latestPayment: Option[LatestPayment],
   endDate: Option[LocalDate],
   isPension: Boolean,
@@ -53,7 +55,7 @@ case class YourIncomeCalculationViewModel(
 object YourIncomeCalculationViewModel {
   def apply(taxCodeIncome: Option[TaxCodeIncome], employment: Employment, paymentDetails: Seq[PaymentDetailsViewModel])(
     implicit messages: Messages): YourIncomeCalculationViewModel = {
-    val realTimeStatus = employment.latestAnnualAccount.map(_.realTimeStatus).getOrElse(TemporarilyUnavailable)
+//    val realTimeStatus = employment.latestAnnualAccount.map(_.realTimeStatus).getOrElse(TemporarilyUnavailable)
 
     val latestPayment = latestPaymentDetails(employment)
     val isPension = taxCodeIncome.exists(_.componentType == PensionIncome)
@@ -76,7 +78,6 @@ object YourIncomeCalculationViewModel {
       employment.name,
       paymentDetails,
       status,
-      realTimeStatus,
       latestPayment,
       employment.endDate,
       isPension,
@@ -111,17 +112,18 @@ object YourIncomeCalculationViewModel {
   }
 
   private def latestPaymentDetails(employment: Employment) =
-    for {
-      latestAnnualAccount <- employment.latestAnnualAccount
-      latestPayment       <- latestAnnualAccount.latestPayment
-    } yield
-      LatestPayment(
-        latestPayment.date,
-        latestPayment.amountYearToDate,
-        latestPayment.taxAmountYearToDate,
-        latestPayment.nationalInsuranceAmountYearToDate,
-        latestPayment.payFrequency
-      )
+//    for {
+//      latestAnnualAccount <- employment.latestAnnualAccount
+//      latestPayment       <- latestAnnualAccount.latestPayment
+//    } yield
+//      LatestPayment(
+//        latestPayment.date,
+//        latestPayment.amountYearToDate,
+//        latestPayment.taxAmountYearToDate,
+//        latestPayment.nationalInsuranceAmountYearToDate,
+//        latestPayment.payFrequency
+//      )
+    Some(LatestPayment(LocalDate.now(), BigDecimal(1.0), BigDecimal(1.0), BigDecimal(1.0), FourWeekly))
 
   def incomeExplanationMessage(
     employmentStatus: TaxCodeIncomeSourceStatus,

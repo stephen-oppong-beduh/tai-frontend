@@ -27,16 +27,12 @@ case class Employment(
   payrollNumber: Option[String],
   startDate: LocalDate,
   endDate: Option[LocalDate],
-  annualAccounts: Seq[AnnualAccount],
   taxDistrictNumber: String,
   payeNumber: String,
   sequenceNumber: Int,
   cessationPay: Option[BigDecimal],
   hasPayrolledBenefit: Boolean,
-  receivingOccupationalPension: Boolean) {
-
-  lazy val latestAnnualAccount: Option[AnnualAccount] = if (annualAccounts.isEmpty) None else Some(annualAccounts.max)
-}
+  receivingOccupationalPension: Boolean) {}
 
 object Employment {
   implicit val employmentFormat: Format[Employment] = Json.format[Employment]

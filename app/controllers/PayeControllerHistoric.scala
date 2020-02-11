@@ -68,15 +68,15 @@ class PayeControllerHistoric @Inject()(
         hasTaxCodeRecordsInYearPerEmployment <- hasTaxCodeRecordsFuture
       } yield {
         implicit val user = request.taiUser
-        if (employmentService.stubbedAccountsExist(employments)) {
-          badGatewayError(
-            "Employment contains stub annual account data found meaning payment information can't be displayed")
-        } else {
-          Ok(
-            views.html.paye.historicPayAsYouEarn(
-              HistoricPayAsYouEarnViewModel(taxYear, employments, hasTaxCodeRecordsInYearPerEmployment),
-              numberOfPreviousYearsToShow))
-        }
+//        if (employmentService.stubbedAccountsExist(employments)) {
+//          badGatewayError(
+//            "Employment contains stub annual account data found meaning payment information can't be displayed")
+//        } else {
+        Ok(
+          views.html.paye.historicPayAsYouEarn(
+            HistoricPayAsYouEarnViewModel(taxYear, employments, hasTaxCodeRecordsInYearPerEmployment),
+            numberOfPreviousYearsToShow))
+//        }
       }
     }
   } recoverWith hodStatusRedirect

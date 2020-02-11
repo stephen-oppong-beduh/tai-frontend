@@ -57,11 +57,12 @@ class IncomeService @Inject()(
 
   def latestPayment(nino: Nino, id: Int)(implicit hc: HeaderCarrier): Future[Option[Payment]] =
     employmentService.employment(nino, id) map {
-      case Some(employment) =>
-        for {
-          latestAnnualAccount <- employment.latestAnnualAccount
-          latestPayment       <- latestAnnualAccount.latestPayment
-        } yield latestPayment
+//TODO: This relies entirely on the new endpoint. Need to re-engineer for that, including when the RTI service is down.
+//      case Some(employment) =>
+//        for {
+//          latestAnnualAccount <- employment.latestAnnualAccount
+//          latestPayment       <- latestAnnualAccount.latestPayment
+//        } yield latestPayment
 
       case _ => None
     }
