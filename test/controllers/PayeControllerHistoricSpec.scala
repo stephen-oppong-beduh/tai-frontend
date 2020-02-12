@@ -190,18 +190,19 @@ class PayeControllerHistoricSpec
         doc must haveParagraphWithText(Messages("tai.technical.error.message"))
       }
 
-      "payePage call results in a bad gateway" in {
-
-        val testController = createTestController()
-        when(employmentService.employments(any(), any())(any()))
-          .thenReturn(Future.successful(sampleEmploymentForRtiUnavailable))
-
-//        when(employmentService.stubbedAccountsExist(any())).thenReturn(true)
-
-        val result = testController.payePage(TaxYear().prev)(RequestBuilder.buildFakeRequestWithAuth("GET"))
-
-        status(result) mustBe BAD_GATEWAY
-      }
+      //TODO: May need to restore this behaviour if RTI is down/disabled, but can't hurt to eliminate need for this. Highlight design work if required.
+//      "payePage call results in a bad gateway" in {
+//
+//        val testController = createTestController()
+//        when(employmentService.employments(any(), any())(any()))
+//          .thenReturn(Future.successful(sampleEmploymentForRtiUnavailable))
+//
+////        when(employmentService.stubbedAccountsExist(any())).thenReturn(true)
+//
+//        val result = testController.payePage(TaxYear().prev)(RequestBuilder.buildFakeRequestWithAuth("GET"))
+//
+//        status(result) mustBe BAD_GATEWAY
+//      }
 
       "payePage call when employee sequence is empty " in {
 
@@ -256,7 +257,7 @@ class PayeControllerHistoricSpec
       None,
       new LocalDate(2016, 6, 9),
       None,
-      Seq(),
+//      Seq(),
       "taxNumber",
       "payeNumber",
       1,
@@ -269,7 +270,7 @@ class PayeControllerHistoricSpec
       None,
       new LocalDate(2016, 7, 9),
       None,
-      Seq(),
+//      Seq(),
       "taxNumber",
       "payeNumber",
       2,
@@ -285,7 +286,7 @@ class PayeControllerHistoricSpec
       None,
       new LocalDate(2016, 6, 9),
       None,
-      Seq(AnnualAccount("key", TaxYear().prev, TemporarilyUnavailable, Nil, Nil)),
+//      Seq(AnnualAccount("key", TaxYear().prev, TemporarilyUnavailable, Nil, Nil)),
       "taxNumber",
       "payeNumber",
       1,
@@ -298,7 +299,7 @@ class PayeControllerHistoricSpec
       None,
       new LocalDate(2016, 7, 9),
       None,
-      Seq(AnnualAccount("key", TaxYear().prev, TemporarilyUnavailable, Nil, Nil)),
+//      Seq(AnnualAccount("key", TaxYear().prev, TemporarilyUnavailable, Nil, Nil)),
       "taxNumber",
       "payeNumber",
       2,
@@ -314,7 +315,7 @@ class PayeControllerHistoricSpec
       None,
       new LocalDate(2018, 6, 9),
       None,
-      Seq(AnnualAccount("key", TaxYear().prev, Available, Nil, Nil)),
+//      Seq(AnnualAccount("key", TaxYear().prev, Available, Nil, Nil)),
       "taxNumber",
       "payeNumber",
       1,
@@ -327,7 +328,7 @@ class PayeControllerHistoricSpec
       None,
       new LocalDate(2017, 7, 9),
       None,
-      Seq(AnnualAccount("key", TaxYear().prev, Available, Nil, Nil)),
+//      Seq(AnnualAccount("key", TaxYear().prev, Available, Nil, Nil)),
       "taxNumber",
       "payeNumber",
       2,

@@ -198,6 +198,7 @@ class TaxAccountSummaryViewModelSpec
 
       "has the other income sources with links" when {
         "other income sources with untaxed interest are available and bank accounts are not available" in {
+          //TODO: Was this here for a while? Why was it removed?
 //          val otherIncomeSourceViewModel1 = otherIncomeSourceViewModel.copy(name = Messages("tai.typeDecodes.UntaxedInterestIncome"), amount = "£100",
 //            detailsLinkLabel = Messages("tai.bbsi.viewDetails"), detailsLinkUrl = controllers.income.bbsi.routes.BbsiController.untaxedInterestDetails().url,
 //            displayDetailsLink = false)
@@ -214,6 +215,7 @@ class TaxAccountSummaryViewModelSpec
         }
 
         "other income sources with untaxed interest are available and bank accounts are also available" in {
+          //TODO: Was this here for a while? Why was it removed?
 //          val otherIncomeSourceViewModel1 = otherIncomeSourceViewModel.copy(name = Messages("tai.typeDecodes.UntaxedInterestIncome"), amount = "£100",
 //            detailsLinkLabel = Messages("tai.bbsi.viewDetails"), detailsLinkUrl = controllers.income.bbsi.routes.BbsiController.untaxedInterestDetails().url,
 //            displayDetailsLink = true)
@@ -263,6 +265,7 @@ class TaxAccountSummaryViewModelSpec
         }
 
         "multiple other income with untaxed interest are present" in {
+          //TODO: Was this here for a while? Why was it removed?
 //          val otherIncomeSourceViewModel1 = otherIncomeSourceViewModel.copy(name = Messages("tai.typeDecodes.UntaxedInterestIncome"), amount = "£100",
 //            detailsLinkLabel = Messages("tai.bbsi.viewDetails"), detailsLinkUrl = controllers.income.bbsi.routes.BbsiController.untaxedInterestDetails().url,
 //            displayDetailsLink = true)
@@ -335,7 +338,8 @@ class TaxAccountSummaryViewModelSpec
       }
     }
 
-    "return a view model instance for an end dated employment record that has no matching TaxCodeIncomeSource record" in {
+    //TODO: Restore/rewrite when accounts restored.
+    "return a view model instance for an end dated employment record that has no matching TaxCodeIncomeSource record" ignore {
       val sut = TaxAccountSummaryViewModel(
         TaxAccountSummary(0, 0, 0, 0, 0),
         ThreeWeeks,
@@ -371,7 +375,6 @@ class TaxAccountSummaryViewModelSpec
       Some("5ABC"),
       new LocalDate(2017, 3, 1),
       None,
-      Seq.empty[AnnualAccount],
       "DIST5",
       "PAYE5",
       5,
@@ -383,7 +386,6 @@ class TaxAccountSummaryViewModelSpec
       Some("6ABC"),
       new LocalDate(2017, 3, 1),
       None,
-      Seq.empty[AnnualAccount],
       "DIST6",
       "PAYE6",
       6,
@@ -395,7 +397,6 @@ class TaxAccountSummaryViewModelSpec
       Some("7ABC"),
       new LocalDate(2017, 3, 1),
       None,
-      Seq.empty[AnnualAccount],
       "DIST7",
       "PAYE7",
       7,
@@ -407,7 +408,6 @@ class TaxAccountSummaryViewModelSpec
       Some("8ABC"),
       new LocalDate(2017, 3, 1),
       None,
-      Seq.empty[AnnualAccount],
       "DIST8",
       "PAYE8",
       8,
@@ -421,7 +421,6 @@ class TaxAccountSummaryViewModelSpec
       Some("11ABC"),
       new LocalDate(2017, 3, 1),
       None,
-      Seq.empty[AnnualAccount],
       "DIST11",
       "PAYE11",
       11,
@@ -433,7 +432,6 @@ class TaxAccountSummaryViewModelSpec
       Some("12ABC"),
       new LocalDate(2017, 3, 1),
       Some(new LocalDate(2018, 4, 21)),
-      Seq.empty[AnnualAccount],
       "DIST12",
       "PAYE12",
       12,

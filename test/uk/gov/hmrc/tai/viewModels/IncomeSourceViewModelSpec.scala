@@ -166,22 +166,24 @@ class IncomeSourceViewModelSpec
         val sut = IncomeSourceViewModel.createFromEmployment(ceasedEmployment)
         sut.name mustBe ceasedEmployment.name
       }
-      "has the amount field as the latest payment 'amountYearToDate' value" in {
+      //TODO: Review when accounts reintroduced
+      "has the amount field as the latest payment 'amountYearToDate' value" ignore {
         val sut = IncomeSourceViewModel.createFromEmployment(ceasedEmployment)
         sut.amount mustBe "£123"
       }
-      "does not display any message" when {
-        "the latest annual account is absent" in {
-          val sut = IncomeSourceViewModel.createFromEmployment(ceasedEmployment.copy(annualAccounts = Nil))
-          sut.amount mustBe ""
-        }
-        "the latest payment is None" in {
-          val sut =
-            IncomeSourceViewModel.createFromEmployment(
-              ceasedEmployment.copy(annualAccounts = Seq(annualAccount.copy(payments = Nil))))
-          sut.amount mustBe ""
-        }
-      }
+      //TODO: Address when accounts reintroduced
+//      "does not display any message" when {
+//        "the latest annual account is absent" in {
+//          val sut = IncomeSourceViewModel.createFromEmployment(ceasedEmployment.copy(annualAccounts = Nil))
+//          sut.amount mustBe ""
+//        }
+//        "the latest payment is None" in {
+//          val sut =
+//            IncomeSourceViewModel.createFromEmployment(
+//              ceasedEmployment.copy(annualAccounts = Seq(annualAccount.copy(payments = Nil))))
+//          sut.amount mustBe ""
+//        }
+//      }
       "has an empty taxCode field, and a 'false' value corrresponding boolean set to instruct non display" in {
         val sut = IncomeSourceViewModel.createFromEmployment(employment)
         sut.taxCode mustBe ""

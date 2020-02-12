@@ -680,9 +680,9 @@ class RemoveCompanyBenefitControllerSpec
   val employment = Employment(
     "company name",
     Some("123"),
-    new LocalDate("2016-05-26"),
-    Some(new LocalDate("2016-05-26")),
-    Nil,
+    new LocalDate(2016, 5, 26),
+    Some(new LocalDate(2016, 5, 26)),
+//    Nil,
     "",
     "",
     2,

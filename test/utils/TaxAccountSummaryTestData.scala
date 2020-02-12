@@ -33,13 +33,14 @@ trait TaxAccountSummaryTestData {
     Some("123ABC"),
     new LocalDate(2017, 3, 1),
     Some(new LocalDate(2018, 4, 21)),
-    Seq.empty[AnnualAccount],
+//    Seq.empty[AnnualAccount],
     "DIST123",
     "PAYE543",
     1,
     None,
     false,
-    false)
+    false
+  )
 
   val taxAccountSummary: TaxAccountSummary = TaxAccountSummary(1111, 2222, 333.32, 444.44, 111.11)
 
@@ -80,72 +81,21 @@ trait TaxAccountSummaryTestData {
     "employer10",
     Week1Month1BasisOfOperation,
     Ceased)
-  val empEmployment1 = Employment(
-    "Employer name1",
-    Some("1ABC"),
-    new LocalDate(2017, 3, 1),
-    None,
-    Seq.empty[AnnualAccount],
-    "DIST1",
-    "PAYE1",
-    1,
-    None,
-    false,
-    false)
-  val empEmployment2 = Employment(
-    "Employer name2",
-    Some("1ABC"),
-    new LocalDate(2017, 3, 1),
-    None,
-    Seq.empty[AnnualAccount],
-    "DIST2",
-    "PAYE2",
-    2,
-    None,
-    false,
-    false)
-  val pensionEmployment3 = Employment(
-    "Pension name1",
-    Some("3ABC"),
-    new LocalDate(2017, 3, 1),
-    None,
-    Seq.empty[AnnualAccount],
-    "DIST3",
-    "PAYE3",
-    3,
-    None,
-    false,
-    false)
-  val pensionEmployment4 = Employment(
-    "Pension name2",
-    Some("4ABC"),
-    new LocalDate(2017, 3, 1),
-    None,
-    Seq.empty[AnnualAccount],
-    "DIST4",
-    "PAYE4",
-    4,
-    None,
-    false,
-    false)
-  val empEmployment9 = Employment(
-    "Employer name3",
-    Some("9ABC"),
-    new LocalDate(2017, 3, 1),
-    None,
-    Seq.empty[AnnualAccount],
-    "DIST9",
-    "PAYE9",
-    9,
-    None,
-    false,
-    false)
+  val empEmployment1 =
+    Employment("Employer name1", Some("1ABC"), new LocalDate(2017, 3, 1), None, "DIST1", "PAYE1", 1, None, false, false)
+  val empEmployment2 =
+    Employment("Employer name2", Some("1ABC"), new LocalDate(2017, 3, 1), None, "DIST2", "PAYE2", 2, None, false, false)
+  val pensionEmployment3 =
+    Employment("Pension name1", Some("3ABC"), new LocalDate(2017, 3, 1), None, "DIST3", "PAYE3", 3, None, false, false)
+  val pensionEmployment4 =
+    Employment("Pension name2", Some("4ABC"), new LocalDate(2017, 3, 1), None, "DIST4", "PAYE4", 4, None, false, false)
+  val empEmployment9 =
+    Employment("Employer name3", Some("9ABC"), new LocalDate(2017, 3, 1), None, "DIST9", "PAYE9", 9, None, false, false)
   val empEmployment10 = Employment(
     "Employer name4",
     Some("10ABC"),
     new LocalDate(2017, 3, 1),
     Some(new LocalDate(2018, 4, 21)),
-    Seq.empty[AnnualAccount],
     "DIST10",
     "PAYE10",
     10,
@@ -186,7 +136,6 @@ trait TaxAccountSummaryTestData {
     Some("123ABC"),
     new LocalDate(2017, 3, 1),
     Some(new LocalDate(2018, 4, 21)),
-    Seq(annualAccount),
     "DIST123",
     "PAYE543",
     1,
@@ -201,7 +150,6 @@ trait TaxAccountSummaryTestData {
       Some("3ABC"),
       new LocalDate(2017, 3, 1),
       None,
-      Seq.empty[AnnualAccount],
       "DIST3",
       "PAYE3",
       999,

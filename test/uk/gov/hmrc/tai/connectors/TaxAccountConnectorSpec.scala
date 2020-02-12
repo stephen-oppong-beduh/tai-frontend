@@ -427,7 +427,7 @@ class TaxAccountConnectorSpec extends PlaySpec with MockitoSugar with FakeTaiPla
     Some("888"),
     new LocalDate(2019, 5, 26),
     None,
-    Seq.empty[AnnualAccount],
+//    Seq.empty[AnnualAccount],
     "",
     "",
     1,

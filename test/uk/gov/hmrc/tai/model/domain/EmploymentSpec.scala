@@ -25,40 +25,41 @@ import uk.gov.hmrc.tai.model.TaxYear
 
 class EmploymentSpec extends PlaySpec {
 
-  "latestAnnualAccount" must {
-    "return the latest annual account" when {
-      "there are multiple annual accounts" in {
-        val employment = Employment(
-          "",
-          None,
-          new LocalDate(),
-          None,
-          List(annualAccount1, annualAccount2),
-          "",
-          "",
-          1,
-          None,
-          false,
-          false)
-
-        employment.latestAnnualAccount mustBe Some(annualAccount2)
-
-      }
-      "there is only one annual account" in {
-        val employment =
-          Employment("", None, new LocalDate(), None, List(annualAccount1), "", "", 1, None, false, false)
-
-        employment.latestAnnualAccount mustBe Some(annualAccount1)
-      }
-    }
-    "return none" when {
-      "there are no annual accounts" in {
-        val employment = Employment("", None, new LocalDate(), None, Nil, "", "", 1, None, false, false)
-
-        employment.latestAnnualAccount mustBe None
-      }
-    }
-  }
+  //TODO: Only restore if we add Annual Account back to the model.
+//  "latestAnnualAccount" must {
+//    "return the latest annual account" when {
+//      "there are multiple annual accounts" in {
+//        val employment = Employment(
+//          "",
+//          None,
+//          new LocalDate(),
+//          None,
+//          List(annualAccount1, annualAccount2),
+//          "",
+//          "",
+//          1,
+//          None,
+//          false,
+//          false)
+//
+//        employment.latestAnnualAccount mustBe Some(annualAccount2)
+//
+//      }
+//      "there is only one annual account" in {
+//        val employment =
+//          Employment("", None, new LocalDate(), None, List(annualAccount1), "", "", 1, None, false, false)
+//
+//        employment.latestAnnualAccount mustBe Some(annualAccount1)
+//      }
+//    }
+//    "return none" when {
+//      "there are no annual accounts" in {
+//        val employment = Employment("", None, new LocalDate(), None, Nil, "", "", 1, None, false, false)
+//
+//        employment.latestAnnualAccount mustBe None
+//      }
+//    }
+//  }
 
   val annualAccount1 = AnnualAccount("", TaxYear(2016), Available, Nil, Nil)
   val annualAccount2 = AnnualAccount("", TaxYear(2017), Available, Nil, Nil)

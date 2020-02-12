@@ -268,7 +268,7 @@ class UpdateNextYearsIncomeServiceSpec extends PlaySpec with MockitoSugar with W
       payrollNumber = None,
       startDate = TaxYear().start,
       endDate = None,
-      annualAccounts = Seq.empty,
+//      annualAccounts = Seq.empty,
       taxDistrictNumber = "123",
       payeNumber = "321",
       sequenceNumber = 1,

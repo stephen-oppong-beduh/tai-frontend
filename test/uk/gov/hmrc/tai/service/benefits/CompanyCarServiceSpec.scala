@@ -174,7 +174,7 @@ class CompanyCarServiceSpec extends PlaySpec with MockitoSugar with JourneyCache
   )
 
   val employment =
-    Employment("The Man Plc", None, new LocalDate("2016-06-09"), None, Nil, "", "", 1, None, false, false)
+    Employment("The Man Plc", None, new LocalDate("2016-06-09"), None, "", "", 1, None, false, false)
   val companyCars = Seq(companyCar, companyCarWithDateWithDrawn)
 
   def generateNino: Nino = new Generator(new Random).nextNino

@@ -55,7 +55,7 @@ class IncomeUpdateCalculatorControllerSpec
 
   val employer = IncomeSource(id = 1, name = "sample employer")
   val defaultEmployment =
-    Employment("company", Some("123"), new LocalDate("2016-05-26"), None, Nil, "", "", 1, None, false, false)
+    Employment("company", Some("123"), new LocalDate("2016-05-26"), None, "", "", 1, None, false, false)
 
   val incomeService: IncomeService = mock[IncomeService]
   val employmentService: EmploymentService = mock[EmploymentService]

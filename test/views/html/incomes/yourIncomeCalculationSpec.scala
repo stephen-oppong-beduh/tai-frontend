@@ -250,7 +250,6 @@ class yourIncomeCalculationSpec extends TaiViewSpec {
       "test employment",
       payments,
       employmentStatus,
-      realTimeStatus,
       latestPayment,
       if (employmentStatus == Ceased) Some(LocalDate.parse("2017-08-08")) else None,
       employmentType == PensionIncome,

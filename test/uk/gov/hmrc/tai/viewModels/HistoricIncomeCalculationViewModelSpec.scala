@@ -69,7 +69,8 @@ class HistoricIncomeCalculationViewModelSpec extends PlaySpec with FakeTaiPlayAp
         sut.payments mustBe Nil
       }
 
-      "requested employment has payments available" in {
+      //TODO: Restore/rewrite when accounts restored.
+      "requested employment has payments available" ignore {
         val sut = createSUT(employmentId = 2)
         sut.payments mustBe List(samplePayment)
       }
@@ -79,7 +80,8 @@ class HistoricIncomeCalculationViewModelSpec extends PlaySpec with FakeTaiPlayAp
         sut.endOfTaxYearUpdateMessages mustBe Nil
       }
 
-      "requested employment has end of tax year update details" in {
+      //TODO: Restore/rewrite when accounts restored.
+      "requested employment has end of tax year update details" ignore {
         val date = new LocalDate("2017-06-09")
         val sampleEndOfTaxYearUpdate = EndOfTaxYearUpdate(date, Seq(Adjustment(NationalInsuranceAdjustment, -10.0)))
         val sampleAnnualAccount = AnnualAccount("1-2-3", previousYear, Available, Nil, List(sampleEndOfTaxYearUpdate))
@@ -88,7 +90,7 @@ class HistoricIncomeCalculationViewModelSpec extends PlaySpec with FakeTaiPlayAp
           None,
           new LocalDate(2017, 6, 10),
           None,
-          Seq(sampleAnnualAccount),
+//          Seq(sampleAnnualAccount),
           "taxNumber",
           "payeNumber",
           1,
@@ -126,7 +128,8 @@ class HistoricIncomeCalculationViewModelSpec extends PlaySpec with FakeTaiPlayAp
         sutAnnualAccount mustBe None
       }
 
-      "matching employment sequence number is provided with annual account" in {
+      //TODO: Restore/rewrite when accounts restored.
+      "matching employment sequence number is provided with annual account" ignore {
         val (sutEmployment, sutAnnualAccount) =
           HistoricIncomeCalculationViewModel.fetchEmploymentAndAnnualAccount(sampleEmployments, previousYear, 2)
         sutEmployment mustBe Some(sampleEmployment2)
@@ -297,13 +300,13 @@ class HistoricIncomeCalculationViewModelSpec extends PlaySpec with FakeTaiPlayAp
   val sampleAnnualAccount = AnnualAccount("1-2-3", previousYear, Available, List(samplePayment), Nil)
 
   val sampleEmployment1 =
-    Employment(empName, None, new LocalDate(2017, 6, 9), None, Nil, "taxNumber", "payeNumber", 1, None, false, false)
+    Employment(empName, None, new LocalDate(2017, 6, 9), None, "taxNumber", "payeNumber", 1, None, false, false)
   val sampleEmployment2 = Employment(
     "emp2",
     None,
     new LocalDate(2017, 6, 10),
     None,
-    Seq(sampleAnnualAccount),
+//    Seq(sampleAnnualAccount),
     "taxNumber",
     "payeNumber",
     2,

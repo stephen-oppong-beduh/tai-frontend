@@ -129,7 +129,7 @@ class IncomeSourceSummaryControllerSpec
     Some("EMPLOYER-1122"),
     LocalDate.now(),
     None,
-    Seq(annualAccount),
+//    Seq(annualAccount),
     "",
     "",
     2,

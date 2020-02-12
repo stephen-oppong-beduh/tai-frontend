@@ -130,7 +130,7 @@ class WhatDoYouWantToDoControllerSpec
 
       "an internal server error is returned from any HOD call" in {
         val testController = createTestController()
-        when(employmentService.employments(any(), Matchers.eq(TaxYear()))(any()))
+        when(employmentService.employments(any(), Matchers.eq(TaxYear().prev))(any()))
           .thenReturn(Future.failed((new InternalServerException("something bad"))))
 
         val result = testController.whatDoYouWantToDoPage()(RequestBuilder.buildFakeRequestWithAuth("GET"))
@@ -161,11 +161,13 @@ class WhatDoYouWantToDoControllerSpec
     "return the 'you can't use this service page'" when {
       "nps tax account hod call has returned a not found exception ('no tax account information found'), indicating no current year data is present, " +
         "and no previous year employment data is present" in {
+
         val testController = createTestController()
         when(taxAccountService.taxAccountSummary(any(), any())(any()))
           .thenReturn(Future.successful(TaiTaxAccountFailureResponse(TaiConstants.NpsTaxAccountCYDataAbsentMsg)))
-        when(employmentService.employments(any(), Matchers.eq(TaxYear()))(any()))
-          .thenReturn(Future.successful(fakeEmploymentData))
+//        when(employmentService.employments(any(), Matchers.eq(TaxYear()))(any()))
+//          .thenReturn(Future.successful(fakeEmploymentData))
+        //TODO: This seems odd, why isn't this a successful null?
         when(employmentService.employments(any(), Matchers.eq(TaxYear().prev))(any()))
           .thenReturn(Future.failed((new NotFoundException("no data found"))))
 
@@ -389,7 +391,7 @@ class WhatDoYouWantToDoControllerSpec
       Some("12345"),
       LocalDate.now(),
       None,
-      List(AnnualAccount("", TaxYear(), Available, Nil, Nil)),
+//      List(AnnualAccount("", TaxYear(), Available, Nil, Nil)),
       "",
       "",
       2,
@@ -401,7 +403,7 @@ class WhatDoYouWantToDoControllerSpec
       Some("123456"),
       LocalDate.now(),
       None,
-      List(AnnualAccount("", TaxYear(), Unavailable, Nil, Nil)),
+//      List(AnnualAccount("", TaxYear(), Unavailable, Nil, Nil)),
       "",
       "",
       2,

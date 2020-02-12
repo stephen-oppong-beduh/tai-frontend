@@ -91,13 +91,13 @@ class PreviousYearUnderpaymentViewModelSpec extends PlaySpec with FakeTaiPlayApp
   val sampleAnnualAccount2 = AnnualAccount("1-2-3", TaxYear(2016), Available, List(samplePayment), Nil)
 
   val sampleEmployment1 =
-    Employment(empName, None, new LocalDate(2017, 6, 9), None, Nil, "taxNumber", "payeNumber", 1, None, false, false)
+    Employment(empName, None, new LocalDate(2017, 6, 9), None, "taxNumber", "payeNumber", 1, None, false, false)
   val sampleEmployment2 = Employment(
     "emp2",
     None,
     new LocalDate(2017, 6, 10),
     None,
-    Seq(sampleAnnualAccount),
+//    Seq(sampleAnnualAccount),
     "taxNumber",
     "payeNumber",
     2,
@@ -107,13 +107,13 @@ class PreviousYearUnderpaymentViewModelSpec extends PlaySpec with FakeTaiPlayApp
   val sampleEmployments = List(sampleEmployment1, sampleEmployment2)
 
   val sampleEmployment3 =
-    Employment(empName, None, new LocalDate(2016, 6, 9), None, Nil, "taxNumber", "payeNumber", 1, None, false, false)
+    Employment(empName, None, new LocalDate(2016, 6, 9), None, "taxNumber", "payeNumber", 1, None, false, false)
   val sampleEmployment4 = Employment(
     "emp2",
     None,
     new LocalDate(2016, 6, 10),
     None,
-    Seq(sampleAnnualAccount2),
+//    Seq(sampleAnnualAccount2),
     "taxNumber",
     "payeNumber",
     2,
